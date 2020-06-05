@@ -24,9 +24,9 @@ We encourage you to incorporate the data from this project into your password ma
 
 Many password managers generate strong, unique passwords for people, so that they aren't tempted to create their own passwords by hand, which leads to easily guessed and reused passwords. Every time a password manager generates a password that isn't actually compatible with a website, a person not only has a bad experience, but a reason to be tempted to create their own password. Compiling password rule quirks helps fewer people run into issues like these while also documenting that a service's password policy is too restrictive for people using password managers, which may incentivize the services to change.
 
-The file [`data/password-rules.json`](data/password-rules.json) contains a JSON object mapping domains to known good password rules for generating compatible passwords for use on that website. The [Password Rules language](https://developer.apple.com/password-rules/) is a human- and machine-readable way to concisely write and read the rules to generate a compatible password on a website. [`data/password-rules.json`](data/password-rules.json) is the quirks version of the [`passwordRules` attribute](https://github.com/whatwg/html/issues/3518), which is currently an open whatwg proposal and supported in Safari. The same language is part of [native iOS application development API](https://developer.apple.com/documentation/security/password_autofill/customizing_password_autofill_rules). If a website changes its password requirements to be general enough to not warrant quirks, or if it adopts the `passwordRules` attribute to accurately communicate its requirements to password managers and web browsers, it should be removed from this list.
+The file [`quirks/password-rules.json`](quirks/password-rules.json) contains a JSON object mapping domains to known good password rules for generating compatible passwords for use on that website. The [Password Rules language](https://developer.apple.com/password-rules/) is a human- and machine-readable way to concisely write and read the rules to generate a compatible password on a website. [`quirks/password-rules.json`](quirks/password-rules.json) is the quirks version of the [`passwordRules` attribute](https://github.com/whatwg/html/issues/3518), which is currently an open whatwg proposal and supported in Safari. The same language is part of [native iOS application development API](https://developer.apple.com/documentation/security/password_autofill/customizing_password_autofill_rules). If a website changes its password requirements to be general enough to not warrant quirks, or if it adopts the `passwordRules` attribute to accurately communicate its requirements to password managers and web browsers, it should be removed from this list.
 
-When a domain is listed in [`data/password-rules.json`](data/password-rules.json), it means that that domain and all of its subdomains use the rule. A rule that should only be applied to the exact domain stated as a key should have the `exact-domain-match-only` key set to a value of `true`. Absence of the `exact-domain-match-only` key means that it is false.
+When a domain is listed in [`quirks/password-rules.json`](quirks/password-rules.json), it means that that domain and all of its subdomains use the rule. A rule that should only be applied to the exact domain stated as a key should have the `exact-domain-match-only` key set to a value of `true`. Absence of the `exact-domain-match-only` key means that it is false.
 
 ### Password Rules Language Parser
 
@@ -34,7 +34,7 @@ An implementation of a parser for the Password Rules language that's written in 
 
 ### Websites with Shared Credential Backends
 
-The file [`data/websites-with-shared-credential-backends.json`](data/websites-with-shared-credential-backends.json) contains a list of groups of websites that are known to share the same credential backend. This can be used to offer contextually relevant accounts to users on website A, even if credentials were previously saved for website B.
+The file [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a list of groups of websites that are known to share the same credential backend. This can be used to offer contextually relevant accounts to users on website A, even if credentials were previously saved for website B.
 
 This list should not be used as part of any user experience that releases user credentials to a website without the user's explicit review and consent. In general, saved credentials should only be suggested to users with site-bound scoping. This list is appropriate for allowing a credential saved for website A to appear on website B if the website the credential was saved for is clearly stated.
 
@@ -42,7 +42,7 @@ There are existing proposals to allow different domains to declare an affiliatio
 
 ### Change Password URLs
 
-The file [`data/change-password-URLs.json`](data/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://wicg.github.io/change-password-url/index.html). If a website adopts the Change Password URL, it should be removed from this list.
+The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://wicg.github.io/change-password-url/index.html). If a website adopts the Change Password URL, it should be removed from this list.
 
 ## How to Contribute
 
@@ -66,7 +66,7 @@ The [Password Rules Validation Tool](https://developer.apple.com/password-rules/
 
 #### Contributing a Rule
 
-Once you've tested passwords generated by your rule, you'll edit [`data/password-rules.json`](data/password-rules.json) and add a new website key mapping to a JSON object of information. The rule you'll want to copy out of the Password Rules Validation Tools is the "Rules formatted for UIKit", because it's a pure Rule without any HTML markup.
+Once you've tested passwords generated by your rule, you'll edit [`quirks/password-rules.json`](quirks/password-rules.json) and add a new website key mapping to a JSON object of information. The rule you'll want to copy out of the Password Rules Validation Tools is the "Rules formatted for UIKit", because it's a pure Rule without any HTML markup.
 
 When you submit a pull request to add or update a Password Rule, you should include as much information about the website’s requirements as you were able to gather. Text printed on the website, or error messages, are great. If the rules were determined experimentally, information about what you tried is helpful, too. Adding screenshots of error messages can be useful.
 
@@ -76,7 +76,7 @@ When contributing or amending a set of websites sharing a credential backend, yo
 
 ### Contributing a Change Password URL
 
-Use the website in question until you find the standalone page for updating the user's password, or a high-level "Account Information" or "Security" page. The closer the URL takes the user to being able to change their password, the better. Before adding a URL, ensure that it works properly both when the user is logged in and when they are not. URLs added to [`data/change-password-URLs.json`](data/change-password-URLs.json) should have a scheme of https unless the website does not allow changing the password on an https page.
+Use the website in question until you find the standalone page for updating the user's password, or a high-level "Account Information" or "Security" page. The closer the URL takes the user to being able to change their password, the better. Before adding a URL, ensure that it works properly both when the user is logged in and when they are not. URLs added to [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) should have a scheme of https unless the website does not allow changing the password on an https page.
 
 ### Contributing a New Kind of Quirk or Other Resource
 
