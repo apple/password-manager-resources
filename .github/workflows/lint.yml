@@ -38,3 +38,5 @@ jobs:
         ruby-version: 2.6
     - name: Lint Sort Order
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-sort-order.rb
+    - name: Lint Duplicates
+      run: ruby .github/workflows/lint-scripts/websites-shared-credentials-duplicates.rb
