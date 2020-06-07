@@ -7,4 +7,4 @@
 - [ ] There are no [open pull requests](https://github.com/apple/password-manager-resources/pulls) for the same update.
 
 #### for websites-with-shared-credential-backends.json
-- [ ] The new group has login pages on each of the included domains. For example, firstcompany-com/login and secondcompany-com/login share the same backend, despite the different base domains. 
+- [ ] The new group serves login pages on each of the included domains, and those login page accept accounts from the others. (For example, we don’t associate google.com.li to google.com, because google.com.li redirects to accounts.google.com for authentication.)

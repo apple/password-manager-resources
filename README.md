@@ -36,6 +36,10 @@ An implementation of a parser for the Password Rules language that's written in 
 
 The file [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a list of groups of websites that are known to share the same credential backend. This can be used to offer contextually relevant accounts to users on website A, even if credentials were previously saved for website B.
 
+In other words, a qualifying group serves login pages on each of the included domains. Those login pages accept accounts from the others. For example, `firstcompany.website/login` and `secondcompany.website/login` share the same backend (e.g., usernames, passwords, profiles), despite the different base domains.
+
+We don’t associate `google.com.li` to `google.com`, because `google.com.li` redirects to `accounts.google.com` for authentication.
+
 This list should not be used as part of any user experience that releases user credentials to a website without the user's explicit review and consent. In general, saved credentials should only be suggested to users with site-bound scoping. This list is appropriate for allowing a credential saved for website A to appear on website B if the website the credential was saved for is clearly stated.
 
 There are existing proposals to allow different domains to declare an affiliation with each other, which could be a way for websites to solve this problem themselves, given browser and password manager adoption of such a proposal. Until and perhaps beyond then, it is useful to have these groupings of websites to make password filling suggestions more useful.
