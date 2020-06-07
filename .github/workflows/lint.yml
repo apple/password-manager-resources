@@ -10,6 +10,13 @@ jobs:
     - name: Lint Sort Order
       run: cat quirks/change-password-URLs.json | sed '1,1d' | sed '$d' | sort -c
 
+  password-rules:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Lint Sort Order
+      run: cat quirks/password-rules.json | grep "^    \"" | sort -c
+
   websites-shared-credentials:
     runs-on: ubuntu-latest
     steps:
