@@ -34,11 +34,9 @@ An implementation of a parser for the Password Rules language that's written in 
 
 ### Websites with Shared Credential Backends
 
-The file [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a list of groups of websites that are known to share the same credential backend. This can be used to offer contextually relevant accounts to users on website A, even if credentials were previously saved for website B.
+The file quirks/websites-with-shared-credential-backends.json contains a list of groups of websites that share the same credential backend and serve pages where users can sign in, accepting accounts from the others. For example, adding first.website and second.website means that first.website and second.website each serve a page (e.g. first.website/login and second.website/login) where the same accounts are valid for signing in, despite the different domains. It wouldn’t be appropriate to associate google.com.il to google.com because google.com.il redirects to accounts.google.com for sign-in, and google.com.il never serves a login page.
 
-In other words, a qualifying group serves login pages on each of the included domains. Those login pages accept accounts from the others. For example, `firstcompany.website/login` and `secondcompany.website/login` share the same backend (e.g., usernames, passwords, profiles), despite the different base domains.
-
-We don’t associate `google.com.li` to `google.com`, because `google.com.li` redirects to `accounts.google.com` for authentication.
+This data can be used by password managers to offer contextually relevant accounts to users on first.website, even if credentials were previously saved for second.website. 
 
 This list should not be used as part of any user experience that releases user credentials to a website without the user's explicit review and consent. In general, saved credentials should only be suggested to users with site-bound scoping. This list is appropriate for allowing a credential saved for website A to appear on website B if the website the credential was saved for is clearly stated.
 
