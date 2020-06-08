@@ -1,0 +1,12 @@
+{
+    "name": "password-manager-resources",
+    "description": "The Password Manager Resources project exists so creators of password managers can collaborate on resources to make password management better for users. Resources currently consist of data, or \"quirks\", as well as code.",
+    "author": "Apple / Community",
+    "devDependencies": {
+        "mocha": "~7.1.1",
+        "validator": "^13.0.0"
+    },
+    "scripts": {
+        "test": "mocha"
+    }
+}
