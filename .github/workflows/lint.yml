@@ -1,0 +1,40 @@
+name: Lint
+
+on: [push, pull_request]
+
+jobs:
+  all-json-valid:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Lint Valid Json
+      run: |
+        find quirks/ -name '*.json' -print0 | while IFS= read -r -d '' filename; do 
+          echo "Validating $(basename "$filename")"
+          python -mjson.tool "$filename" > /dev/null
+        done
+
+  change-password-urls:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Lint Sort Order
+      run: cat quirks/change-password-URLs.json | sed '1,1d' | sed '$d' | sort -c
+
+  password-rules:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Lint Sort Order
+      run: cat quirks/password-rules.json | grep "^    \"" | sort -c
+
+  websites-shared-credentials:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+    - name: Lint Sort Order
+      run: ruby .github/workflows/lint-scripts/websites-shared-credentials-sort-order.rb
