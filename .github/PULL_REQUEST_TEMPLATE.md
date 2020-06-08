@@ -7,7 +7,7 @@
 
 #### for websites-with-shared-credential-backends.json
 - [ ] There's evidence the domains are related (SSL certificates, DNS entries, valid links between sites, legal documents etc.)
-- [ ] The new group serves login pages on each of the included domains, and those login page accept accounts from the others. (For example, we don’t associate google.com.li to google.com, because google.com.li redirects to accounts.google.com for authentication.)
+- [ ] The new group serves login pages on each of the included domains, and those login page accept accounts from the others. (For example, we don't associate `google.co.il` to `google.com`, because `google.co.il` redirects to `accounts.google.com` for authentication.)
 
 #### for change-password-URLs.json
 - [ ] There is no Well-Known URL for Changing Passwords (`https://example.com/.well-known/change-password`)

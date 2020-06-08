@@ -92,7 +92,7 @@ If you are a representative from a website on the list, and you’ve incorporate
 
 ## Questions?
 
-If you have any questions you'd like to ask publicly, please [raise a Github issue](https://github.com/apple/password-manager-resources/issues). If you'd prefer to reach out to this project's maintainers at Apple, please [get in touch](mailto:password-manager-resources-maintainers@apple.com).
+If you have any questions you'd like to ask publicly, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues). If you'd prefer to reach out to this project's maintainers at Apple, please [get in touch](mailto:password-manager-resources-maintainers@apple.com).
 
 ## Project Governance and Contact
 
