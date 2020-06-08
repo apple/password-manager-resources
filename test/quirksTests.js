@@ -29,10 +29,6 @@ describe('change-password-URLs.json data tests', function() {
                     `${data[line]} for key ${line} does NOT use HTTPS`)
         }
     })
-
-    // Would be nice to do this too...
-    // it('should ping each change password URL and get a XX http code back', function() {
-    // })
 })
 
 describe('password-rules.json data tests', function () {
@@ -70,10 +66,6 @@ describe('password-rules.json data tests', function () {
         var specific = data['163.com']['password-rules'] // should have 2 rules defined
         assert.equal(specific.match(rulePattern).length, 2, `Should be 2 password rules for 163.com`)
     })
-
-    // Would be nice to do this but there doesn't appear to be a schema
-    // it('should verify only allowed terms in rules, e.g., \'required\' or \'minlength\'', function() {
-    // })
 })
 
 describe('websites-with-shared-credential-backends.json data tests', function () {
