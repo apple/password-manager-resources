@@ -6,6 +6,7 @@
 - [ ] There are no [open pull requests](https://github.com/apple/password-manager-resources/pulls) for the same update.
 
 #### for websites-with-shared-credential-backends.json
+- [ ] There's evidence the domains are related (SSL certificates, DNS entries, valid links between sites, legal documents etc.)
 - [ ] The new group serves login pages on each of the included domains, and those login page accept accounts from the others. (For example, we don't associate `google.co.il` to `google.com`, because `google.co.il` redirects to `accounts.google.com` for authentication.)
 
 #### for change-password-URLs.json
