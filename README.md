@@ -6,10 +6,10 @@ The _Password Manager Resources_ project exists so creators of password managers
 
 "Quirk" is a term from web browser development that refers to a website-specific, hard-coded behavior to work around an issue with a website that can't be fixed in a principled, universal way. In this project, it has the same meaning. Although ideally, the industry will work to eliminate the need for all of the quirks in this project, there's value in customizing behaviors to ensure better user experience. The current quirks are:
 
-* **Password Rules**: Rules to generate compatible passwords with websites' particular requirements.
-* **Websites with Shared Credential Backends**: Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
-* **Change Password URLs**: To drive the adoption of strong passwords, it's useful to be able to take users directly to websites' change password pages.
-* **Websites Where 2FA Code is Appended to Password**: Some websites use a two-factor authentication scheme where the user must append a generated code to their password when signing in.
+* [**Password Rules**](#password-rules): Rules to generate compatible passwords with websites' particular requirements.
+* [**Websites with Shared Credential Backends**](#websites-with-shared-credential-backends): Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
+* [**Change Password URLs**](#change-password-urls): To drive the adoption of strong passwords, it's useful to be able to take users directly to websites' change password pages.
+* [**Websites Where 2FA Code is Appended to Password**](#websites-where-2fa-code-is-appended-to-password): Some websites use a two-factor authentication scheme where the user must append a generated code to their password when signing in.
 
 Having password managers collaborate on these resources has three high-level benefits:
 
@@ -37,7 +37,7 @@ An implementation of a parser for the Password Rules language that's written in 
 
 The file quirks/websites-with-shared-credential-backends.json contains a list of groups of websites that share the same credential backend and serve pages where users can sign in, accepting accounts from the others. For example, adding first.website and second.website means that first.website and second.website each serve a page (e.g. first.website/login and second.website/login) where the same accounts are valid for signing in, despite the different domains. It wouldn’t be appropriate to associate google.com.il to google.com because google.com.il redirects to accounts.google.com for sign-in, and google.com.il never serves a login page.
 
-This data can be used by password managers to offer contextually relevant accounts to users on first.website, even if credentials were previously saved for second.website. 
+This data can be used by password managers to offer contextually relevant accounts to users on first.website, even if credentials were previously saved for second.website.
 
 This list should not be used as part of any user experience that releases user credentials to a website without the user's explicit review and consent. In general, saved credentials should only be suggested to users with site-bound scoping. This list is appropriate for allowing a credential saved for website A to appear on website B if the website the credential was saved for is clearly stated.
 
