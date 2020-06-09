@@ -9,6 +9,7 @@ The _Password Manager Resources_ project exists so creators of password managers
 * **Password Rules**: Rules to generate compatible passwords with websites' particular requirements.
 * **Websites with Shared Credential Backends**: Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
 * **Change Password URLs**: To drive the adoption of strong passwords, it's useful to be able to take users directly to websites' change password pages.
+* **Websites Where 2FA Code is Appended to Password**: Some websites use a two-factor authentication scheme where the user must append a generated code to their password when signing in.
 
 Having password managers collaborate on these resources has three high-level benefits:
 
@@ -46,6 +47,10 @@ There are existing proposals to allow different domains to declare an affiliatio
 
 The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://wicg.github.io/change-password-url/index.html). If a website adopts the Change Password URL, it should be removed from this list.
 
+### Websites Where 2FA Code is Appended to Password
+
+The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of signin forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+
 ## How to Contribute
 
 Before contributing, please review the [Code of Conduct](CODE_OF_CONDUCT.md).
@@ -81,6 +86,10 @@ When contributing or amending a set of websites sharing a credential backend, yo
 ### Contributing a Change Password URL
 
 Use the website in question until you find the standalone page for updating the user's password, or a high-level "Account Information" or "Security" page. The closer the URL takes the user to be able to change their password, the better. Before adding a URL, ensure that it works properly both when the user is logged in and when they are not. URLs added to [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) should have a scheme of https unless the website does not allow changing the password on an https page.
+
+### Contributing to Websites Where 2FA Code is Appended to Password
+
+When contributing or amending a set of websites that require that the user append a generated code to their password when signing in, you should state why you believe the relevant domains require such. This may involve citing a URL to the relevant support page for the website.
 
 ### Contributing a New Kind of Quirk or Other Resource
 
