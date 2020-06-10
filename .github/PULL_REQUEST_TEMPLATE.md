@@ -11,6 +11,7 @@
 
 #### for change-password-URLs.json
 - [ ] There is no Well-Known URL for Changing Passwords (`https://example.com/.well-known/change-password`)
+- [ ] The URL either makes the experience better or no worse than being directed to just the domain in a non-logged-in state
 
 #### for password-rules.json
 - [ ] The given rule isn't particularly standard and obvious for password managers
