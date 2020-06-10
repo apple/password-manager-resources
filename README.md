@@ -52,6 +52,7 @@ The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) 
 The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of signin forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
 
 ## Contributing
+
 Please review [how to contribute](CONTRIBUTING.md) if you would like to submit a pull request.
 
 ## Questions?
