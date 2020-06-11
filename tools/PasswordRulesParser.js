@@ -113,25 +113,31 @@ function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
     console.assert(bitSet instanceof Array);
     console.assert(namedCharacterClass.name !== Identifier.UNICODE);
     console.assert(namedCharacterClass.name !== Identifier.ASCII_PRINTABLE);
-    if (namedCharacterClass.name === Identifier.UPPER)
+    if (namedCharacterClass.name === Identifier.UPPER) {
         bitSet.fill(true, _bitSetIndexForCharacter("A"), _bitSetIndexForCharacter("Z") + 1);
-    else if (namedCharacterClass.name === Identifier.LOWER)
+    }
+    else if (namedCharacterClass.name === Identifier.LOWER) {
         bitSet.fill(true, _bitSetIndexForCharacter("a"), _bitSetIndexForCharacter("z") + 1);
-    else if (namedCharacterClass.name === Identifier.DIGIT)
+    }
+    else if (namedCharacterClass.name === Identifier.DIGIT) {
         bitSet.fill(true, _bitSetIndexForCharacter("0"), _bitSetIndexForCharacter("9") + 1);
+    }
     else if (namedCharacterClass.name === Identifier.SPECIAL) {
         bitSet.fill(true, _bitSetIndexForCharacter(" "), _bitSetIndexForCharacter("/") + 1);
         bitSet.fill(true, _bitSetIndexForCharacter(":"), _bitSetIndexForCharacter("@") + 1);
         bitSet.fill(true, _bitSetIndexForCharacter("["), _bitSetIndexForCharacter("`") + 1);
         bitSet.fill(true, _bitSetIndexForCharacter("{"), _bitSetIndexForCharacter("~") + 1);
-    } else
+    }
+    else {
         console.assert(false, SHOULD_NOT_BE_REACHED, namedCharacterClass);
+    }
 }
 
 function _markBitsForCustomCharacterClass(bitSet, customCharacterClass)
 {
-    for (let character of customCharacterClass.characters)
+    for (let character of customCharacterClass.characters) {
         bitSet[_bitSetIndexForCharacter(character)] = true;
+    }
 }
 
 function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFormatCompliant)
@@ -140,15 +146,19 @@ function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFo
 
     for (let propertyValue of propertyValues) {
         if (propertyValue instanceof NamedCharacterClass) {
-            if (propertyValue.name === Identifier.UNICODE)
+            if (propertyValue.name === Identifier.UNICODE) {
                 return [new NamedCharacterClass(Identifier.UNICODE)];
+            }
 
-            if (propertyValue.name === Identifier.ASCII_PRINTABLE)
+            if (propertyValue.name === Identifier.ASCII_PRINTABLE) {
                 return [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)];
+            }
 
             _markBitsForNamedCharacterClass(asciiPrintableBitSet, propertyValue);
-        } else if (propertyValue instanceof CustomCharacterClass)
+        }
+        else if (propertyValue instanceof CustomCharacterClass) {
             _markBitsForCustomCharacterClass(asciiPrintableBitSet, propertyValue);
+        }
     }
 
     let charactersSeen = [];
@@ -156,13 +166,15 @@ function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFo
     function checkRange(start, end) {
         let temp = [];
         for (let i = _bitSetIndexForCharacter(start); i <= _bitSetIndexForCharacter(end); ++i) {
-            if (asciiPrintableBitSet[i])
+            if (asciiPrintableBitSet[i]) {
                 temp.push(_characterAtBitSetIndex(i));
+            }
         }
 
         let result = temp.length === (_bitSetIndexForCharacter(end) - _bitSetIndexForCharacter(start) + 1);
-        if (!result)
+        if (!result) {
             charactersSeen = charactersSeen.concat(temp);
+        }
         return result;
     }
 
@@ -176,60 +188,77 @@ function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFo
     let hasRightSquareBracket = false;
     let temp = [];
     for (let i = _bitSetIndexForCharacter(" "); i <= _bitSetIndexForCharacter("/"); ++i) {
-        if (!asciiPrintableBitSet[i])
+        if (!asciiPrintableBitSet[i]) {
             continue;
+        }
 
         let character = _characterAtBitSetIndex(i);
-        if (keepCustomCharacterClassFormatCompliant && character === "-")
+        if (keepCustomCharacterClassFormatCompliant && character === "-") {
             hasDash = true;
-        else
+        }
+        else {
             temp.push(character);
+        }
     }
     for (let i = _bitSetIndexForCharacter(":"); i <= _bitSetIndexForCharacter("@"); ++i) {
-        if (asciiPrintableBitSet[i])
+        if (asciiPrintableBitSet[i]) {
             temp.push(_characterAtBitSetIndex(i));
+        }
     }
     for (let i = _bitSetIndexForCharacter("["); i <= _bitSetIndexForCharacter("`"); ++i) {
-        if (!asciiPrintableBitSet[i])
+        if (!asciiPrintableBitSet[i]) {
             continue;
+        }
 
         let character = _characterAtBitSetIndex(i);
-        if (keepCustomCharacterClassFormatCompliant && character === "]")
+        if (keepCustomCharacterClassFormatCompliant && character === "]") {
             hasRightSquareBracket = true;
-        else
+        }
+        else {
             temp.push(character);
+        }
     }
     for (let i = _bitSetIndexForCharacter("{"); i <= _bitSetIndexForCharacter("~"); ++i) {
-        if (asciiPrintableBitSet[i])
+        if (asciiPrintableBitSet[i]) {
             temp.push(_characterAtBitSetIndex(i));
+        }
     }
 
-    if (hasDash)
+    if (hasDash) {
         temp.unshift("-");
-    if (hasRightSquareBracket)
+    }
+    if (hasRightSquareBracket) {
         temp.push("]");
+    }
 
     let numberOfSpecialCharacters = (_bitSetIndexForCharacter("/") - _bitSetIndexForCharacter(" ") + 1)
         + (_bitSetIndexForCharacter("@") - _bitSetIndexForCharacter(":") + 1)
         + (_bitSetIndexForCharacter("`") - _bitSetIndexForCharacter("[") + 1)
         + (_bitSetIndexForCharacter("~") - _bitSetIndexForCharacter("{") + 1);
     hasAllSpecial = temp.length === numberOfSpecialCharacters;
-    if (!hasAllSpecial)
+    if (!hasAllSpecial) {
         charactersSeen = charactersSeen.concat(temp);
+    }
 
     let result = [];
-    if (hasAllUpper && hasAllLower && hasAllDigits && hasAllSpecial)
+    if (hasAllUpper && hasAllLower && hasAllDigits && hasAllSpecial) {
         return [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)];
-    if (hasAllUpper)
+    }
+    if (hasAllUpper) {
         result.push(new NamedCharacterClass(Identifier.UPPER));
-    if (hasAllLower)
+    }
+    if (hasAllLower) {
         result.push(new NamedCharacterClass(Identifier.LOWER));
-    if (hasAllDigits)
+    }
+    if (hasAllDigits) {
         result.push(new NamedCharacterClass(Identifier.DIGIT));
-    if (hasAllSpecial)
+    }
+    if (hasAllSpecial) {
         result.push(new NamedCharacterClass(Identifier.SPECIAL));
-    if (charactersSeen.length)
+    }
+    if (charactersSeen.length) {
         result.push(new CustomCharacterClass(charactersSeen));
+    }
     return result;
 }
 
@@ -257,8 +286,9 @@ function _parseIdentifier(input, position)
     let seenIdentifiers = [];
     do {
         let c = input[position];
-        if (!_isIdentifierCharacter(c))
+        if (!_isIdentifierCharacter(c)) {
             break;
+        }
 
         seenIdentifiers.push(c);
         ++position;
@@ -303,8 +333,9 @@ function _parseCustomCharacterClass(input, position)
 
         result.push(c);
         ++position;
-        if (c === CHARACTER_CLASS_END_SENTINEL)
+        if (c === CHARACTER_CLASS_END_SENTINEL) {
             break;
+        }
     } while (position < length);
 
     if (position < length && input[position] !== CHARACTER_CLASS_END_SENTINEL || position == length && input[position - 1] == CHARACTER_CLASS_END_SENTINEL) {
@@ -313,8 +344,9 @@ function _parseCustomCharacterClass(input, position)
         return [result, position];
     }
 
-    if (position < length && input[position] == CHARACTER_CLASS_END_SENTINEL)
+    if (position < length && input[position] == CHARACTER_CLASS_END_SENTINEL) {
         return [result, position + 1];
+    }
 
     console.error("Found end-of-line instead of end of character class");
     return [null, position];
@@ -336,18 +368,22 @@ function _parsePasswordRequiredOrAllowedPropertyValue(input, position)
                 return [null, identifierStartPosition];
             }
             propertyValues.push(new NamedCharacterClass(propertyValue));
-        } else if (input[position] == CHARACTER_CLASS_START_SENTINEL) {
+        }
+        else if (input[position] == CHARACTER_CLASS_START_SENTINEL) {
             var [propertyValue, position] = _parseCustomCharacterClass(input, position);
-            if (propertyValue && propertyValue.length)
+            if (propertyValue && propertyValue.length) {
                 propertyValues.push(new CustomCharacterClass(propertyValue));
-        } else {
+            }
+        }
+        else {
             console.error("Failed to find start of property value: " + input.substr(position));
             return [null, position];
         }
 
         position = _indexOfNonWhitespaceCharacter(input, position);
-        if (position >= length || input[position] === PROPERTY_SEPARATOR)
+        if (position >= length || input[position] === PROPERTY_SEPARATOR) {
             break;
+        }
 
         if (input[position] === PROPERTY_VALUE_SEPARATOR) {
             position = _indexOfNonWhitespaceCharacter(input, position + 1);
@@ -393,28 +429,32 @@ function _parsePasswordRule(input, position)
 
     position = _indexOfNonWhitespaceCharacter(input, position + 1);
     // Empty value
-    if (position >= length || input[position] === PROPERTY_SEPARATOR)
+    if (position >= length || input[position] === PROPERTY_SEPARATOR) {
         return [new Rule(property.name, property.value), position];
+    }
 
     switch (identifier) {
         case RuleName.ALLOWED:
         case RuleName.REQUIRED: {
             var [propertyValue, position] = _parsePasswordRequiredOrAllowedPropertyValue(input, position);
-            if (propertyValue)
+            if (propertyValue) {
                 property.value = propertyValue;
+            }
             return [new Rule(property.name, property.value), position];
         }
         case RuleName.MAX_CONSECUTIVE: {
             var [propertyValue, position] = _parseMaxConsecutivePropertyValue(input, position);
-            if (propertyValue)
+            if (propertyValue) {
                 property.value = propertyValue;
+            }
             return [new Rule(property.name, property.value), position];
         }
         case RuleName.MIN_LENGTH:
         case RuleName.MAX_LENGTH: {
             var [propertyValue, position] = _parseMinLengthMaxLengthPropertyValue(input, position);
-            if (propertyValue)
+            if (propertyValue) {
                 property.value = propertyValue;
+            }
             return [new Rule(property.name, property.value), position];
         }
     }
@@ -449,8 +489,9 @@ function _parseInteger(input, position)
         ++position;
     } while (position < length && input[position] !== PROPERTY_SEPARATOR && _isASCIIDigit(input[position]));
 
-    if (position >= length || input[position] === PROPERTY_SEPARATOR)
+    if (position >= length || input[position] === PROPERTY_SEPARATOR) {
         return [result, position];
+    }
 
     console.error("Failed to parse value of type integer; not a number: " + input.substr(initialPosition));
     return [null, position];
@@ -469,17 +510,20 @@ function _parsePasswordRulesInternal(input)
         }
 
         var [parsedProperty, position] = _parsePasswordRule(input, position)
-        if (parsedProperty && parsedProperty.value)
+        if (parsedProperty && parsedProperty.value) {
             parsedProperties.push(parsedProperty);
+        }
 
         position = _indexOfNonWhitespaceCharacter(input, position);
-        if (position >= length)
+        if (position >= length) {
             break;
+        }
 
         if (input[position] === PROPERTY_SEPARATOR) {
             position = _indexOfNonWhitespaceCharacter(input, position + 1);
-            if (position >= length)
+            if (position >= length) {
                 return parsedProperties;
+            }
 
             continue;
         }
@@ -522,8 +566,9 @@ function parsePasswordRules(input, formatRulesForMinifiedVersion)
             case RuleName.REQUIRED:
                 rule.value = _canonicalizedPropertyValues(rule.value, formatRulesForMinifiedVersion);
                 newPasswordRules.push(rule);
-                if (!suppressCopyingRequiredToAllowed)
+                if (!suppressCopyingRequiredToAllowed) {
                     newAllowedValues = newAllowedValues.concat(rule.value);
+                }
                 break;
 
             case RuleName.ALLOWED:
@@ -533,19 +578,24 @@ function parsePasswordRules(input, formatRulesForMinifiedVersion)
     }
 
     newAllowedValues = _canonicalizedPropertyValues(newAllowedValues, suppressCopyingRequiredToAllowed);
-    if (!suppressCopyingRequiredToAllowed && !newAllowedValues.length)
+    if (!suppressCopyingRequiredToAllowed && !newAllowedValues.length) {
         newAllowedValues = [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)];
-    if (newAllowedValues.length)
+    }
+    if (newAllowedValues.length) {
         newPasswordRules.push(new Rule(RuleName.ALLOWED, newAllowedValues));
+    }
 
-    if (minimumMaximumConsecutiveCharacters !== null)
+    if (minimumMaximumConsecutiveCharacters !== null) {
         newPasswordRules.push(new Rule(RuleName.MAX_CONSECUTIVE, minimumMaximumConsecutiveCharacters));
+    }
 
-    if (maximumMinLength > 0)
+    if (maximumMinLength > 0) {
         newPasswordRules.push(new Rule(RuleName.MIN_LENGTH, maximumMinLength));
+    }
 
-    if (minimumMaxLength !== null)
+    if (minimumMaxLength !== null) {
         newPasswordRules.push(new Rule(RuleName.MAX_LENGTH, minimumMaxLength));
+    }
 
     return newPasswordRules;
 }
