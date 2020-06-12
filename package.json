@@ -4,9 +4,10 @@
     "author": "Apple / Community",
     "devDependencies": {
         "mocha": "~7.1.1",
+        "rewire": "^5.0.0",
         "validator": "^13.0.0"
     },
     "scripts": {
-        "test": "mocha --recursive"
+        "test": "mocha --recursive --inline-diffs"
     }
 }
