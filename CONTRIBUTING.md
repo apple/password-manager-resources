@@ -1,16 +1,36 @@
 # Contributing to this project
 
-By submitting a pull request to this project, you agree to release your contribution under [this project's license terms](LICENSE.md).
+By submitting a pull request to this project, or adding a website via the web-interface, you agree to release your contribution under [this project's license terms](LICENSE.md).
 
 ## How to Contribute
 
 Before contributing, please review the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-Contributing is easy! You can contribute either by raising compatibility issues with a website, researching and documenting what the right data for a quirk might be, and/or submitting a pull request to add a quirk. You can raise an issue at the repository's [issues page](https://github.com/apple/password-manager-resources/issues). If you've done some investigation into a service's behavior, you can document it on an existing issue for that problem. If you'd like to submit a pull request, there are some additional special considerations for each type of quirk, detailed below.
+Contributing is easy!
+
+There are three ways to contribute. 
+
+**- Creating a pull request**
+
+If you'd like to submit a pull request, there are some additional special considerations for each type of quirk, detailed below.
 
 When adding a data item to a top-level JSON object, please keep keys alphabetized. This assists with scanning the lists and with merging them.
 
 One more point to consider is to keep your pull requests small and limited in scope to a specific change. (For example, it's best to submit a "Password Rule" for a single website or group of related websites in one pull request and not conflate unrelated changes that can prevent other from being merged.)
+
+**- Add a password rule with the [web-interface](https://password-manager-webinterface.herokuapp.com) (if you want to add other types of quirks as well, please consider another option)**
+
+If you search for an easy way - without coding - to submit a password rule for a new website, you can simply use this [web-interface](https://password-manager-webinterface.herokuapp.com).
+**There can be some delay, when you try to reach this website. This may take up to 10 seconds.**
+Be also aware, that you are only able to add password rules for websites. Until now, there isn't an option to add e.g. "Change Password URL".
+Furthermore, investigate the website you want to add carefully, and understand how the password's requirements should be.
+
+**- Raise an issue at the repository's [issues page](https://github.com/apple/password-manager-resources/issues)**
+
+
+//TODO
+You can contribute either by raising compatibility issues with a website, researching and documenting what the right data for a quirk might be, and/or submitting a pull request to add a quirk. You can raise an issue at the repository's [issues page](https://github.com/apple/password-manager-resources/issues). If you've done some investigation into a service's behavior, you can document it on an existing issue for that problem.
+
 
 ### Contributing Password Rules
 
