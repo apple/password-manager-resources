@@ -18,12 +18,12 @@ When adding a data item to a top-level JSON object, please keep keys alphabetize
 
 One more point to consider is to keep your pull requests small and limited in scope to a specific change. (For example, it's best to submit a "Password Rule" for a single website or group of related websites in one pull request and not conflate unrelated changes that can prevent other from being merged.)
 
-If you want to know more about it, move on to [Contributing Password Rules](#contributing-password-rules)
+If you want to know more about it, see further below.
 
 **- Add a password rule with the [web-interface](https://password-manager-webinterface.herokuapp.com) (if you want to add other types of quirks as well, please consider another option)**
 
 If you search for an easy way - without coding - to submit a password rule for a new website, you can simply use this [web-interface](https://password-manager-webinterface.herokuapp.com).
-**There can be some delay, when you try to reach this website. This may take up to 10 seconds.**
+There can be some delay, when you try to reach this website. This may take up to 10 seconds.
 
 Be also aware, that you are only able to add password rules for websites. Until now, there isn't an option to add e.g. "Change Password URL".
 Furthermore, investigate the website you want to add carefully, and understand how the password's requirements should be.
