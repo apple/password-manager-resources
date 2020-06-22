@@ -12,9 +12,12 @@ Rule                 = parser.__get__('Rule')
 NamedCharacterClass  = parser.__get__('NamedCharacterClass')
 CustomCharacterClass = parser.__get__('CustomCharacterClass')
 
-// Global since this is returned in a lot of cases
-let DEFAULT_RULE = new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)])
+// A few global rules since they are expected in a lot of cases
+let DEFAULT_RULE    = new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)])
+let REQUIRED_UPPER  = new Rule(RuleName.REQUIRED, [new NamedCharacterClass(Identifier.UPPER)])
+let ALLOWED_UPPER   = new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.UPPER)])
 
+// --------------------------------------------------------------------------------------------- //
 describe('test password rule values that should return a default rule', function() {
 
     var tests = [
@@ -46,7 +49,39 @@ describe('test password rule values that should return a default rule', function
     })
 })
 
-describe('test that the lower number for max-consecutive wins', function() {
+// --------------------------------------------------------------------------------------------- //
+describe('test UPPER rules', function() {
+
+    var tests = [
+        { arg: "    required: upper",               expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+        { arg: "    required: upper;",              expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+        { arg: "    required: upper             ",  expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+        { arg: "required: uPPeR",                   expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+        { arg: "required:upper",                    expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+        { arg: "required:     upper",               expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+        { arg: "required: ; required: upper",       expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+
+        { arg: "allowed:upper",             expected: [ALLOWED_UPPER] },
+        { arg: "allowed:     upper",        expected: [ALLOWED_UPPER] },
+        { arg: "required: upper, [AZ];",    expected: [REQUIRED_UPPER, ALLOWED_UPPER] },
+
+        { 
+            arg: "required: upper; allowed: upper; allowed: lower", 
+            expected: [REQUIRED_UPPER, new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.UPPER), new NamedCharacterClass(Identifier.LOWER)])]
+        },
+    ]
+
+    tests.forEach(function (test) {
+        it(`should return required/allowed UPPER rules for '${test.arg}'`, function() {
+            var rules = parsePasswordRules(test.arg)
+            assert.equal(rules.length, test.expected.length, `Failed to return ${test.expected.length} rule/s for input of '${test.arg}'`)
+            assert.deepEqual(rules, test.expected, `Failed to return required/allowed rules of '${DEFAULT_RULE}'`)
+        })
+    })
+})
+
+// --------------------------------------------------------------------------------------------- //
+describe('test that the lower number for two max-consecutive rules wins', function() {
 
     var tests = [
         { 
@@ -76,6 +111,65 @@ describe('test that the lower number for max-consecutive wins', function() {
     })
 })
 
+// --------------------------------------------------------------------------------------------- //
+describe('test max-consecutive rules', function() {
+
+    let ASCII_PRINTABLE = new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)])
+
+    var tests = [
+        { arg: "max-consecutive:      5",                   expected: [ASCII_PRINTABLE, new Rule(RuleName.MAX_CONSECUTIVE, 5)]},
+        { arg: "max-consecutive:5",                         expected: [ASCII_PRINTABLE, new Rule(RuleName.MAX_CONSECUTIVE, 5)]},
+        { arg: "max-consecutive:      5;",                  expected: [ASCII_PRINTABLE, new Rule(RuleName.MAX_CONSECUTIVE, 5)]},
+        { arg: "max-consecutive: 5; max-consecutive: 3",    expected: [ASCII_PRINTABLE, new Rule(RuleName.MAX_CONSECUTIVE, 3)]},
+    ]
+
+    tests.forEach(function (test) {
+        it(`should return a valid max-consecutive rule from '${test.arg}'`, function() {
+            var rules = parsePasswordRules(test.arg)
+            assert.equal(rules.length, test.expected.length, `Failed to return ${test.expected.length} rule/s for input of '${test.arg}'`)
+            assert.deepEqual(rules, test.expected, `Failed to return a valid max-consecutive rule`)
+        })
+    })
+})
+
+// --------------------------------------------------------------------------------------------- //
+describe('test different characters in rules', function() {
+
+    var tests = [
+        { 
+            arg: "required: [*&^]; allowed: upper", 
+            expected: [
+                new Rule(RuleName.REQUIRED, [new CustomCharacterClass(['&','*','^'])]),
+                new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.UPPER), new CustomCharacterClass(['&','*','^'])])
+            ]
+        },
+        { 
+            arg: "required: [*&^ABC]; allowed: upper", 
+            expected: [
+                new Rule(RuleName.REQUIRED, [new CustomCharacterClass(['A','B','C','&','*','^'])]),
+                new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.UPPER), new CustomCharacterClass(['&','*','^'])])
+            ]
+        },
+        { 
+            arg: "required: unicode; required: digit", 
+            expected: [
+                new Rule(RuleName.REQUIRED, [new NamedCharacterClass(Identifier.UNICODE)]),
+                new Rule(RuleName.REQUIRED, [new NamedCharacterClass(Identifier.DIGIT)]),
+                new Rule(RuleName.ALLOWED, [new NamedCharacterClass(Identifier.UNICODE)])
+            ]
+        },
+    ]
+
+    tests.forEach(function (test) {
+        it(`should return a valid rule with various characters from '${test.arg}'`, function() {
+            var rules = parsePasswordRules(test.arg)
+            assert.equal(rules.length, test.expected.length, `Failed to return ${test.expected.length} rule/s for input of '${test.arg}'`)
+            assert.deepEqual(rules, test.expected, `Failed to return a valid rule based on characters`)
+        })
+    })
+})
+
+// --------------------------------------------------------------------------------------------- //
 describe('test that unicode characters are dropped/ignored', function() {
 
     var tests = [
@@ -98,6 +192,7 @@ describe('test that unicode characters are dropped/ignored', function() {
     })
 })
 
+// --------------------------------------------------------------------------------------------- //
 describe('test canonicalization', function() {
 
     var tests = [
@@ -127,6 +222,7 @@ describe('test canonicalization', function() {
     })
 })
 
+// --------------------------------------------------------------------------------------------- //
 describe('test for extra whitespace (•) in password rules', function() {
 
     var tests = [
