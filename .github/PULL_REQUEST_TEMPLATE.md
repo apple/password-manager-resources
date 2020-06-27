@@ -11,10 +11,10 @@
 
 #### for change-password-URLs.json
 - [ ] There is no Well-Known URL for Changing Passwords (`https://example.com/.well-known/change-password`)
-- [ ] The PR isn't documenting something that would be a common practice among password managers (e.g. minimal length of 6)
 - [ ] The URL either makes the experience better or no worse than being directed to just the domain in a non-logged-in state
 
 #### for password-rules.json
 - [ ] The given rule isn't particularly standard and obvious for password managers
 - [ ] Generated passwords have been tested from this rule using the [Password Rules Validation Tool](https://developer.apple.com/password-rules/)
 - [ ] Information has been included about the website's requirements (eg. screenshots, error messages, steps during experimentation, etc.)
+- [ ] The PR isn't documenting something that would be a common practice among password managers (e.g. minimal length of 6)
