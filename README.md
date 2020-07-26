@@ -61,7 +61,7 @@ If you have any questions you'd like to ask publicly, please [raise a GitHub iss
 
 ## Project Maintenance
 
-Project maintenance involves, but is not limited to, adding clarity to incoming [issues](https://github.com/apple/password-manager-resources/issues) and reviewing pull requests. Project maintainers can approve and merge pull requests. Reviewing a pull request involves judging that a proposed contribution follows the rules of the project, including the [Code of Conduct](CODE_OF_CONDUCT.md) and [guide to contributing](CONTRIBUTING.md). If you are interested in becoming a project maintainer, please [email the project maintainers at Apple by](mailto:password-manager-resources-maintainers@apple.com) with the following information:
+Project maintenance involves, but is not limited to, adding clarity to incoming [issues](https://github.com/apple/password-manager-resources/issues) and reviewing pull requests. Project maintainers can approve and merge pull requests. Reviewing a pull request involves judging that a proposed contribution follows the project's guidelines, as described by the [guide to contributing](CONTRIBUTING.md). If you are interested in becoming a project maintainer, please [email the project maintainers at Apple by](mailto:password-manager-resources-maintainers@apple.com) with the following information:
 
 * Your name
 * Your GitHub user name
@@ -70,7 +70,7 @@ Project maintenance involves, but is not limited to, adding clarity to incoming 
 
 Ideally, you'd provide somewhere between five and eight examples. The purpose of this note is to remind the Apple maintainers of who you are; ideally, before sending this message, we already know you from your great contributions!
 
-Project maintainers are expected to always follow the project's Code of Conduct, and help to model it for others.
+Project maintainers are expected to always follow the project's [Code of Conduct](CODE_OF_CONDUCT.md), and help to model it for others.
 
 ## Project Governance
 
