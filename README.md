@@ -65,7 +65,7 @@ Project maintenance involves, but is not limited to, adding clarity to incoming 
 
 * Your name
 * Your GitHub user name
-* Any you're affiliated with that are related to password management, including professionally
+* Any organizations you're affiliated with that are related to password management, including professionally
 * Links to examples of pull requests submitted, review feedback given, and comments on issues that demonstrate why you'd be a good project project maintainer
 
 Ideally, you'd provide somewhere between five and eight examples. The purpose of this note is to remind the Apple maintainers of who you are; ideally, before sending this message, we already know you from your great contributions!
