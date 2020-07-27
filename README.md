@@ -61,12 +61,12 @@ If you have any questions you'd like to ask publicly, please [raise a GitHub iss
 
 ## Project Maintenance
 
-Project maintenance involves, but is not limited to, adding clarity to incoming [issues](https://github.com/apple/password-manager-resources/issues) and reviewing pull requests. Project maintainers can approve and merge pull requests. Reviewing a pull request involves judging that a proposed contribution follows the project's guidelines, as described by the [guide to contributing](CONTRIBUTING.md). If you are interested in becoming a project maintainer, please [email the project maintainers at Apple by](mailto:password-manager-resources-maintainers@apple.com) with the following information:
+Project maintenance involves, but is not limited to, adding clarity to incoming [issues](https://github.com/apple/password-manager-resources/issues) and reviewing pull requests. Project maintainers can approve and merge pull requests. Reviewing a pull request involves judging that a proposed contribution follows the project's guidelines, as described by the [guide to contributing](CONTRIBUTING.md). If you are interested in becoming a project maintainer, please [email the project maintainers at Apple](mailto:password-manager-resources-maintainers@apple.com) with the following information:
 
 * Your name
 * Your GitHub user name
 * Any organizations you're affiliated with that are related to password management, including professionally
-* Links to examples of pull requests submitted, review feedback given, and comments on issues that demonstrate why you'd be a good project project maintainer
+* Links to examples of pull requests submitted, review feedback given, and comments on issues that demonstrate why you'd be a good project maintainer
 
 Ideally, you'd provide somewhere between five and eight examples. The purpose of this note is to remind the Apple maintainers of who you are; ideally, before sending this message, we already know you from your great contributions!
 
