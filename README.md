@@ -59,6 +59,19 @@ Please review [how to contribute](CONTRIBUTING.md) if you would like to submit a
 
 If you have any questions you'd like to ask publicly, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues). If you'd prefer to reach out to this project's maintainers at Apple, please [get in touch](mailto:password-manager-resources-maintainers@apple.com).
 
-## Project Governance and Contact
+## Project Maintenance
 
-At the moment, merging a pull request requires approval by a project owner. If you or your organization is interested in becoming a project co-owner, ideally after contributing, please do get in touch! You can reach the project maintainers at Apple by [emailing password-manager-resources-maintainers@apple.com](mailto:password-manager-resources-maintainers@apple.com).
+Project maintenance involves, but is not limited to, adding clarity to incoming [issues](https://github.com/apple/password-manager-resources/issues) and reviewing pull requests. Project maintainers can approve and merge pull requests. Reviewing a pull request involves judging that a proposed contribution follows the project's guidelines, as described by the [guide to contributing](CONTRIBUTING.md). If you are interested in becoming a project maintainer, please [email the project maintainers at Apple](mailto:password-manager-resources-maintainers@apple.com) with the following information:
+
+* Your name
+* Your GitHub user name
+* Any organizations you're affiliated with that are related to password management, including professionally
+* Links to examples of pull requests submitted, review feedback given, and comments on issues that demonstrate why you'd be a good project maintainer
+
+Ideally, you'd provide somewhere between five and eight examples. The purpose of this note is to remind the Apple maintainers of who you are; ideally, before sending this message, we already know you from your great contributions!
+
+Project maintainers are expected to always follow the project's [Code of Conduct](CODE_OF_CONDUCT.md), and help to model it for others.
+
+## Project Governance
+
+Although we expect this to happen very infrequently, Apple reserves the right to make changes, including changes to data format and scope, to the project at any time.
