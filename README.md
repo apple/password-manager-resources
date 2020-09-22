@@ -37,7 +37,7 @@ An implementation of a parser for the Password Rules language that's written in 
 
 ### Websites with Shared Credential Backends
 
-The file quirks/websites-with-shared-credential-backends.json contains a list of groups of websites that share the same credential backend and serve pages where users can sign in, accepting accounts from the others. For example, adding first.website and second.website means that first.website and second.website each serve a page (e.g. first.website/login and second.website/login) where the same accounts are valid for signing in, despite the different domains. It wouldn’t be appropriate to associate google.com.il to google.com because google.com.il redirects to accounts.google.com for sign-in, and google.com.il never serves a login page.
+The file [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a list of groups of websites that share the same credential backend and serve pages where users can sign in, accepting accounts from the others. For example, adding first.website and second.website means that first.website and second.website each serve a page (e.g. first.website/login and second.website/login) where the same accounts are valid for signing in, despite the different domains. It wouldn’t be appropriate to associate google.com.il to google.com because google.com.il redirects to accounts.google.com for sign-in, and google.com.il never serves a login page.
 
 This data can be used by password managers to offer contextually relevant accounts to users on first.website, even if credentials were previously saved for second.website.
 
