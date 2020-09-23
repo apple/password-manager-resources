@@ -47,7 +47,7 @@ There are existing proposals to allow different domains to declare an affiliatio
 
 ### Change Password URLs
 
-The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://wicg.github.io/change-password-url/index.html). If a website adopts the Change Password URL, it should be removed from this list.
+The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://github.com/w3c/webappsec-change-password-url). If a website adopts the Change Password URL, it should be removed from this list.
 
 ### Websites Where 2FA Code is Appended to Password
 
