@@ -35,7 +35,7 @@ A rule that should only be applied to the exact domain stated as a key should ha
 
 An implementation of a parser for the Password Rules language that's written in JavaScript can be found in [`tools/PasswordRulesParser.js`](tools/PasswordRulesParser.js). It can be used as a reference implementation, interpreted in build systems to convert `data/password-rules.json` to an application-specific format, or interpreted at application runtime wherever it's possible to execute JavaScript (e.g. using the JavaScriptCore framework on Apple platforms).
 
-A third-party parser implementation is also available [here](https://github.com/1Password/password-rules-parser).
+A [third-party parser implementation](https://github.com/1Password/password-rules-parser) that's written in Rust is also available.
 
 ### Websites with Shared Credential Backends
 
