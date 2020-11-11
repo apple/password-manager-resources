@@ -35,6 +35,8 @@ A rule that should only be applied to the exact domain stated as a key should ha
 
 An implementation of a parser for the Password Rules language that's written in JavaScript can be found in [`tools/PasswordRulesParser.js`](tools/PasswordRulesParser.js). It can be used as a reference implementation, interpreted in build systems to convert `data/password-rules.json` to an application-specific format, or interpreted at application runtime wherever it's possible to execute JavaScript (e.g. using the JavaScriptCore framework on Apple platforms).
 
+A [third-party parser implementation](https://github.com/1Password/password-rules-parser) that's written in Rust is also available.
+
 ### Websites with Shared Credential Backends
 
 The file [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a list of groups of websites that share the same credential backend and serve pages where users can sign in, accepting accounts from the others. For example, adding first.website and second.website means that first.website and second.website each serve a page (e.g. first.website/login and second.website/login) where the same accounts are valid for signing in, despite the different domains. It wouldn’t be appropriate to associate google.com.il to google.com because google.com.il redirects to accounts.google.com for sign-in, and google.com.il never serves a login page.
