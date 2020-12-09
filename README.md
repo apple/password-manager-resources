@@ -59,9 +59,9 @@ The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-th
 
 Please review [how to contribute](CONTRIBUTING.md) if you would like to submit a pull request.
 
-## Questions?
+## Asking Questions and Discussing Ideas
 
-If you have any questions you'd like to ask publicly, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues). If you'd prefer to reach out to this project's maintainers at Apple, please [get in touch](mailto:password-manager-resources-maintainers@apple.com).
+If you have any questions you'd like to ask publicly, or ideas you'd like to discuss, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or send a message in the project's [Slack instance](https://pw-manager-resources.slack.com). Anyone participating in the project is welcome to join the Slack instance by [emailing the project's maintainers at Apple](mailto:password-manager-resources-maintainers@apple.com) and asking for an invitation. Please include your GitHub user name when you do this.
 
 ## Project Maintenance
 
