@@ -18,9 +18,11 @@ Contributing a password rule is appropriate if a service doesn't accept a passwo
 
 #### Crafting a Rule
 
-To create a password rule, you'll want to gather as much information as you can about what the website considers to be an acceptable password. You can learn this by reading any pre-stated requirements or error messages you see while experimenting with the website. Sometimes, websites don't do a great job of saying what their rules are, or their stated rules are inaccurate, and you have to determine their actual rules experimentally.
+To create a password rule, you'll want to gather as much information as you can about what the website considers to be an acceptable password. You can learn this by reading any pre-stated requirements or error messages you see while experimenting with the website. Sometimes, the rules are stated in a separate `div` element but not in the `input` element itself. Other times, websites don't do a great job of saying what their rules are, or their stated rules are inaccurate, and you have to determine their actual rules experimentally.
 
-Once you understand the website's requirements, like minimum length, maximum length, sets of required characters, and allowed characters, you're ready to write a rule. The [Password Rules Validation Tool](https://developer.apple.com/password-rules/) is a great tool for writing and validating password rules.
+Once you understand the website's requirements, like minimum length, maximum length, sets of required characters, and allowed characters, you're ready to write a rule. For example, a password rule that requires at least one uppercase character **and** one digit will require **two** `"required: ` tags, e.g. `required: upper; required: digit`. Including both rules in one `required: ` tag, e.g. `required: upper, digit`, will mean a password rule that requires **either** one uppercase character **or** one digit. This is unlike using the `allowed: ` tag with a more lax password rule, where specifying `allowed: upper, digit` is equivalent to specifying `allowed: upper; allowed: digit`.
+
+A detailed article on the syntax of the password rules can be found in the [Customizing Password AutoFill Rules](https://developer.apple.com/documentation/security/password_autofill/customizing_password_autofill_rules) Apple Developer Document. Also, the [Password Rules Validation Tool](https://developer.apple.com/password-rules/) is a great tool for writing and validating password rules.
 
 #### Testing a Rule
 
@@ -51,5 +53,3 @@ If you have a new type of quirk or another resource, that you feel that other pa
 ### Requesting Removal of a Quirk
 
 If you are a representative from a website on the list, and you’ve incorporated the rule into your website or make it unnecessary, you can request a rule for your website to be removed. You can do this by [filing an issue with the repository's issue tracker](https://github.com/apple/password-manager-resources/issues), or by submitting a pull request with a change. You may be asked to prove your affiliation with the service in question.
-
-
