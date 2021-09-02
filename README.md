@@ -7,7 +7,7 @@ The _Password Manager Resources_ project exists so creators of password managers
 "Quirk" is a term from web browser development that refers to a website-specific, hard-coded behavior to work around an issue with a website that can't be fixed in a principled, universal way. In this project, it has the same meaning. Although ideally, the industry will work to eliminate the need for all of the quirks in this project, there's value in customizing behaviors to ensure better user experience. The current quirks are:
 
 * [**Password Rules**](#password-rules): Rules to generate compatible passwords with websites' particular requirements.
-* [**Websites with Shared Credential Backends**](#websites-with-shared-credential-backends): Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
+* [**Shared Credentials**](#shared-credentials): Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
 * [**Change Password URLs**](#change-password-urls): To drive the adoption of strong passwords, it's useful to be able to take users directly to websites' change password pages.
 * [**Websites Where 2FA Code is Appended to Password**](#websites-where-2fa-code-is-appended-to-password): Some websites use a two-factor authentication scheme where the user must append a generated code to their password when signing in.
 
