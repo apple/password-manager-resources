@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Lint Valid Json
       run: |
-        find quirks/ -name '*.json' -print0 | while IFS= read -r -d '' filename; do 
+        find quirks/ -name '*.json' -print0 -maxdepth 1 | while IFS= read -r -d '' filename; do
           echo "Validating $(basename "$filename")"
           python -mjson.tool "$filename" > /dev/null
         done
@@ -40,3 +40,13 @@ jobs:
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-sort-order.rb
     - name: Lint Duplicates
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-duplicates.rb
+
+  validate-schemas:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v3
+    - name: Install ajv-cli
+      run: npm install -g ajv-cli
+    - name: Validate JSONs against their schemas
+      run: ./tools/validate-json-schemas.sh
