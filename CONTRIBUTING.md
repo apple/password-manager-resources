@@ -8,7 +8,7 @@ Before contributing, please review the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 Contributing is easy! You can contribute either by raising compatibility issues with a website, researching and documenting what the right data for a quirk might be, and/or submitting a pull request to add a quirk. You can raise an issue at the repository's [issues page](https://github.com/apple/password-manager-resources/issues). If you've done some investigation into a service's behavior, you can document it on an existing issue for that problem. If you'd like to submit a pull request, there are some additional special considerations for each type of quirk, detailed below.
 
-When adding a data item to a top-level JSON object, please keep keys alphabetized. This assists with scanning the lists and with merging them.
+When adding a data item to a top-level JSON object, please keep keys alphabetized. This assists with scanning the lists and with merging them. You may run the [`tools/validate-json-schemas.sh`](tools/validate-json-schemas.sh) script to validate the JSON files before making a commit.
 
 One more point to consider is to keep your pull requests small and limited in scope to a specific change. (For example, it's best to submit a "Password Rule" for a single website or group of related websites in one pull request and not conflate unrelated changes that can prevent other from being merged.)
 

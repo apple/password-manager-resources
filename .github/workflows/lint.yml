@@ -48,5 +48,5 @@ jobs:
     - uses: actions/setup-node@v3
     - name: Install ajv-cli
       run: npm install -g ajv-cli
-    - name: Validate quirk JSONs against the schemas
+    - name: Validate JSONs against their schemas
       run: ./tools/validate-json-schemas.sh

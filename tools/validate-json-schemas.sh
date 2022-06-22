@@ -4,7 +4,8 @@ set -e
 
 if ! command -v ajv &> /dev/null
 then
-    echo "The 'ajv' command is required, please install the 'ajv-cli' package"
+    echo "The 'ajv' command is required for validating JSON schemas.
+Please follow the readme at https://github.com/ajv-validator/ajv-cli to install the 'ajv-cli' package."
     exit 1
 fi
 
