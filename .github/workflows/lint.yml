@@ -6,7 +6,7 @@ jobs:
   all-json-valid:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Lint Valid Json
       run: |
         find quirks/ -name '*.json' -print0 -maxdepth 1 | while IFS= read -r -d '' filename; do
@@ -17,21 +17,21 @@ jobs:
   change-password-urls:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Lint Sort Order
       run: cat quirks/change-password-URLs.json | sed '1,1d' | sed '$d' | sort -c
 
   password-rules:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Lint Sort Order
       run: cat quirks/password-rules.json | grep "^    \"" | sort -c
 
   websites-shared-credentials:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -44,7 +44,7 @@ jobs:
   validate-schemas:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
     - name: Install ajv-cli
       run: npm install -g ajv-cli
