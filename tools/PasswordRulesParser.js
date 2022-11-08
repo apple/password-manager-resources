@@ -1,4 +1,4 @@
-// Copyright (c) 2019 - 2021 Apple Inc. Licensed under MIT License.
+// Copyright (c) 2019 - 2022 Apple Inc. Licensed under MIT License.
 
 "use strict";
 
