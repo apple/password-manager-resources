@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 
 require 'json'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.on("--verify", "Verify that the generated file is up-to-date.") do |v|
+    options[:verify] = v
+  end
+end.parse!
 
 tools_dir = __dir__
 root_dir = File.dirname tools_dir
@@ -37,4 +45,13 @@ addEntriesToLegacyOutputArray shared_credentials_historical_file_path, legacy_ou
 legacy_output_array = legacy_output_array.sort_by(&:first)
 
 json_to_output = JSON.pretty_generate(legacy_output_array, indent: '    ') + "\n"
-File.write output_file_path, json_to_output
+
+if options[:verify]
+  current_file_contents = File.read output_file_path
+  if current_file_contents != json_to_output
+    STDERR.puts "ERROR: #{File.basename output_file_path} is not up-to-date. Please run this script again and commit the changes."
+    exit 1
+  end
+else
+  File.write output_file_path, json_to_output
+end
