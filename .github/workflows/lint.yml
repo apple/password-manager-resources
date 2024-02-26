@@ -37,7 +37,7 @@ jobs:
       with:
         ruby-version: 2.6
     - name: Lint Sort Order
-      run: ruby .github/workflows/lint-scripts/websites-shared-credentials-sort-order.rb
+      run: diff quirks/shared-credentials.json <(cat quirks/shared-credentials.json | jq --indent 4 'sort_by(.shared // .from)')
     - name: Lint Duplicates
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-duplicates.rb
     - name: Verify Generated Files
