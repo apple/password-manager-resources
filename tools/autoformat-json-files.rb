@@ -14,6 +14,9 @@ error_happened = false
 Dir.glob('*.json').each do |file_path|
   relative_path = File.join("quirks", file_path)
 
+  # We don't sort this file alphabetically because there is no value in doing so.
+  next if relative_path == "quirks/apple-appIDs-to-domains-shared-credentials.json"
+
   begin
     original_file_contents = File.read(file_path)
     contents_as_object = JSON.parse(original_file_contents)
