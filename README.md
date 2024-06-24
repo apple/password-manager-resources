@@ -53,6 +53,12 @@ The [Contributing](CONTRIBUTING.md) document goes into detail on the format of t
 
 The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://github.com/w3c/webappsec-change-password-url). If a website adopts the Change Password URL, it should be removed from this list.
 
+### Apple App IDs to Domains that Share Credentials
+
+The file [`apple-appIDs-to-domains-shared-credentials.json`](quirks/apple-appIDs-to-domains-shared-credentials.json) expresses relationships between apps running on macOS, iOS, and iPadOS, and domains that use the same credentials. Information in this file is used by iOS and iPadOS (since version 17.4) and macOS (since version 14.4) for suggesting credentials in apps that do not have an [association with domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains). The system AutoFill capability makes use of this information to improve the user experience of signing into these apps by giving users inline suggestions of the appropriate credentials when signing in. This works for all password managers that make use of the [Credential Provider Extension](https://support.apple.com/guide/security/credential-provider-extensions-sec6319ac7b9/web) mechanism.
+
+The JSON file is a map from [App Identifier](https://developer.apple.com/help/account/manage-identifiers/register-an-app-id/) to an array of domains. Domains should be ordered by prominence from most prominent to least. The apps do not need to be distributed on Apple's App Store.
+
 ### Websites Where 2FA Code is Appended to Password
 
 The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of signin forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.

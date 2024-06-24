@@ -57,6 +57,12 @@ When contributing or amending a set of websites sharing a credential backend, yo
 
 Use the website in question until you find the standalone page for updating the user's password, or a high-level "Account Information" or "Security" page. The closer the URL takes the user to be able to change their password, the better. Before adding a URL, ensure that it works properly both when the user is logged in and when they are not. URLs added to [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) should have a scheme of https unless the website does not allow changing the password on an https page.
 
+### Contributing to Apple Application IDs to Domains that Share Credentials
+
+On macOS, for app bundle `Example.app`, you can find the App ID by dumping its entitlements with `codesign -d --entitlements - --xml path/to/Example.app`. Its App ID is the value in the XML for key `com.apple.application-identifier`. For macOS apps in particular, if there is no App ID present, the effective App ID is the app's Bundle Identifier (`CFBundleIdentifier` in the app's `Info.plist`).
+
+When contributing or amending a set of websites for an App ID, you should state why you believe the domains do share a credential backend with the app, with evidence to support your claim.
+
 ### Contributing to Websites Where 2FA Code is Appended to Password
 
 When contributing or amending a set of websites that require that the user append a generated code to their password when signing in, you should state why you believe the relevant domains require such. This may involve citing a URL to the relevant support page for the website.
