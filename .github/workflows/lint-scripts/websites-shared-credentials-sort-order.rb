@@ -3,8 +3,8 @@ require 'json'
 def process_file(file_path)
   shared_websites = JSON.parse File.read(file_path)
   shared_websites_sorted = shared_websites.sort do |a, b|
-    a_string = a["shared"] ? a["shared"].first : (a["from"] ? a["from"].first : "")
-    b_string = b["shared"] ? b["shared"].first : (b["from"] ? b["from"].first : "")
+    a_string = a["shared"] || a["from"] || [""]
+    b_string = b["shared"] || b["from"] || [""]
     a_string <=> b_string
   end
 
