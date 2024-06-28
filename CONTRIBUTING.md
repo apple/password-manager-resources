@@ -67,6 +67,10 @@ When contributing or amending a set of websites for an App ID, you should state 
 
 When contributing or amending a set of websites that require that the user append a generated code to their password when signing in, you should state why you believe the relevant domains require such. This may involve citing a URL to the relevant support page for the website.
 
+### Contributing to Websites That Ask for Credentials for Other Services When Embedded as Third-party
+
+When contributing or amending the list of websites that when embedded as a third party, are known to ask for credentials for other services, you should provide evidence that the given website or websites behaves this way. This may involve a screenshot or steps to navigate a website to observe a subframe behaving this way.
+
 ### Contributing a New Kind of Quirk or Other Resource
 
 If you have a new type of quirk or another resource, that you feel that other password managers could use to improve users' experiences and make password management more attractive for people who aren't using a password manager, please [reach out](mailto:password-manager-resources-maintainers@apple.com) to this project's maintainers at Apple so we can discuss the details.
