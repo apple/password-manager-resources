@@ -61,7 +61,13 @@ The JSON file is a map from [App Identifier](https://developer.apple.com/help/ac
 
 ### Websites Where 2FA Code is Appended to Password
 
-The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of signin forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of sign-in forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+
+### Websites That Ask for Credentials for Other Services When Embedded as Third-party
+
+The file [`quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json`](websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json) contains a JSON array of domains that, when embedded as a third party, are known to ask for credentials for other services. For example, some payment processors conduct transactions by being embedded in an `<iframe>` on a website. These payment processors may ask for banking credentials directly, without using OAuth.
+
+A password manager may wish to not offer to save a new password submitted in such an `<iframe>`, because the credentials are likely to not be for the service itself.
 
 ## Contributing
 
