@@ -14,11 +14,21 @@ error_happened = false
 Dir.glob('*.json').each do |file_path|
   relative_path = File.join("quirks", file_path)
 
+  # We don't sort this file alphabetically because there is no value in doing so.
+  next if relative_path == "quirks/apple-appIDs-to-domains-shared-credentials.json"
+
   begin
     original_file_contents = File.read(file_path)
     contents_as_object = JSON.parse(original_file_contents)
     if contents_as_object.is_a? Hash
       contents_as_object = contents_as_object.sort_by { |key| key }.to_h
+    elsif contents_as_object.is_a? Array and contents_as_object[0].is_a? Hash
+      contents_as_object = contents_as_object.sort do |first, second|
+        first_content = first["shared"] || first["from"] || [""]
+        second_content = second["shared"] || second["from"] || [""]
+
+        first_content <=> second_content
+      end
     else
       contents_as_object = contents_as_object.sort
     end

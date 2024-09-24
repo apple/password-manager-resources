@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "extension_storefronts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "identifier": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "identifier"
+        ]
+      }
+    },
+    "web_browsers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "long_name": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "supported_platforms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "platform_specific_information": {
+            "type": "object",
+            "properties": {
+              "Mac": {
+                "type": "object",
+                "properties": {
+                  "bundle_identifier": {
+                    "type": "string"
+                  },
+                  "code_signing_identifier": {
+                    "type": "string"
+                  },
+                  "code_signing_team_identifier": {
+                    "type": "string"
+                  },
+                  "extensions_install_path_relative_to_user_library_directory": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "bundle_identifier",
+                  "code_signing_identifier",
+                  "code_signing_team_identifier"
+                ]
+              }
+            }
+          },
+          "supported_store_identifiers": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "long_name",
+          "short_name",
+          "supported_platforms",
+          "platform_specific_information",
+          "supported_store_identifiers"
+        ]
+      }
+    }
+  },
+  "required": [
+    "extension_storefronts",
+    "web_browsers"
+  ]
+}
