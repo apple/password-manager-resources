@@ -73,7 +73,7 @@ The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-th
 
 ### Websites That Ask for Credentials for Other Services When Embedded as Third-party
 
-The file [`quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json`](websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json) contains a JSON array of domains that, when embedded as a third party, are known to ask for credentials for other services. For example, some payment processors conduct transactions by being embedded in an `<iframe>` on a website. These payment processors may ask for banking credentials directly, without using OAuth.
+The file [`quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json`](quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json) contains a JSON array of domains that, when embedded as a third party, are known to ask for credentials for other services. For example, some payment processors conduct transactions by being embedded in an `<iframe>` on a website. These payment processors may ask for banking credentials directly, without using OAuth.
 
 A password manager may wish to not offer to save a new password submitted in such an `<iframe>`, because the credentials are likely to not be for the service itself.
 
