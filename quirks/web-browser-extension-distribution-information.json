@@ -1,0 +1,319 @@
+{
+    "extension_storefronts": [
+        {
+            "name": "Chrome Web Store",
+            "url": "https://chromewebstore.google.com/category/extensions",
+            "identifier": 1
+        },
+        {
+            "name": "Edge Add-ons",
+            "url": "https://microsoftedge.microsoft.com/addons",
+            "identifier": 2
+        },
+        {
+            "name": "Firefox Browser Add-ons",
+            "url": "https://addons.mozilla.org",
+            "identifier": 3
+        },
+        {
+            "name": "Opera Browser Add-ons",
+            "url": "https://addons.opera.com",
+            "identifier": 4
+        },
+        {
+            "name": "Mac App Store",
+            "url": "itms-apps://safariExtensions",
+            "identifier": 5
+        }
+    ],
+    "web_browsers": [
+        {
+            "long_name": "Google Chrome",
+            "short_name": "Chrome",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome",
+                    "code_signing_identifier": "com.google.Chrome",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Google Chrome Beta",
+            "short_name": "Chrome Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome.beta",
+                    "code_signing_identifier": "com.google.Chrome.beta",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome Beta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Google Chrome Canary",
+            "short_name": "Chrome Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome.canary",
+                    "code_signing_identifier": "com.google.Chrome.canary",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome Canary/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge",
+            "short_name": "Edge",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac",
+                    "code_signing_identifier": "com.microsoft.edgemac",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge Beta",
+            "short_name": "Edge Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac.Beta",
+                    "code_signing_identifier": "com.microsoft.edgemac.Beta",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge Beta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge Dev",
+            "short_name": "Edge Dev",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac.Dev",
+                    "code_signing_identifier": "com.microsoft.edgemac.Dev",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge Dev/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge Canary",
+            "short_name": "Edge Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac.Canary",
+                    "code_signing_identifier": "com.microsoft.edgemac.Canary",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge Canary/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Mozilla Firefox",
+            "short_name": "Firefox",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.firefox",
+                    "code_signing_identifier": "org.mozilla.firefox",
+                    "code_signing_team_identifier": "43AQ936H96"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
+            "long_name": "Arc",
+            "short_name": "Arc",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "company.thebrowser.Browser",
+                    "code_signing_identifier": "company.thebrowser.Browser",
+                    "code_signing_team_identifier": "S6N382Y83G",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Arc/User Data/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Brave",
+            "short_name": "Brave",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.brave.Browser",
+                    "code_signing_identifier": "com.brave.Browser",
+                    "code_signing_team_identifier": "KL8N8XSYF4",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/BraveSoftware/Brave-Browser/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Vivaldi",
+            "short_name": "Vivaldi",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.vivaldi.Vivaldi",
+                    "code_signing_identifier": "com.vivaldi.Vivaldi",
+                    "code_signing_team_identifier": "4XF3XNRN6Y",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Vivaldi/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Opera",
+            "short_name": "Opera",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.Opera",
+                    "code_signing_identifier": "com.operasoftware.Opera",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.Opera/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera GX",
+            "short_name": "Opera GX",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaGX",
+                    "code_signing_identifier": "com.operasoftware.OperaGX",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaGX/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Apple Safari",
+            "short_name": "Safari",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.apple.Safari",
+                    "code_signing_identifier": "com.apple.Safari",
+                    "code_signing_team_identifier": ""
+                }
+            },
+            "supported_store_identifiers": [
+                5
+            ]
+        },
+        {
+            "long_name": "Apple Safari Technology Preview",
+            "short_name": "Safari Technology Preview",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.apple.SafariTechnologyPreview",
+                    "code_signing_identifier": "com.apple.SafariTechnologyPreview",
+                    "code_signing_team_identifier": ""
+                }
+            },
+            "supported_store_identifiers": [
+                5
+            ]
+        }
+    ]
+}
