@@ -7,7 +7,7 @@ The _Password Manager Resources_ project exists so creators of password managers
 "Quirk" is a term from web browser development that refers to a website-specific, hard-coded behavior to work around an issue with a website that can't be fixed in a principled, universal way. In this project, it has the same meaning. Although ideally, the industry will work to eliminate the need for all of the quirks in this project, there's value in customizing behaviors to ensure better user experience. The current quirks are:
 
 * [**Password Rules**](#password-rules): Rules to generate compatible passwords with websites' particular requirements.
-* [**Websites with Shared Credential Backends**](#websites-with-shared-credential-backends): Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
+* [**Shared Credentials**](#shared-credentials): Groups of websites known to use the same credential backend, which can be used to enhance suggested credentials to sign in to websites.
 * [**Change Password URLs**](#change-password-urls): To drive the adoption of strong passwords, it's useful to be able to take users directly to websites' change password pages.
 * [**Websites Where 2FA Code is Appended to Password**](#websites-where-2fa-code-is-appended-to-password): Some websites use a two-factor authentication scheme where the user must append a generated code to their password when signing in.
 
@@ -37,31 +37,53 @@ An implementation of a parser for the Password Rules language that's written in 
 
 A [third-party parser implementation](https://github.com/1Password/password-rules-parser) that's written in Rust is also available.
 
-### Websites with Shared Credential Backends
+### Shared Credentials
 
-The file [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a list of groups of websites that share the same credential backend and serve pages where users can sign in, accepting accounts from the others. For example, adding first.website and second.website means that first.website and second.website each serve a page (e.g. first.website/login and second.website/login) where the same accounts are valid for signing in, despite the different domains. It wouldn’t be appropriate to associate google.com.il to google.com because google.com.il redirects to accounts.google.com for sign-in, and google.com.il never serves a login page.
+The files [`quirks/shared-credentials.json`](quirks/shared-credentials.json) and [`quirks/shared-credentials-historical.json`](quirks/shared-credentials-historical.json) express relationships between groups of websites that share credentials. The `-historical` file describes such relationships that were valid in the past but either are not valid today or we don't have a high degree of confidence are valid today.
 
-This data can be used by password managers to offer contextually relevant accounts to users on first.website, even if credentials were previously saved for second.website.
-
-This list should not be used as part of any user experience that releases user credentials to a website without the user's explicit review and consent. In general, saved credentials should only be suggested to users with site-bound scoping. This list is appropriate for allowing a credential saved for website A to appear on website B if the website the credential was saved for is clearly stated.
+Information in [`quirks/shared-credentials.json`](quirks/shared-credentials.json) can be used by password managers to offer contextually relevant accounts to users on `first.website`, even if credentials were previously saved for `second.website`. This list should not be used as part of any user experience that releases user credentials to a website without the user's explicit review and consent. In general, saved credentials should only be suggested to users with site-bound scoping. This list is appropriate for allowing a credential saved for website A to appear on website B if the website the credential was saved for is clearly stated.
 
 There are existing proposals to allow different domains to declare an affiliation with each other, which could be a way for websites to solve this problem themselves, given browser and password manager adoption of such a proposal. Until and perhaps beyond then, it is useful to have these groupings of websites to make password filling suggestions more useful.
+
+Information in [`quirks/shared-credentials-historical.json`](quirks/shared-credentials-historical.json) can be used by password managers to suppress password reuse warnings across websites, given that website A and website B once were known to share credentials in the past.
+
+The [Contributing](CONTRIBUTING.md) document goes into detail on the format of these files.
 
 ### Change Password URLs
 
 The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://github.com/w3c/webappsec-change-password-url). If a website adopts the Change Password URL, it should be removed from this list.
 
+### Apple App IDs to Domains that Share Credentials
+
+The file [`apple-appIDs-to-domains-shared-credentials.json`](quirks/apple-appIDs-to-domains-shared-credentials.json) expresses relationships between apps running on macOS, iOS, and iPadOS, and domains that use the same credentials. Information in this file is used by iOS and iPadOS (since version 17.4) and macOS (since version 14.4) for suggesting credentials in apps that do not have an [association with domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains). The system AutoFill capability makes use of this information to improve the user experience of signing into these apps by giving users inline suggestions of the appropriate credentials when signing in. This works for all password managers that make use of the [Credential Provider Extension](https://support.apple.com/guide/security/credential-provider-extensions-sec6319ac7b9/web) mechanism.
+
+The JSON file is a map from [App Identifier](https://developer.apple.com/help/account/manage-identifiers/register-an-app-id/) to an array of domains. Domains should be ordered by prominence from most prominent to least. The apps do not need to be distributed on Apple's App Store.
+
+### Web Browser Extension Distribution Information
+
+The file [`web-browser-extension-distribution-information.json`](quirks/web-browser-extension-distribution-information.json) expresses relationships between web browsers and web browser extension storefronts.
+
+This information may be useful to any password manager with a web browser extension for the purpose of discovering installed web browsers where a user may want to install the password manager's extension.
+
+Information in this file is re-packaged by Apple for use in macOS Sequoia version 15.1 and above to limit the [Native Messaging Host](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) of the iCloud Passwords extension to only communicate with known web browsers.
+
 ### Websites Where 2FA Code is Appended to Password
 
-The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of signin forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of sign-in forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+
+### Websites That Ask for Credentials for Other Services When Embedded as Third-party
+
+The file [`quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json`](quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json) contains a JSON array of domains that, when embedded as a third party, are known to ask for credentials for other services. For example, some payment processors conduct transactions by being embedded in an `<iframe>` on a website. These payment processors may ask for banking credentials directly, without using OAuth.
+
+A password manager may wish to not offer to save a new password submitted in such an `<iframe>`, because the credentials are likely to not be for the service itself.
 
 ## Contributing
 
 Please review [how to contribute](CONTRIBUTING.md) if you would like to submit a pull request.
 
-## Questions?
+## Asking Questions and Discussing Ideas
 
-If you have any questions you'd like to ask publicly, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues). If you'd prefer to reach out to this project's maintainers at Apple, please [get in touch](mailto:password-manager-resources-maintainers@apple.com).
+If you have any questions you'd like to ask publicly, or ideas you'd like to discuss, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or send a message in the project's [Slack instance](https://pw-manager-resources.slack.com). Anyone participating in the project is welcome to join the Slack instance by [emailing the project's maintainers at Apple](mailto:password-manager-resources-maintainers@apple.com) and asking for an invitation. Please include your GitHub user name when you do this.
 
 ## Project Maintenance
 
