@@ -4,9 +4,9 @@
 
 if (!console) {
     console = {
-        assert: function() { },
-        error: function() { },
-        warn: function() { },
+        assert: function () { },
+        error: function () { },
+        warn: function () { },
     };
 }
 
@@ -38,8 +38,7 @@ const SPACE_CODE_POINT = " ".codePointAt(0);
 const SHOULD_NOT_BE_REACHED = "Should not be reached";
 
 class Rule {
-    constructor(name, value)
-    {
+    constructor(name, value) {
         this._name = name;
         this.value = value;
     }
@@ -48,8 +47,7 @@ class Rule {
 };
 
 class NamedCharacterClass {
-    constructor(name)
-    {
+    constructor(name) {
         console.assert(_isValidRequiredOrAllowedPropertyValueIdentifier(name));
         this._name = name;
     }
@@ -59,8 +57,7 @@ class NamedCharacterClass {
 };
 
 class CustomCharacterClass {
-    constructor(characters)
-    {
+    constructor(characters) {
         console.assert(characters instanceof Array);
         this._characters = characters;
     }
@@ -71,45 +68,38 @@ class CustomCharacterClass {
 
 // MARK: Lexer functions
 
-function _isIdentifierCharacter(c)
-{
+function _isIdentifierCharacter(c) {
     console.assert(c.length === 1);
     return c >= "a" && c <= "z" || c >= "A" && c <= "Z" || c === "-";
 }
 
-function _isASCIIDigit(c)
-{
+function _isASCIIDigit(c) {
     console.assert(c.length === 1);
     return c >= "0" && c <= "9";
 }
 
-function _isASCIIPrintableCharacter(c)
-{
+function _isASCIIPrintableCharacter(c) {
     console.assert(c.length === 1);
     return c >= " " && c <= "~";
 }
 
-function _isASCIIWhitespace(c)
-{
+function _isASCIIWhitespace(c) {
     console.assert(c.length === 1);
     return c === " " || c === "\f" || c === "\n" || c === "\r" || c === "\t";
 }
 
 // MARK: ASCII printable character bit set and canonicalization functions
 
-function _bitSetIndexForCharacter(c)
-{
+function _bitSetIndexForCharacter(c) {
     console.assert(c.length == 1);
     return c.codePointAt(0) - SPACE_CODE_POINT;
 }
 
-function _characterAtBitSetIndex(index)
-{
+function _characterAtBitSetIndex(index) {
     return String.fromCodePoint(index + SPACE_CODE_POINT);
 }
 
-function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
-{
+function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass) {
     console.assert(bitSet instanceof Array);
     console.assert(namedCharacterClass.name !== Identifier.UNICODE);
     console.assert(namedCharacterClass.name !== Identifier.ASCII_PRINTABLE);
@@ -133,15 +123,13 @@ function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
     }
 }
 
-function _markBitsForCustomCharacterClass(bitSet, customCharacterClass)
-{
+function _markBitsForCustomCharacterClass(bitSet, customCharacterClass) {
     for (let character of customCharacterClass.characters) {
         bitSet[_bitSetIndexForCharacter(character)] = true;
     }
 }
 
-function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFormatCompliant)
-{
+function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFormatCompliant) {
     let asciiPrintableBitSet = new Array("~".codePointAt(0) - " ".codePointAt(0) + 1);
 
     for (let propertyValue of propertyValues) {
@@ -264,8 +252,7 @@ function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFo
 
 // MARK: Parser functions
 
-function _indexOfNonWhitespaceCharacter(input, position = 0)
-{
+function _indexOfNonWhitespaceCharacter(input, position = 0) {
     console.assert(position >= 0);
     console.assert(position <= input.length);
 
@@ -276,8 +263,7 @@ function _indexOfNonWhitespaceCharacter(input, position = 0)
     return position;
 }
 
-function _parseIdentifier(input, position)
-{
+function _parseIdentifier(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
     console.assert(_isIdentifierCharacter(input[position]));
@@ -297,13 +283,11 @@ function _parseIdentifier(input, position)
     return [seenIdentifiers.join(""), position];
 }
 
-function _isValidRequiredOrAllowedPropertyValueIdentifier(identifier)
-{
+function _isValidRequiredOrAllowedPropertyValueIdentifier(identifier) {
     return identifier && Object.values(Identifier).includes(identifier.toLowerCase());
 }
 
-function _parseCustomCharacterClass(input, position)
-{
+function _parseCustomCharacterClass(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
     console.assert(input[position] === CHARACTER_CLASS_START_SENTINEL);
@@ -352,8 +336,7 @@ function _parseCustomCharacterClass(input, position)
     return [null, position];
 }
 
-function _parsePasswordRequiredOrAllowedPropertyValue(input, position)
-{
+function _parsePasswordRequiredOrAllowedPropertyValue(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
 
@@ -400,202 +383,215 @@ function _parsePasswordRequiredOrAllowedPropertyValue(input, position)
     return [propertyValues, position];
 }
 
-function _parsePasswordRule(input, position)
-{
-    console.assert(position >= 0);
-    console.assert(position < input.length);
-    console.assert(_isIdentifierCharacter(input[position]));
-
+function _parsePasswordRule(input, position) {
     let length = input.length;
+    let startPosition = position;
 
-    var mayBeIdentifierStartPosition = position;
-    var [identifier, position] = _parseIdentifier(input, position);
+    // Parse the identifier
+    let [identifier, newPosition] = _parseIdentifier(input, position);
+    position = newPosition;
+
+    // Validate identifier
     if (!Object.values(RuleName).includes(identifier)) {
         console.error("Unrecognized property name: " + identifier);
-        return [null, mayBeIdentifierStartPosition];
+        return [null, startPosition];
     }
 
     if (position >= length) {
-        console.error("Found end-of-line instead of start of property value");
+        console.error("Unexpected end of input while parsing property value");
         return [null, position];
     }
 
+    // Validate the property value start sentinel
     if (input[position] !== PROPERTY_VALUE_START_SENTINEL) {
-        console.error("Failed to find start of property value: " + input.substr(position));
+        console.error("Expected property value start sentinel at: " + input.substr(position));
         return [null, position];
     }
 
     let property = { name: identifier, value: null };
 
     position = _indexOfNonWhitespaceCharacter(input, position + 1);
-    // Empty value
+
+    // Handle empty property value (no value)
     if (position >= length || input[position] === PROPERTY_SEPARATOR) {
         return [new Rule(property.name, property.value), position];
     }
 
+    let propertyValue;
     switch (identifier) {
         case RuleName.ALLOWED:
-        case RuleName.REQUIRED: {
-            var [propertyValue, position] = _parsePasswordRequiredOrAllowedPropertyValue(input, position);
-            if (propertyValue) {
-                property.value = propertyValue;
-            }
-            return [new Rule(property.name, property.value), position];
-        }
-        case RuleName.MAX_CONSECUTIVE: {
-            var [propertyValue, position] = _parseMaxConsecutivePropertyValue(input, position);
-            if (propertyValue) {
-                property.value = propertyValue;
-            }
-            return [new Rule(property.name, property.value), position];
-        }
+        case RuleName.REQUIRED:
+            [propertyValue, position] = _parsePasswordRequiredOrAllowedPropertyValue(input, position);
+            break;
+
+        case RuleName.MAX_CONSECUTIVE:
+            [propertyValue, position] = _parseMaxConsecutivePropertyValue(input, position);
+            break;
+
         case RuleName.MIN_LENGTH:
-        case RuleName.MAX_LENGTH: {
-            var [propertyValue, position] = _parseMinLengthMaxLengthPropertyValue(input, position);
-            if (propertyValue) {
-                property.value = propertyValue;
-            }
-            return [new Rule(property.name, property.value), position];
-        }
+        case RuleName.MAX_LENGTH:
+            [propertyValue, position] = _parseMinLengthMaxLengthPropertyValue(input, position);
+            break;
+
+        default:
+            console.assert(false, SHOULD_NOT_BE_REACHED);
+            return [null, position];
     }
-    console.assert(false, SHOULD_NOT_BE_REACHED);
+
+    if (propertyValue !== null) {
+        property.value = propertyValue;
+    }
+
+    return [new Rule(property.name, property.value), position];
 }
 
-function _parseMinLengthMaxLengthPropertyValue(input, position)
-{
+
+function _parseMinLengthMaxLengthPropertyValue(input, position) {
     return _parseInteger(input, position);
 }
 
-function _parseMaxConsecutivePropertyValue(input, position)
-{
+function _parseMaxConsecutivePropertyValue(input, position) {
     return _parseInteger(input, position);
 }
 
-function _parseInteger(input, position)
-{
-    console.assert(position >= 0);
-    console.assert(position < input.length);
-
-    if (!_isASCIIDigit(input[position])) {
-        console.error("Failed to parse value of type integer; not a number: " + input.substr(position));
+function _parseInteger(input, position) {
+    if (position < 0 || position >= input.length) {
+        console.error("Invalid position: " + position);
         return [null, position];
     }
 
-    let length = input.length;
-    let initialPosition = position;
+    if (!_isASCIIDigit(input[position])) {
+        console.error("Failed to parse integer; not a number at position " + position + ": " + input.substr(position));
+        return [null, position];
+    }
+
     let result = 0;
-    do {
+    const length = input.length;
+    const initialPosition = position;
+
+    // Parse digits and build the integer
+    while (position < length && _isASCIIDigit(input[position])) {
         result = 10 * result + parseInt(input[position], 10);
         ++position;
-    } while (position < length && input[position] !== PROPERTY_SEPARATOR && _isASCIIDigit(input[position]));
+    }
 
+    // Stop parsing when we encounter a separator or end of input
     if (position >= length || input[position] === PROPERTY_SEPARATOR) {
         return [result, position];
     }
 
-    console.error("Failed to parse value of type integer; not a number: " + input.substr(initialPosition));
+    console.error("Failed to parse integer; unexpected character at position " + position + ": " + input.substr(initialPosition));
     return [null, position];
 }
 
-function _parsePasswordRulesInternal(input)
-{
-    let parsedProperties = [];
-    let length = input.length;
 
-    var position = _indexOfNonWhitespaceCharacter(input);
+function _parsePasswordRulesInternal(input) {
+    const parsedProperties = [];
+    const length = input.length;
+    let position = _indexOfNonWhitespaceCharacter(input);
+
     while (position < length) {
         if (!_isIdentifierCharacter(input[position])) {
-            console.warn("Failed to find start of property: " + input.substr(position));
+            console.warn(`Failed to find start of property: ${input.substr(position)}`);
             return parsedProperties;
         }
 
-        var [parsedProperty, position] = _parsePasswordRule(input, position)
-        if (parsedProperty && parsedProperty.value) {
+        const [parsedProperty, newPosition] = _parsePasswordRule(input, position);
+        position = newPosition;
+
+        if (parsedProperty?.value) {
             parsedProperties.push(parsedProperty);
         }
 
+        // Move position to next non-whitespace character
         position = _indexOfNonWhitespaceCharacter(input, position);
-        if (position >= length) {
-            break;
-        }
+        if (position >= length) break;
 
+        // If the current character is the property separator, move to next valid character
         if (input[position] === PROPERTY_SEPARATOR) {
             position = _indexOfNonWhitespaceCharacter(input, position + 1);
-            if (position >= length) {
-                return parsedProperties;
-            }
-
+            if (position >= length) return parsedProperties;
             continue;
         }
 
-        console.error("Failed to find start of next property: " + input.substr(position));
+        // If there's no valid next property, log error and return null
+        console.error(`Failed to find start of next property: ${input.substr(position)}`);
         return null;
     }
 
     return parsedProperties;
 }
 
-function parsePasswordRules(input, formatRulesForMinifiedVersion)
-{
-    let passwordRules = _parsePasswordRulesInternal(input) || [];
 
-    // When formatting rules for minified version, we should keep the formatted rules
-    // as similar to the input as possible. Avoid copying required rules to allowed rules.
+function parsePasswordRules(input, formatRulesForMinifiedVersion) {
+    const DEFAULT_ALLOWED_CLASS = new NamedCharacterClass(Identifier.ASCII_PRINTABLE);
+
+    let passwordRules = _parsePasswordRulesInternal(input) || [];
     let suppressCopyingRequiredToAllowed = formatRulesForMinifiedVersion;
 
     let newPasswordRules = [];
     let newAllowedValues = [];
-    let minimumMaximumConsecutiveCharacters = null;
-    let maximumMinLength = 0;
-    let minimumMaxLength = null;
+    let minMaxConsecutiveChars = null;
+    let maxMinLength = 0;
+    let minMaxLength = null;
 
     for (let rule of passwordRules) {
         switch (rule.name) {
             case RuleName.MAX_CONSECUTIVE:
-                minimumMaximumConsecutiveCharacters = minimumMaximumConsecutiveCharacters ? Math.min(rule.value, minimumMaximumConsecutiveCharacters) : rule.value;
+                minMaxConsecutiveChars = (minMaxConsecutiveChars !== null)
+                    ? Math.min(rule.value, minMaxConsecutiveChars)
+                    : rule.value;
                 break;
 
             case RuleName.MIN_LENGTH:
-                maximumMinLength = Math.max(rule.value, maximumMinLength);
+                maxMinLength = Math.max(rule.value, maxMinLength);
                 break;
 
             case RuleName.MAX_LENGTH:
-                minimumMaxLength = minimumMaxLength ? Math.min(rule.value, minimumMaxLength) : rule.value;
+                minMaxLength = (minMaxLength !== null)
+                    ? Math.min(rule.value, minMaxLength)
+                    : rule.value;
                 break;
 
             case RuleName.REQUIRED:
-                rule.value = _canonicalizedPropertyValues(rule.value, formatRulesForMinifiedVersion);
-                newPasswordRules.push(rule);
+                const canonicalRequired = _canonicalizedPropertyValues(rule.value, formatRulesForMinifiedVersion);
+                newPasswordRules.push(new Rule(rule.name, canonicalRequired));
+
                 if (!suppressCopyingRequiredToAllowed) {
-                    newAllowedValues = newAllowedValues.concat(rule.value);
+                    newAllowedValues.push(...canonicalRequired); // Avoid concat
                 }
                 break;
 
             case RuleName.ALLOWED:
-                newAllowedValues = newAllowedValues.concat(rule.value);
+                newAllowedValues.push(...rule.value); // Avoid concat
                 break;
         }
     }
 
-    newAllowedValues = _canonicalizedPropertyValues(newAllowedValues, suppressCopyingRequiredToAllowed);
-    if (!suppressCopyingRequiredToAllowed && !newAllowedValues.length) {
-        newAllowedValues = [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)];
-    }
-    if (newAllowedValues.length) {
+    // Canonicalize the final allowed values and handle default fallback
+    if (!suppressCopyingRequiredToAllowed || newAllowedValues.length) {
+        newAllowedValues = _canonicalizedPropertyValues(newAllowedValues, suppressCopyingRequiredToAllowed);
+
+        // Add default ASCII_PRINTABLE class if empty
+        if (!newAllowedValues.length) {
+            newAllowedValues = [DEFAULT_ALLOWED_CLASS];
+        }
+
         newPasswordRules.push(new Rule(RuleName.ALLOWED, newAllowedValues));
     }
 
-    if (minimumMaximumConsecutiveCharacters !== null) {
-        newPasswordRules.push(new Rule(RuleName.MAX_CONSECUTIVE, minimumMaximumConsecutiveCharacters));
+    if (minMaxConsecutiveChars !== null) {
+        newPasswordRules.push(new Rule(RuleName.MAX_CONSECUTIVE, minMaxConsecutiveChars));
     }
 
-    if (maximumMinLength > 0) {
-        newPasswordRules.push(new Rule(RuleName.MIN_LENGTH, maximumMinLength));
+    if (maxMinLength > 0) {
+        newPasswordRules.push(new Rule(RuleName.MIN_LENGTH, maxMinLength));
     }
 
-    if (minimumMaxLength !== null) {
-        newPasswordRules.push(new Rule(RuleName.MAX_LENGTH, minimumMaxLength));
+    if (minMaxLength !== null) {
+        newPasswordRules.push(new Rule(RuleName.MAX_LENGTH, minMaxLength));
     }
 
     return newPasswordRules;
 }
+
