@@ -288,53 +288,41 @@ function _isValidRequiredOrAllowedPropertyValueIdentifier(identifier) {
 }
 
 function _parseCustomCharacterClass(input, position) {
-    console.assert(position >= 0);
-    console.assert(position < input.length);
-    console.assert(input[position] === CHARACTER_CLASS_START_SENTINEL);
+    const length = input.length;
 
-    let length = input.length;
-    ++position;
-    if (position >= length) {
-        console.error("Found end-of-line instead of character class character");
+    if (position < 0 || position >= length || input[position] !== CHARACTER_CLASS_START_SENTINEL) {
+        console.error("Invalid start position or missing start sentinel");
         return [null, position];
     }
 
-    let initialPosition = position;
     let result = [];
-    do {
+    position++;
+
+    // Parse characters in the class until we find the end sentinel or reach the end of the input
+    while (position < length) {
         let c = input[position];
-        if (!_isASCIIPrintableCharacter(c)) {
-            ++position;
-            continue;
-        }
 
-        if (c === "-" && (position - initialPosition) > 0) {
-            // FIXME: Should this be an error?
-            console.warn("Ignoring '-'; a '-' may only appear as the first character in a character class");
-            ++position;
-            continue;
-        }
-
-        result.push(c);
-        ++position;
+        // End sentinel marks the end of character class
         if (c === CHARACTER_CLASS_END_SENTINEL) {
-            break;
+            return [result, position + 1];
         }
-    } while (position < length);
 
-    if (position < length && input[position] !== CHARACTER_CLASS_END_SENTINEL || position == length && input[position - 1] == CHARACTER_CLASS_END_SENTINEL) {
-        // Fix up result; we over consumed.
-        result.pop();
-        return [result, position];
+        // Ignore non-ASCII printable characters
+        if (_isASCIIPrintableCharacter(c)) {
+            if (c === "-" && result.length > 0) {
+                console.warn("Ignoring '-' unless it is the first character");
+            } else {
+                result.push(c);
+            }
+        }
+
+        position++;
     }
 
-    if (position < length && input[position] == CHARACTER_CLASS_END_SENTINEL) {
-        return [result, position + 1];
-    }
-
-    console.error("Found end-of-line instead of end of character class");
+    console.error("Unclosed character class at end of input");
     return [null, position];
 }
+
 
 function _parsePasswordRequiredOrAllowedPropertyValue(input, position) {
     console.assert(position >= 0);
