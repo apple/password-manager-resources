@@ -100,28 +100,36 @@ function _characterAtBitSetIndex(index) {
 }
 
 function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass) {
-    console.assert(bitSet instanceof Array);
-    console.assert(namedCharacterClass.name !== Identifier.UNICODE);
-    console.assert(namedCharacterClass.name !== Identifier.ASCII_PRINTABLE);
-    if (namedCharacterClass.name === Identifier.UPPER) {
-        bitSet.fill(true, _bitSetIndexForCharacter("A"), _bitSetIndexForCharacter("Z") + 1);
-    }
-    else if (namedCharacterClass.name === Identifier.LOWER) {
-        bitSet.fill(true, _bitSetIndexForCharacter("a"), _bitSetIndexForCharacter("z") + 1);
-    }
-    else if (namedCharacterClass.name === Identifier.DIGIT) {
-        bitSet.fill(true, _bitSetIndexForCharacter("0"), _bitSetIndexForCharacter("9") + 1);
-    }
-    else if (namedCharacterClass.name === Identifier.SPECIAL) {
-        bitSet.fill(true, _bitSetIndexForCharacter(" "), _bitSetIndexForCharacter("/") + 1);
-        bitSet.fill(true, _bitSetIndexForCharacter(":"), _bitSetIndexForCharacter("@") + 1);
-        bitSet.fill(true, _bitSetIndexForCharacter("["), _bitSetIndexForCharacter("`") + 1);
-        bitSet.fill(true, _bitSetIndexForCharacter("{"), _bitSetIndexForCharacter("~") + 1);
-    }
-    else {
-        console.assert(false, SHOULD_NOT_BE_REACHED, namedCharacterClass);
+    console.assert(Array.isArray(bitSet), "Expected bitSet to be an array");
+    console.assert(namedCharacterClass.name !== Identifier.UNICODE && namedCharacterClass.name !== Identifier.ASCII_PRINTABLE,
+        "Invalid character class name");
+
+    switch (namedCharacterClass.name) {
+        case Identifier.UPPER:
+            bitSet.fill(true, _bitSetIndexForCharacter("A"), _bitSetIndexForCharacter("Z") + 1);
+            break;
+        case Identifier.LOWER:
+            bitSet.fill(true, _bitSetIndexForCharacter("a"), _bitSetIndexForCharacter("z") + 1);
+            break;
+        case Identifier.DIGIT:
+            bitSet.fill(true, _bitSetIndexForCharacter("0"), _bitSetIndexForCharacter("9") + 1);
+            break;
+        case Identifier.SPECIAL:
+            const specialRanges = [
+                [" ", "/"],
+                [":", "@"],
+                ["[", "`"],
+                ["{", "~"]
+            ];
+            for (let [start, end] of specialRanges) {
+                bitSet.fill(true, _bitSetIndexForCharacter(start), _bitSetIndexForCharacter(end) + 1);
+            }
+            break;
+        default:
+            console.assert(false, "Unexpected character class name", namedCharacterClass.name);
     }
 }
+
 
 function _markBitsForCustomCharacterClass(bitSet, customCharacterClass) {
     for (let character of customCharacterClass.characters) {
@@ -132,123 +140,78 @@ function _markBitsForCustomCharacterClass(bitSet, customCharacterClass) {
 function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFormatCompliant) {
     let asciiPrintableBitSet = new Array("~".codePointAt(0) - " ".codePointAt(0) + 1);
 
+    // Mark bits for named and custom character classes
     for (let propertyValue of propertyValues) {
         if (propertyValue instanceof NamedCharacterClass) {
-            if (propertyValue.name === Identifier.UNICODE) {
-                return [new NamedCharacterClass(Identifier.UNICODE)];
+            if (propertyValue.name === Identifier.UNICODE || propertyValue.name === Identifier.ASCII_PRINTABLE) {
+                return [new NamedCharacterClass(propertyValue.name)];
             }
-
-            if (propertyValue.name === Identifier.ASCII_PRINTABLE) {
-                return [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)];
-            }
-
             _markBitsForNamedCharacterClass(asciiPrintableBitSet, propertyValue);
-        }
-        else if (propertyValue instanceof CustomCharacterClass) {
+        } else if (propertyValue instanceof CustomCharacterClass) {
             _markBitsForCustomCharacterClass(asciiPrintableBitSet, propertyValue);
         }
     }
 
     let charactersSeen = [];
-
     function checkRange(start, end) {
-        let temp = [];
+        let inRange = true;
         for (let i = _bitSetIndexForCharacter(start); i <= _bitSetIndexForCharacter(end); ++i) {
             if (asciiPrintableBitSet[i]) {
-                temp.push(_characterAtBitSetIndex(i));
+                charactersSeen.push(_characterAtBitSetIndex(i));
+            } else {
+                inRange = false;
             }
         }
-
-        let result = temp.length === (_bitSetIndexForCharacter(end) - _bitSetIndexForCharacter(start) + 1);
-        if (!result) {
-            charactersSeen = charactersSeen.concat(temp);
-        }
-        return result;
+        return inRange;
     }
 
     let hasAllUpper = checkRange("A", "Z");
     let hasAllLower = checkRange("a", "z");
     let hasAllDigits = checkRange("0", "9");
 
-    // Check for special characters, accounting for characters that are given special treatment (i.e. '-' and ']')
-    let hasAllSpecial = false;
-    let hasDash = false;
-    let hasRightSquareBracket = false;
+    // Check for special characters and format compliance
+    let hasAllSpecial = true;
     let temp = [];
-    for (let i = _bitSetIndexForCharacter(" "); i <= _bitSetIndexForCharacter("/"); ++i) {
-        if (!asciiPrintableBitSet[i]) {
-            continue;
-        }
+    let ranges = [
+        [" ", "/"], [":", "@"], ["[", "`"], ["{", "~"]
+    ];
 
-        let character = _characterAtBitSetIndex(i);
-        if (keepCustomCharacterClassFormatCompliant && character === "-") {
-            hasDash = true;
-        }
-        else {
+    for (let [start, end] of ranges) {
+        for (let i = _bitSetIndexForCharacter(start); i <= _bitSetIndexForCharacter(end); ++i) {
+            if (!asciiPrintableBitSet[i]) {
+                hasAllSpecial = false;
+                continue;
+            }
+            let character = _characterAtBitSetIndex(i);
+            if (keepCustomCharacterClassFormatCompliant && (character === "-" || character === "]")) {
+                continue;
+            }
             temp.push(character);
         }
     }
-    for (let i = _bitSetIndexForCharacter(":"); i <= _bitSetIndexForCharacter("@"); ++i) {
-        if (asciiPrintableBitSet[i]) {
-            temp.push(_characterAtBitSetIndex(i));
-        }
-    }
-    for (let i = _bitSetIndexForCharacter("["); i <= _bitSetIndexForCharacter("`"); ++i) {
-        if (!asciiPrintableBitSet[i]) {
-            continue;
-        }
 
-        let character = _characterAtBitSetIndex(i);
-        if (keepCustomCharacterClassFormatCompliant && character === "]") {
-            hasRightSquareBracket = true;
-        }
-        else {
-            temp.push(character);
-        }
-    }
-    for (let i = _bitSetIndexForCharacter("{"); i <= _bitSetIndexForCharacter("~"); ++i) {
-        if (asciiPrintableBitSet[i]) {
-            temp.push(_characterAtBitSetIndex(i));
-        }
+    // Adjust special characters for format compliance
+    if (keepCustomCharacterClassFormatCompliant) {
+        if (asciiPrintableBitSet[_bitSetIndexForCharacter("-")]) temp.unshift("-");
+        if (asciiPrintableBitSet[_bitSetIndexForCharacter("]")]) temp.push("]");
     }
 
-    if (hasDash) {
-        temp.unshift("-");
-    }
-    if (hasRightSquareBracket) {
-        temp.push("]");
-    }
+    if (!hasAllSpecial) charactersSeen.push(...temp);
 
-    let numberOfSpecialCharacters = (_bitSetIndexForCharacter("/") - _bitSetIndexForCharacter(" ") + 1)
-        + (_bitSetIndexForCharacter("@") - _bitSetIndexForCharacter(":") + 1)
-        + (_bitSetIndexForCharacter("`") - _bitSetIndexForCharacter("[") + 1)
-        + (_bitSetIndexForCharacter("~") - _bitSetIndexForCharacter("{") + 1);
-    hasAllSpecial = temp.length === numberOfSpecialCharacters;
-    if (!hasAllSpecial) {
-        charactersSeen = charactersSeen.concat(temp);
-    }
-
+    // Generate result based on identified character classes
     let result = [];
     if (hasAllUpper && hasAllLower && hasAllDigits && hasAllSpecial) {
         return [new NamedCharacterClass(Identifier.ASCII_PRINTABLE)];
     }
-    if (hasAllUpper) {
-        result.push(new NamedCharacterClass(Identifier.UPPER));
-    }
-    if (hasAllLower) {
-        result.push(new NamedCharacterClass(Identifier.LOWER));
-    }
-    if (hasAllDigits) {
-        result.push(new NamedCharacterClass(Identifier.DIGIT));
-    }
-    if (hasAllSpecial) {
-        result.push(new NamedCharacterClass(Identifier.SPECIAL));
-    }
-    if (charactersSeen.length) {
-        result.push(new CustomCharacterClass(charactersSeen));
-    }
+    if (hasAllUpper) result.push(new NamedCharacterClass(Identifier.UPPER));
+    if (hasAllLower) result.push(new NamedCharacterClass(Identifier.LOWER));
+    if (hasAllDigits) result.push(new NamedCharacterClass(Identifier.DIGIT));
+    if (hasAllSpecial) result.push(new NamedCharacterClass(Identifier.SPECIAL));
+    if (charactersSeen.length) result.push(new CustomCharacterClass(charactersSeen));
+
     return result;
 }
+
 
 // MARK: Parser functions
 
@@ -256,7 +219,7 @@ function _indexOfNonWhitespaceCharacter(input, position = 0) {
     console.assert(position >= 0);
     console.assert(position <= input.length);
 
-    let length = input.length;
+    const length = input.length;
     while (position < length && _isASCIIWhitespace(input[position]))
         ++position;
 
@@ -268,19 +231,13 @@ function _parseIdentifier(input, position) {
     console.assert(position < input.length);
     console.assert(_isIdentifierCharacter(input[position]));
 
-    let length = input.length;
-    let seenIdentifiers = [];
-    do {
-        let c = input[position];
-        if (!_isIdentifierCharacter(c)) {
-            break;
-        }
+    const length = input.length;
+    let start = position;
+    while (position < length && _isIdentifierCharacter(input[position])) {
+        position++;
+    }
 
-        seenIdentifiers.push(c);
-        ++position;
-    } while (position < length);
-
-    return [seenIdentifiers.join(""), position];
+    return [input.slice(start, position), position];
 }
 
 function _isValidRequiredOrAllowedPropertyValueIdentifier(identifier) {
