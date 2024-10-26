@@ -4,9 +4,9 @@
 
 if (!console) {
     console = {
-        assert: function() { },
-        error: function() { },
-        warn: function() { },
+        assert: function () { },
+        error: function () { },
+        warn: function () { },
     };
 }
 
@@ -17,6 +17,7 @@ const Identifier = {
     SPECIAL: "special",
     UNICODE: "unicode",
     UPPER: "upper",
+    EMOJI: "emoji",
 };
 
 const RuleName = {
@@ -38,8 +39,7 @@ const SPACE_CODE_POINT = " ".codePointAt(0);
 const SHOULD_NOT_BE_REACHED = "Should not be reached";
 
 class Rule {
-    constructor(name, value)
-    {
+    constructor(name, value) {
         this._name = name;
         this.value = value;
     }
@@ -48,8 +48,7 @@ class Rule {
 };
 
 class NamedCharacterClass {
-    constructor(name)
-    {
+    constructor(name) {
         console.assert(_isValidRequiredOrAllowedPropertyValueIdentifier(name));
         this._name = name;
     }
@@ -59,8 +58,7 @@ class NamedCharacterClass {
 };
 
 class CustomCharacterClass {
-    constructor(characters)
-    {
+    constructor(characters) {
         console.assert(characters instanceof Array);
         this._characters = characters;
     }
@@ -71,45 +69,38 @@ class CustomCharacterClass {
 
 // MARK: Lexer functions
 
-function _isIdentifierCharacter(c)
-{
+function _isIdentifierCharacter(c) {
     console.assert(c.length === 1);
     return c >= "a" && c <= "z" || c >= "A" && c <= "Z" || c === "-";
 }
 
-function _isASCIIDigit(c)
-{
+function _isASCIIDigit(c) {
     console.assert(c.length === 1);
     return c >= "0" && c <= "9";
 }
 
-function _isASCIIPrintableCharacter(c)
-{
+function _isASCIIPrintableCharacter(c) {
     console.assert(c.length === 1);
     return c >= " " && c <= "~";
 }
 
-function _isASCIIWhitespace(c)
-{
+function _isASCIIWhitespace(c) {
     console.assert(c.length === 1);
     return c === " " || c === "\f" || c === "\n" || c === "\r" || c === "\t";
 }
 
 // MARK: ASCII printable character bit set and canonicalization functions
 
-function _bitSetIndexForCharacter(c)
-{
+function _bitSetIndexForCharacter(c) {
     console.assert(c.length == 1);
     return c.codePointAt(0) - SPACE_CODE_POINT;
 }
 
-function _characterAtBitSetIndex(index)
-{
+function _characterAtBitSetIndex(index) {
     return String.fromCodePoint(index + SPACE_CODE_POINT);
 }
 
-function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
-{
+function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass) {
     console.assert(bitSet instanceof Array);
     console.assert(namedCharacterClass.name !== Identifier.UNICODE);
     console.assert(namedCharacterClass.name !== Identifier.ASCII_PRINTABLE);
@@ -128,20 +119,26 @@ function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
         bitSet.fill(true, _bitSetIndexForCharacter("["), _bitSetIndexForCharacter("`") + 1);
         bitSet.fill(true, _bitSetIndexForCharacter("{"), _bitSetIndexForCharacter("~") + 1);
     }
+    else if (namedCharacterClass.name === Identifier.EMOJI) {
+        // Emoji Unicode range; this will need to account for a range, often between U+1F600 and U+1F64F.
+        const emojiStart = 0x1F600; // range start
+        const emojiEnd = 0x1F64F;   // range end
+        for (let i = emojiStart; i <= emojiEnd; i++) {
+            bitSet[i] = true;  // This assumes bitSet can index by code points directly.
+        }
+    }
     else {
         console.assert(false, SHOULD_NOT_BE_REACHED, namedCharacterClass);
     }
 }
 
-function _markBitsForCustomCharacterClass(bitSet, customCharacterClass)
-{
+function _markBitsForCustomCharacterClass(bitSet, customCharacterClass) {
     for (let character of customCharacterClass.characters) {
         bitSet[_bitSetIndexForCharacter(character)] = true;
     }
 }
 
-function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFormatCompliant)
-{
+function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFormatCompliant) {
     let asciiPrintableBitSet = new Array("~".codePointAt(0) - " ".codePointAt(0) + 1);
 
     for (let propertyValue of propertyValues) {
@@ -264,8 +261,7 @@ function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFo
 
 // MARK: Parser functions
 
-function _indexOfNonWhitespaceCharacter(input, position = 0)
-{
+function _indexOfNonWhitespaceCharacter(input, position = 0) {
     console.assert(position >= 0);
     console.assert(position <= input.length);
 
@@ -276,8 +272,7 @@ function _indexOfNonWhitespaceCharacter(input, position = 0)
     return position;
 }
 
-function _parseIdentifier(input, position)
-{
+function _parseIdentifier(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
     console.assert(_isIdentifierCharacter(input[position]));
@@ -297,13 +292,11 @@ function _parseIdentifier(input, position)
     return [seenIdentifiers.join(""), position];
 }
 
-function _isValidRequiredOrAllowedPropertyValueIdentifier(identifier)
-{
+function _isValidRequiredOrAllowedPropertyValueIdentifier(identifier) {
     return identifier && Object.values(Identifier).includes(identifier.toLowerCase());
 }
 
-function _parseCustomCharacterClass(input, position)
-{
+function _parseCustomCharacterClass(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
     console.assert(input[position] === CHARACTER_CLASS_START_SENTINEL);
@@ -352,8 +345,7 @@ function _parseCustomCharacterClass(input, position)
     return [null, position];
 }
 
-function _parsePasswordRequiredOrAllowedPropertyValue(input, position)
-{
+function _parsePasswordRequiredOrAllowedPropertyValue(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
 
@@ -400,8 +392,7 @@ function _parsePasswordRequiredOrAllowedPropertyValue(input, position)
     return [propertyValues, position];
 }
 
-function _parsePasswordRule(input, position)
-{
+function _parsePasswordRule(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
     console.assert(_isIdentifierCharacter(input[position]));
@@ -461,18 +452,15 @@ function _parsePasswordRule(input, position)
     console.assert(false, SHOULD_NOT_BE_REACHED);
 }
 
-function _parseMinLengthMaxLengthPropertyValue(input, position)
-{
+function _parseMinLengthMaxLengthPropertyValue(input, position) {
     return _parseInteger(input, position);
 }
 
-function _parseMaxConsecutivePropertyValue(input, position)
-{
+function _parseMaxConsecutivePropertyValue(input, position) {
     return _parseInteger(input, position);
 }
 
-function _parseInteger(input, position)
-{
+function _parseInteger(input, position) {
     console.assert(position >= 0);
     console.assert(position < input.length);
 
@@ -497,8 +485,7 @@ function _parseInteger(input, position)
     return [null, position];
 }
 
-function _parsePasswordRulesInternal(input)
-{
+function _parsePasswordRulesInternal(input) {
     let parsedProperties = [];
     let length = input.length;
 
@@ -535,8 +522,7 @@ function _parsePasswordRulesInternal(input)
     return parsedProperties;
 }
 
-function parsePasswordRules(input, formatRulesForMinifiedVersion)
-{
+function parsePasswordRules(input, formatRulesForMinifiedVersion) {
     let passwordRules = _parsePasswordRulesInternal(input) || [];
 
     // When formatting rules for minified version, we should keep the formatted rules
