@@ -304,22 +304,25 @@ function _parseUsernameRule(input, position) {
         return [new UsernameRule(identifier, null), position];
     }
 
+    let propertyValue; // Declare propertyValue outside of switch
+
     switch (identifier) {
         case UsernameRuleName.ALLOWED:
         case UsernameRuleName.REQUIRED:
         case UsernameRuleName.START_WITH:
         case UsernameRuleName.END_WITH:
-            var [propertyValue, newPosition] = _parseUsernameRequiredOrAllowedPropertyValue(input, position);
+            [propertyValue, newPosition] = _parseUsernameRequiredOrAllowedPropertyValue(input, position);
             return [new UsernameRule(identifier, propertyValue), newPosition];
 
         case UsernameRuleName.MIN_LENGTH:
         case UsernameRuleName.MAX_LENGTH:
-            var [propertyValue, newPosition] = _parseInteger(input, position);
+            [propertyValue, newPosition] = _parseInteger(input, position);
             return [new UsernameRule(identifier, propertyValue), newPosition];
     }
 
     return [null, position];
 }
+
 
 // Parse username property values
 function _parseUsernameRequiredOrAllowedPropertyValue(input, position) {
@@ -364,3 +367,4 @@ function _parseUsernameRequiredOrAllowedPropertyValue(input, position) {
 
     return [propertyValues, position];
 }
+
