@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Username Validator Tests</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        pre#output {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Username Validator Tests</h1>
+    <pre id="output"></pre>
+
+    <!-- Update paths to match your folder structure -->
+    <script src="../tools/UsernameRulesParser.js"></script>
+    <script src="usernameTests.js"></script>
+
+    <script>
+        // Capture console output to display in the pre element
+        const outputElement = document.getElementById('output');
+
+        // Store original console methods
+        const originalConsole = {
+            log: console.log,
+            error: console.error,
+            assert: console.assert,
+            warn: console.warn
+        };
+
+        // Helper function to append messages to the output element
+        function appendToOutput(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? 'red' :
+                type === 'warn' ? 'orange' :
+                    type === 'assert' ? 'red' :
+                        'black';
+
+            outputElement.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span>\n`;
+            outputElement.scrollTop = outputElement.scrollHeight;
+        }
+
+        // Override console methods
+        console.log = function () {
+            originalConsole.log.apply(console, arguments);
+            appendToOutput(Array.from(arguments).join(' '));
+        };
+
+        console.error = function () {
+            originalConsole.error.apply(console, arguments);
+            appendToOutput(Array.from(arguments).join(' '), 'error');
+        };
+
+        console.warn = function () {
+            originalConsole.warn.apply(console, arguments);
+            appendToOutput(Array.from(arguments).join(' '), 'warn');
+        };
+
+        console.assert = function (condition, message) {
+            if (!condition) {
+                originalConsole.assert.apply(console, arguments);
+                appendToOutput(`Assertion failed: ${message}`, 'assert');
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -20,16 +20,16 @@ const UsernameIdentifier = {
     URL_SAFE: "url-safe",
 };
 
-// Username-specific rules
 const UsernameRuleName = {
     ALLOWED: "allowed",
     REQUIRED: "required",
     MIN_LENGTH: "minlength",
     MAX_LENGTH: "maxlength",
-    START_WITH: "start-with", // New rule for characters that can start username
-    END_WITH: "end-with",     // New rule for characters that can end username
+    START_WITH: "start-with",
+    END_WITH: "end-with",
+    NO_CONSECUTIVE_HYPHENS: "no-consecutive-hyphens",
+    NO_LEADING_TRAILING_HYPHEN: "no-leading-trailing-hyphen",
 };
-
 // Reuse existing sentinel constants
 const CHARACTER_CLASS_START_SENTINEL = "[";
 const CHARACTER_CLASS_END_SENTINEL = "]";

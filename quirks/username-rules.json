@@ -1,0 +1,11 @@
+{
+    "github.com": {
+        "username-rules": "minlength: 1; maxlength: 39; allowed: lower, digit, special; start-with: lower;"
+    },
+    "twitter.com": {
+        "username-rules": "minlength: 1; maxlength: 15; allowed: lower, digit, special; start-with: lower;"
+    },
+    "example.com": {
+        "username-rules": "minlength: 5; maxlength: 20; required: lower, digit; allowed: lower, digit, special; start-with: lower; end-with: lower"
+    }
+}
