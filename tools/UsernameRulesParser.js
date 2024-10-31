@@ -92,6 +92,70 @@ function _isASCIIWhitespace(c) {
     return c === " " || c === "\f" || c === "\n" || c === "\r" || c === "\t";
 }
 
+function _bitSetIndexForCharacter(c) {
+    console.assert(c.length == 1);
+    return c.codePointAt(0) - SPACE_CODE_POINT;
+}
+
+function _characterAtBitSetIndex(index) {
+    return String.fromCodePoint(index + SPACE_CODE_POINT);
+}
+
+function _parseCustomCharacterClass(input, position) {
+    console.assert(position >= 0);
+    console.assert(position < input.length);
+    console.assert(input[position] === CHARACTER_CLASS_START_SENTINEL);
+
+    let length = input.length;
+    ++position;
+    if (position >= length) {
+        console.error("Found end-of-line instead of character class character");
+        return [null, position];
+    }
+
+    let initialPosition = position;
+    let result = [];
+    do {
+        let c = input[position];
+        if (!_isASCIIPrintableCharacter(c)) {
+            ++position;
+            continue;
+        }
+
+        if (c === "-" && (position - initialPosition) > 0) {
+            // FIXME: Should this be an error?
+            console.warn("Ignoring '-'; a '-' may only appear as the first character in a character class");
+            ++position;
+            continue;
+        }
+
+        result.push(c);
+        ++position;
+        if (c === CHARACTER_CLASS_END_SENTINEL) {
+            break;
+        }
+    } while (position < length);
+
+    if (position < length && input[position] !== CHARACTER_CLASS_END_SENTINEL || position == length && input[position - 1] == CHARACTER_CLASS_END_SENTINEL) {
+        // Fix up result; we over consumed.
+        result.pop();
+        return [result, position];
+    }
+
+    if (position < length && input[position] == CHARACTER_CLASS_END_SENTINEL) {
+        return [result, position + 1];
+    }
+
+    console.error("Found end-of-line instead of end of character class");
+    return [null, position];
+}
+
+function _markBitsForCustomCharacterClass(bitSet, customCharacterClass) {
+    for (let character of customCharacterClass.characters) {
+        bitSet[_bitSetIndexForCharacter(character)] = true;
+    }
+}
+
 // Username-specific character class handling
 function _markBitsForUsernameNamedCharacterClass(bitSet, namedCharacterClass) {
     console.assert(bitSet instanceof Array);
@@ -245,6 +309,62 @@ function _canonicalizedUsernamePropertyValues(propertyValues, keepCustomCharacte
     }
 
     return result;
+}
+
+function _parseIdentifier(input, position) {
+    console.assert(position >= 0);
+    console.assert(position < input.length);
+    console.assert(_isIdentifierCharacter(input[position]));
+
+    let length = input.length;
+    let seenIdentifiers = [];
+    do {
+        let c = input[position];
+        if (!_isIdentifierCharacter(c)) {
+            break;
+        }
+
+        seenIdentifiers.push(c);
+        ++position;
+    } while (position < length);
+
+    return [seenIdentifiers.join(""), position];
+}
+
+function _parseInteger(input, position) {
+    console.assert(position >= 0);
+    console.assert(position < input.length);
+
+    if (!_isASCIIDigit(input[position])) {
+        console.error("Failed to parse value of type integer; not a number: " + input.substr(position));
+        return [null, position];
+    }
+
+    let length = input.length;
+    let initialPosition = position;
+    let result = 0;
+    do {
+        result = 10 * result + parseInt(input[position], 10);
+        ++position;
+    } while (position < length && input[position] !== PROPERTY_SEPARATOR && _isASCIIDigit(input[position]));
+
+    if (position >= length || input[position] === PROPERTY_SEPARATOR) {
+        return [result, position];
+    }
+
+    console.error("Failed to parse value of type integer; not a number: " + input.substr(initialPosition));
+    return [null, position];
+}
+
+function _indexOfNonWhitespaceCharacter(input, position = 0) {
+    console.assert(position >= 0);
+    console.assert(position <= input.length);
+
+    let length = input.length;
+    while (position < length && _isASCIIWhitespace(input[position]))
+        ++position;
+
+    return position;
 }
 
 // Internal parsing function for username rules
