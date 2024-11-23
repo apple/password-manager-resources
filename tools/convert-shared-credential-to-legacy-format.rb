@@ -3,10 +3,21 @@
 require 'json'
 require 'optparse'
 
+name_of_script = File.basename $0
+BANNER = "Usage: #{name_of_script} [options] <output file path>"
+USAGE_MESSAGE = <<-END
+This script converts shared-credentials.json and shared-credentials-historical.json into the legacy
+format (previously contained in websites-with-shared-credential-backends.json).
+END
+
 options = {}
-OptionParser.new do |opts|
-  opts.on("--verify", "Verify that the generated file is up-to-date.") do |v|
+option_parser = OptionParser.new(BANNER, 25) do |parser|
+  parser.on("--verify", "Verify that the generated file is up-to-date.") do |v|
     options[:verify] = v
+  end
+  parser.on_tail("-h", "--help", 'Show this message') do
+    puts parser, "", USAGE_MESSAGE
+    exit
   end
 end.parse!
 
@@ -16,7 +27,12 @@ quirks_dir = File.join root_dir, "quirks"
 
 shared_credentials_file_path = File.join quirks_dir, "shared-credentials.json"
 shared_credentials_historical_file_path = File.join quirks_dir, "shared-credentials-historical.json"
-output_file_path = File.join quirks_dir, "websites-with-shared-credential-backends.json"
+
+output_file_path = ARGV.shift
+if !output_file_path
+  puts BANNER
+  exit 1
+end
 
 legacy_output_array = []
 
@@ -49,7 +65,7 @@ json_to_output = JSON.pretty_generate(legacy_output_array, indent: '    ') + "\n
 if options[:verify]
   current_file_contents = File.read output_file_path
   if current_file_contents != json_to_output
-    STDERR.puts "ERROR: #{File.basename output_file_path} is not up-to-date. Please run this script again and commit the changes."
+    STDERR.puts "ERROR: #{File.basename output_file_path} is not up-to-date."
     exit 1
   end
 else
