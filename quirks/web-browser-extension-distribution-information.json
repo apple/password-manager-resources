@@ -187,6 +187,44 @@
             ]
         },
         {
+            "long_name": "Mozilla Firefox Developer Edition",
+            "short_name": "Firefox Developer Edition",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.firefoxdeveloperedition",
+                    "code_signing_identifier": "org.mozilla.firefoxdeveloperedition",
+                    "code_signing_team_identifier": "43AQ936H96"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
+            "long_name": "Mozilla Firefox Nightly",
+            "short_name": "Firefox Nightly",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.nightly",
+                    "code_signing_identifier": "org.mozilla.nightly",
+                    "code_signing_team_identifier": "43AQ936H96"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
             "long_name": "Arc",
             "short_name": "Arc",
             "supported_platforms": [
