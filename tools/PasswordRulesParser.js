@@ -66,7 +66,7 @@ class CustomCharacterClass {
     }
     get characters() { return this._characters; }
     toString() { return `[${this._characters.join("")}]`; }
-    toHTMLString() { return `[${this._characters.join("").replace('"', "&quot;")}]`; }
+    toHTMLString() { return `[${this._characters.join("").replace(/"/g, "&quot;")}]`; }
 };
 
 // MARK: Lexer functions
