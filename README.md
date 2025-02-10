@@ -65,8 +65,6 @@ The file [`web-browser-extension-distribution-information.json`](quirks/web-brow
 
 This information may be useful to any password manager with a web browser extension for the purpose of discovering installed web browsers where a user may want to install the password manager's extension.
 
-Information in this file is re-packaged by Apple for use in macOS Sequoia version 15.1 and above to limit the [Native Messaging Host](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) of the iCloud Passwords extension to only communicate with known web browsers.
-
 ### Websites Where 2FA Code is Appended to Password
 
 The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of sign-in forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
