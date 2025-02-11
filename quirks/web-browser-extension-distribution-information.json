@@ -354,7 +354,7 @@
             ]
         },
         {
-            "long_name": "Orion",
+            "long_name": "Orion Browser by Kagi",
             "short_name": "Orion",
             "supported_platforms": [
                 "Mac"
