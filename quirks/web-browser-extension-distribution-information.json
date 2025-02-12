@@ -391,6 +391,25 @@
                 1,
                 3
             ]
+        },
+        {
+            "long_name": "Zen Browser",
+            "short_name": "Zen",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "app.zen-browser.zen",
+                    "code_signing_identifier": "app.zen-browser.zen",
+                    "code_signing_team_identifier": "H36NPCN86W"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
         }
     ]
 }
