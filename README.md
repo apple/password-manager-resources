@@ -1,96 +1,138 @@
 # Password Manager Resources
 
 [![Contributor Guide](https://img.shields.io/badge/Contributor%20-Guide-2ea44f)](CONTRIBUTING.md)
-[![Slack Discussions](https://img.shields.io/badge/Join%20Slack-%23passwords-blueviolet)](mailto:password-manager-resources-maintainers@apple.com)
+[![Discuss on Slack](https://img.shields.io/badge/Slack-Discussions-blueviolet)](mailto:password-manager-resources-maintainers@apple.com)
 
-A collaborative project to improve compatibility between password managers and websites by documenting "quirks" — workarounds for site-specific behaviors.
-
----
-
-## Table of Contents
-- [Key Resources](#key-resources)
-  - [Password Rules](#password-rules)
-  - [Shared Credentials](#shared-credentials)
-  - [Change Password URLs](#change-password-urls)
-  - [2FA Code Appended to Password](#websites-where-2fa-code-is-appended-to-password)
-- [Contributing](#contributing)
-- [Discussion & Support](#asking-questions-and-discussing-ideas)
-- [Project Governance](#project-governance)
+A collaborative repository to help password managers handle website-specific quirks, improving both user experience and security.
 
 ---
 
-## Key Resources
+## 📚 Table of Contents
 
-### Password Rules
+1. [Key Resources](#key-resources)  
+   ├─ [Password Rules](#password-rules)  
+   ├─ [Shared Credentials](#shared-credentials)  
+   ├─ [Change Password URLs](#change-password-urls)  
+   └─ [2FA Code Appended to Password](#2fa-code-appended-to-password)  
+2. [Contributing](#contributing)  
+3. [Support & Discussion](#support--discussion)  
+4. [Project Governance](#project-governance)  
+
+---
+
+## 🔐 Key Resources
+
+### 📏 Password Rules
+
 **File:** [`quirks/password-rules.json`](quirks/password-rules.json)  
-**Purpose:** Generate passwords compatible with websites' requirements.  
+**Purpose:** Define site-specific password requirements to ensure successful password generation and autofill behavior.
 
-#### How It Works:
-- Domains map to [Password Rules](https://developer.apple.com/password-rules/) (e.g., `minlength: 8; required: lower, upper;`).
-- Rules apply to subdomains by default. Use `"exact-domain-match-only": true` to restrict to exact domains.  
+#### Key Notes:
 
-**Example Entry:**
+- Rules automatically apply to all subdomains.
+- Use `"exact-domain-match-only": true` to target only the main domain.
+- Syntax follows Apple’s [Password Rules specification](https://developer.apple.com/password-rules/).
+
+#### Example:
 ```json
 "example.com": {
-  "password-rules": "minlength: 12; required: upper, numeric; allowed: ascii-printable;"
+  "password-rules": "minlength: 12; required: upper, numeric; allowed: [-~];"
 },
-// example.com (2024-01-01): https://example.com/password-policy
-Shared Credentials
-Files:
+// example.com (2024-03-01): https://example.com/security/password-policy
+```
 
-Active: quirks/shared-credentials.json
+---
 
-Historical: quirks/shared-credentials-historical.json
+### 🔁 Shared Credentials
 
-Purpose:
+**Files:**
 
-Active: Suggest credentials across affiliated sites (e.g., first.website and second.website).
+- Active Sites: [`quirks/shared-credentials.json`](quirks/shared-credentials.json)  
+- Historical Sites: [`quirks/shared-credentials-historical.json`](quirks/shared-credentials-historical.json)  
 
-Historical: Suppress reuse warnings for formerly linked sites.
+**Purpose:**
 
-Change Password URLs
-File: quirks/change-password-URLs.json
-Purpose: Direct users to a site’s password change page.
+- Suggest credentials across affiliated domains (e.g., `site-a.com` and `site-b.com`).  
+- Prevent password reuse warnings for historical or legacy domain relationships.
 
-Example Entry:
+---
 
-json
-"example.com": "https://example.com/account/change-password"
-Websites Where 2FA Code is Appended to Password
-File: quirks/websites-that-append-2fa-to-password.json
-Purpose: Prevent auto-submission of forms requiring 2FA codes appended to passwords.
+### 🔑 Change Password URLs
 
-Contributing
-We welcome contributions! Please review:
+**File:** [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json)  
+**Purpose:** Redirect users to the appropriate password change page for each website.
 
-Contribution Guidelines for formatting rules and examples.
+#### Example:
+```json
+"example.com": "https://example.com/account/security/password/change"
+```
 
-Verification Requirements: Ensure quirks are backed by publicly accessible evidence (e.g., a site’s help page).
+---
 
-Testing: Validate password rules with the Password Rules Parser.
+### 🔐 2FA Code Appended to Password
 
-Common Contribution Types:
+**File:** [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json)  
+**Purpose:** Identify websites where users must manually append their 2FA code to the end of their password. This helps prevent auto-submission failures in password managers.
 
-🛠 Add/update a password rule for a domain.
+---
 
-🔗 Add a shared credential relationship.
+## ✨ Contributing
 
-🔄 Update a change password URL.
+We welcome your contributions! Here's how to get started:
 
-Asking Questions and Discussing Ideas
-GitHub Issues: Open a discussion.
+### ✅ 3-Step Contribution Process
 
-Slack: Join via email (include your GitHub username).
+1. **Review Requirements**  
+   Confirm site-specific quirks using publicly available documentation or verifiable sources.
 
-Project Maintenance
-Maintainers review PRs and ensure adherence to guidelines. To apply as a maintainer, email us with:
+2. **Follow Formatting**  
+   Adhere to the structure and rules outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Your GitHub username
+3. **Test Changes**  
+   Use the [Password Rules Parser](https://github.com/apple/password-rule-parser) to validate updates.
 
-Professional affiliations (if any)
+### 🔧 Common Contribution Types
 
-Links to 5-8 contributions (PRs/issues reviewed)
+- 🆕 Add new password rules for a domain  
+- 🔄 Update or add shared credential relationships  
+- 🔗 Fix outdated or broken password change URLs  
+- 📘 Improve documentation or metadata  
 
-Project Governance
-Apple retains authority over data formats and project scope. Changes will be communicated transparently.
+---
 
+## 💬 Support & Discussion
+
+- **GitHub Issues:** Use the [Issues](../../issues) tab to raise questions, propose ideas, or start a discussion.  
+- **Slack Access:** Email maintainers to request access:
+
+```
+Subject: Slack Invite Request  
+Body: GitHub username: [your_username]
+```
+
+---
+
+## 🧭 Project Governance
+
+### 👥 Maintainers
+
+Maintainers review contributions, enforce quality standards, and support community engagement.  
+Interested in becoming a maintainer? Email the current maintainers with:
+
+- GitHub username  
+- Professional affiliations (if applicable)  
+- Links to 5–8 meaningful contributions (PRs/issues reviewed or submitted)
+
+### ⚖ Governance Model
+
+- Apple retains final authority over project scope, structure, and data formats.  
+- All significant changes are communicated transparently via GitHub Announcements.
+
+### 📜 Code of Conduct
+
+This project adheres to a strict [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a welcoming and respectful environment for all contributors.
+
+---
+
+> Thank you for contributing to a more secure and user-friendly web. 🌐🔐
+```
