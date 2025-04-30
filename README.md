@@ -61,9 +61,14 @@ The JSON file is a map from [App Identifier](https://developer.apple.com/help/ac
 
 ### Web Browser Extension Distribution Information
 
-The file [`web-browser-extension-distribution-information.json`](quirks/web-browser-extension-distribution-information.json) expresses relationships between web browsers and web browser extension storefronts.
+The file [`web-browser-extension-distribution-information.json`](quirks/web-browser-extension-distribution-information.json) expresses relationships between web browsers and web browser extension storefronts. This information may be useful to a password manager with a companion web browser extension to discover installed web browsers where a user may want to install the extension.
 
-This information may be useful to any password manager with a web browser extension for the purpose of discovering installed web browsers where a user may want to install the password manager's extension.
+For the purpose of this data:
+
+- a web browser is an app that can open URLs with the HTTP and HTTPS schemes (e.g. on macOS, specifies these schemes in its Info.plist file), and on launch, provides a text field for entering a URL, search tools for finding relevant links on the internet, or a curated list of bookmarks
+- a web browser extension storefront is a destination where it is possible to install extensions in or for one or more web browsers
+
+As of macOS Sequoia version 15.5 and above, information in this file is periodically ingested and re-packaged by Apple to limit the [Native Messaging Host](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) of the iCloud Passwords extension to only communicate with known web browsers. If you would like your web browser included in the list Apple uses for this purpose, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or submit a pull request.
 
 ### Websites Where 2FA Code is Appended to Password
 
