@@ -431,6 +431,25 @@
             ]
         },
         {
+            "long_name": "Orion Browser by Kagi Release Candidate",
+            "short_name": "Orion RC",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.kagi.kagimacOS.RC",
+                    "code_signing_identifier": "com.kagi.kagimacOS.RC",
+                    "code_signing_team_identifier": "TFVG979488",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Orion RC/Defaults/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                3
+            ]
+        },
+        {
             "long_name": "ungoogled-chromium",
             "short_name": "ungoogled-chromium",
             "supported_platforms": [
