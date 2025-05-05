@@ -501,7 +501,7 @@
                 "Mac": {
                     "bundle_identifier": "app.zen-browser.zen",
                     "code_signing_identifier": "app.zen-browser.zen",
-                    "code_signing_team_identifier": "H36NPCN86W"
+                    "code_signing_team_identifier": "9V5K9TP787"
                 }
             },
             "supported_store_identifiers": [
