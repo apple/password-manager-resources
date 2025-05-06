@@ -507,6 +507,26 @@
             "supported_store_identifiers": [
                 3
             ]
+        },
+        {
+            "long_name": "Wavebox",
+            "short_name": "Wavebox",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.bookry.wavebox",
+                    "code_signing_identifier": "com.bookry.wavebox",
+                    "code_signing_team_identifier": "4259LE8SU5",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/WaveboxApp/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
