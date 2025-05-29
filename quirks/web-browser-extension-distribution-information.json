@@ -614,6 +614,25 @@
                 }
             },
             "supported_store_identifiers": []
-        }
+        },
+        {
+            "long_name": "Librewolf",
+            "short_name": "Librewolf",
+            "supported_platforms": [
+                "Mac",
+                "Linux",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.librewolf",
+                    "code_signing_identifier": "librewolf",
+                    "code_signing_team_identifier": "not set",
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
     ]
 }
