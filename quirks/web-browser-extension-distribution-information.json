@@ -614,6 +614,25 @@
                 }
             },
             "supported_store_identifiers": []
+        },
+        {
+            "long_name": "Tencent QQ Browser",
+            "short_name": "QQ Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.tencent.qqbrowserappmac",
+                    "code_signing_identifier": "com.tencent.qqbrowserappmac",
+                    "code_signing_team_identifier": "88L2Q4487U"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
