@@ -633,6 +633,86 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Island",
+            "short_name": "Island",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island",
+                    "code_signing_identifier": "io.island.Island",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Island/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island Beta",
+            "short_name": "Island Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island.beta",
+                    "code_signing_identifier": "io.island.Island.beta",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/IslandBeta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island Canary",
+            "short_name": "Island Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island.canary",
+                    "code_signing_identifier": "io.island.Island.canary",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/IslandCanary/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island Dev",
+            "short_name": "Island Dev",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island.dev",
+                    "code_signing_identifier": "io.island.Island.dev",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/IslandDev/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
