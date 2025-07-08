@@ -68,7 +68,13 @@ For the purpose of this data:
 - a web browser is an app that can open URLs with the HTTP and HTTPS schemes (e.g. on macOS, specifies these schemes in its Info.plist file), and on launch, provides a text field for entering a URL, search tools for finding relevant links on the internet, or a curated list of bookmarks
 - a web browser extension storefront is a destination where it is possible to install extensions in or for one or more web browsers
 
-As of macOS Sequoia version 15.5 and above, information in this file is periodically ingested and re-packaged by Apple to limit the [Native Messaging Host](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) of the iCloud Passwords extension to only communicate with known web browsers. If you would like your web browser included in the list Apple uses for this purpose, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or submit a pull request.
+#### How Apple Uses Web Browser Extension Distribution Information
+
+As of macOS Sequoia version 15.5 and above, information in this file is periodically ingested and re-packaged by Apple to limit the [Native Messaging Host](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) of the iCloud Passwords extension to only communicate with known web browsers. If you would like a web browser included in the list Apple uses for this purpose, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or submit a pull request. These communication restrictions are implemented by using [launch environment constraints](https://developer.apple.com/documentation/security/applying-launch-environment-and-library-constraints), which are signed into a helper binary distributed with macOS. This means that an operating system update is required for additional web browsers to be able to support the iCloud Passwords extension. You can check if a particular web browser has been added to the relevant binary’s launch environment constraints by running the following command and viewing the Launch Constraints section of the output:
+
+```
+codesign -d -vvvv /System/Cryptexes/App/System/Library/CoreServices/PasswordManagerBrowserExtensionHelper.app/Contents/MacOS/PasswordManagerBrowserExtensionHelper
+```
 
 ### Websites Where 2FA Code is Appended to Password
 
