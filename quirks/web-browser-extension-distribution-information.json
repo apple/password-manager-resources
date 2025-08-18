@@ -443,7 +443,7 @@
                     "bundle_identifier": "com.operasoftware.OperaAir",
                     "code_signing_identifier": "com.operasoftware.OperaAir",
                     "code_signing_team_identifier": "A2P9LX4JPN",
-                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaAir/Extensions"
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaAir/Default/Extensions"
                 }
             },
             "supported_store_identifiers": [
@@ -463,7 +463,7 @@
                     "bundle_identifier": "com.operasoftware.OperaNext",
                     "code_signing_identifier": "com.operasoftware.OperaNext",
                     "code_signing_team_identifier": "A2P9LX4JPN",
-                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNext/Extensions"
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNext/Default/Extensions"
                 }
             },
             "supported_store_identifiers": [
@@ -483,7 +483,47 @@
                     "bundle_identifier": "com.operasoftware.OperaDeveloper",
                     "code_signing_identifier": "com.operasoftware.OperaDeveloper",
                     "code_signing_team_identifier": "A2P9LX4JPN",
-                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaDeveloper/Extensions"
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaDeveloper/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Neon",
+            "short_name": "Opera Neon",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaNeon",
+                    "code_signing_identifier": "com.operasoftware.OperaNeon",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNeon/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Neon Developer",
+            "short_name": "Opera Neon Developer",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaNeonDeveloper",
+                    "code_signing_identifier": "com.operasoftware.OperaNeonDeveloper",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNeonDeveloper/Default/Extensions"
                 }
             },
             "supported_store_identifiers": [
