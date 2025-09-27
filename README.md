@@ -53,9 +53,38 @@ The [Contributing](CONTRIBUTING.md) document goes into detail on the format of t
 
 The file [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) contains a JSON object mapping domains to URLs where users can change their password. This is the quirks version of the [Well Known URL for Changing Passwords](https://github.com/w3c/webappsec-change-password-url). If a website adopts the Change Password URL, it should be removed from this list.
 
+### Apple App IDs to Domains that Share Credentials
+
+The file [`apple-appIDs-to-domains-shared-credentials.json`](quirks/apple-appIDs-to-domains-shared-credentials.json) expresses relationships between apps running on macOS, iOS, and iPadOS, and domains that use the same credentials. Information in this file is used by iOS and iPadOS (since version 17.4) and macOS (since version 14.4) for suggesting credentials in apps that do not have an [association with domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains). The system AutoFill capability makes use of this information to improve the user experience of signing into these apps by giving users inline suggestions of the appropriate credentials when signing in. This works for all password managers that make use of the [Credential Provider Extension](https://support.apple.com/guide/security/credential-provider-extensions-sec6319ac7b9/web) mechanism.
+
+The JSON file is a map from [App Identifier](https://developer.apple.com/help/account/manage-identifiers/register-an-app-id/) to an array of domains. Domains should be ordered by prominence from most prominent to least. The apps do not need to be distributed on Apple's App Store.
+
+### Web Browser Extension Distribution Information
+
+The file [`web-browser-extension-distribution-information.json`](quirks/web-browser-extension-distribution-information.json) expresses relationships between web browsers and web browser extension storefronts. This information may be useful to a password manager with a companion web browser extension to discover installed web browsers where a user may want to install the extension.
+
+For the purpose of this data:
+
+- a web browser is an app that can open URLs with the HTTP and HTTPS schemes (e.g. on macOS, specifies these schemes in its Info.plist file), and on launch, provides a text field for entering a URL, search tools for finding relevant links on the internet, or a curated list of bookmarks
+- a web browser extension storefront is a destination where it is possible to install extensions in or for one or more web browsers
+
+#### How Apple Uses Web Browser Extension Distribution Information
+
+As of macOS Sequoia version 15.5 and above, information in this file is periodically ingested and re-packaged by Apple to limit the [Native Messaging Host](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) of the iCloud Passwords extension to only communicate with known web browsers. If you would like a web browser included in the list Apple uses for this purpose, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or submit a pull request. These communication restrictions are implemented by using [launch environment constraints](https://developer.apple.com/documentation/security/applying-launch-environment-and-library-constraints), which are signed into a helper binary distributed with macOS. This means that an operating system update is required for additional web browsers to be able to support the iCloud Passwords extension. You can check if a particular web browser has been added to the relevant binary’s launch environment constraints by running the following command and viewing the Launch Constraints section of the output:
+
+```
+codesign -d -vvvv /System/Cryptexes/App/System/Library/CoreServices/PasswordManagerBrowserExtensionHelper.app/Contents/MacOS/PasswordManagerBrowserExtensionHelper
+```
+
 ### Websites Where 2FA Code is Appended to Password
 
-The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of signin forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+The file [`quirks/websites-that-append-2fa-to-password.json`](quirks/websites-that-append-2fa-to-password.json) contains a JSON array of domains which use a two-factor authentication scheme where the user must append a generated code to their password when signing in. This list of websites could be used to prevent auto-submission of sign-in forms, allowing the user to append the 2FA code without frustration. It can also be used to suppress prompting to update a saved password when the submitted password is prefixed by the already-stored password.
+
+### Websites That Ask for Credentials for Other Services When Embedded as Third-party
+
+The file [`quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json`](quirks/websites-that-ask-for-credentials-for-other-services-when-embedded-as-third-party.json) contains a JSON array of domains that, when embedded as a third party, are known to ask for credentials for other services. For example, some payment processors conduct transactions by being embedded in an `<iframe>` on a website. These payment processors may ask for banking credentials directly, without using OAuth.
+
+A password manager may wish to not offer to save a new password submitted in such an `<iframe>`, because the credentials are likely to not be for the service itself.
 
 ## Contributing
 

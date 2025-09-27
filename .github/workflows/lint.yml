@@ -40,8 +40,6 @@ jobs:
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-sort-order.rb
     - name: Lint Duplicates
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-duplicates.rb
-    - name: Verify Generated Files
-      run: ruby tools/convert-shared-credential-to-legacy-format.rb --verify
 
   validate-schemas:
     runs-on: ubuntu-latest

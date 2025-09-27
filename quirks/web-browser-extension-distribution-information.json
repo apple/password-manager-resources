@@ -1,0 +1,976 @@
+{
+    "extension_storefronts": [
+        {
+            "name": "Chrome Web Store",
+            "url": "https://chromewebstore.google.com/category/extensions",
+            "identifier": 1
+        },
+        {
+            "name": "Edge Add-ons",
+            "url": "https://microsoftedge.microsoft.com/addons",
+            "identifier": 2
+        },
+        {
+            "name": "Firefox Browser Add-ons",
+            "url": "https://addons.mozilla.org",
+            "identifier": 3
+        },
+        {
+            "name": "Opera Browser Add-ons",
+            "url": "https://addons.opera.com",
+            "identifier": 4
+        },
+        {
+            "name": "Mac App Store",
+            "url": "itms-apps://safariExtensions",
+            "identifier": 5
+        }
+    ],
+    "web_browsers": [
+        {
+            "long_name": "Google Chrome",
+            "short_name": "Chrome",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome",
+                    "code_signing_identifier": "com.google.Chrome",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Google Chrome Beta",
+            "short_name": "Chrome Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome.beta",
+                    "code_signing_identifier": "com.google.Chrome.beta",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome Beta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Google Chrome Dev",
+            "short_name": "Chrome Dev",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome.dev",
+                    "code_signing_identifier": "com.google.Chrome.dev",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome Dev/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Google Chrome Canary",
+            "short_name": "Chrome Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.google.Chrome.canary",
+                    "code_signing_identifier": "com.google.Chrome.canary",
+                    "code_signing_team_identifier": "EQHXZ8M8AV",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Google/Chrome Canary/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge",
+            "short_name": "Edge",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac",
+                    "code_signing_identifier": "com.microsoft.edgemac",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge Beta",
+            "short_name": "Edge Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac.Beta",
+                    "code_signing_identifier": "com.microsoft.edgemac.Beta",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge Beta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge Dev",
+            "short_name": "Edge Dev",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac.Dev",
+                    "code_signing_identifier": "com.microsoft.edgemac.Dev",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge Dev/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Microsoft Edge Canary",
+            "short_name": "Edge Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.microsoft.edgemac.Canary",
+                    "code_signing_identifier": "com.microsoft.edgemac.Canary",
+                    "code_signing_team_identifier": "UBF8T346G9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Microsoft Edge Canary/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                2
+            ]
+        },
+        {
+            "long_name": "Mozilla Firefox",
+            "short_name": "Firefox",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.firefox",
+                    "code_signing_identifier": "org.mozilla.firefox",
+                    "code_signing_team_identifier": "43AQ936H96"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
+            "long_name": "Mozilla Firefox Developer Edition",
+            "short_name": "Firefox Developer Edition",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.firefoxdeveloperedition",
+                    "code_signing_identifier": "org.mozilla.firefoxdeveloperedition",
+                    "code_signing_team_identifier": "43AQ936H96"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
+            "long_name": "Mozilla Firefox Nightly",
+            "short_name": "Firefox Nightly",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.mozilla.nightly",
+                    "code_signing_identifier": "org.mozilla.nightly",
+                    "code_signing_team_identifier": "43AQ936H96"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
+            "long_name": "Arc",
+            "short_name": "Arc",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "company.thebrowser.Browser",
+                    "code_signing_identifier": "company.thebrowser.Browser",
+                    "code_signing_team_identifier": "S6N382Y83G",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Arc/User Data/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Dia",
+            "short_name": "Dia",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "company.thebrowser.dia",
+                    "code_signing_identifier": "company.thebrowser.dia",
+                    "code_signing_team_identifier": "S6N382Y83G",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Dia/User Data/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Brave",
+            "short_name": "Brave",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.brave.Browser",
+                    "code_signing_identifier": "com.brave.Browser",
+                    "code_signing_team_identifier": "KL8N8XSYF4",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/BraveSoftware/Brave-Browser/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Brave Beta",
+            "short_name": "Brave Beta",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.brave.Browser.beta",
+                    "code_signing_identifier": "com.brave.Browser.beta",
+                    "code_signing_team_identifier": "KL8N8XSYF4",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/BraveSoftware/Brave-Browser-Beta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Brave Nightly",
+            "short_name": "Brave Nightly",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.brave.Browser.nightly",
+                    "code_signing_identifier": "com.brave.Browser.nightly",
+                    "code_signing_team_identifier": "KL8N8XSYF4",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/BraveSoftware/Brave-Browser-Nightly/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Vivaldi",
+            "short_name": "Vivaldi",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.vivaldi.Vivaldi",
+                    "code_signing_identifier": "com.vivaldi.Vivaldi",
+                    "code_signing_team_identifier": "4XF3XNRN6Y",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Vivaldi/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Vivaldi Snapshot",
+            "short_name": "Vivaldi Snapshot",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.vivaldi.Vivaldi.snapshot",
+                    "code_signing_identifier": "com.vivaldi.Vivaldi.snapshot",
+                    "code_signing_team_identifier": "4XF3XNRN6Y",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Vivaldi Snapshot/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Helium",
+            "short_name": "Helium",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "net.imput.helium",
+                    "code_signing_identifier": "net.imput.helium",
+                    "code_signing_team_identifier": "S4Q33XPHB4",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/net.imput.helium/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                2,
+                4
+            ]
+        },
+        {
+            "long_name": "Opera",
+            "short_name": "Opera",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.Opera",
+                    "code_signing_identifier": "com.operasoftware.Opera",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.Opera/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera GX",
+            "short_name": "Opera GX",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaGX",
+                    "code_signing_identifier": "com.operasoftware.OperaGX",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaGX/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Air",
+            "short_name": "Opera Air",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaAir",
+                    "code_signing_identifier": "com.operasoftware.OperaAir",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaAir/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Beta",
+            "short_name": "Opera Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaNext",
+                    "code_signing_identifier": "com.operasoftware.OperaNext",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNext/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Developer",
+            "short_name": "Opera Developer",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaDeveloper",
+                    "code_signing_identifier": "com.operasoftware.OperaDeveloper",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaDeveloper/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Neon",
+            "short_name": "Opera Neon",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaNeon",
+                    "code_signing_identifier": "com.operasoftware.OperaNeon",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNeon/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Opera Neon Developer",
+            "short_name": "Opera Neon Developer",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.operasoftware.OperaNeonDeveloper",
+                    "code_signing_identifier": "com.operasoftware.OperaNeonDeveloper",
+                    "code_signing_team_identifier": "A2P9LX4JPN",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/com.operasoftware.OperaNeonDeveloper/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                4,
+                1
+            ]
+        },
+        {
+            "long_name": "Apple Safari",
+            "short_name": "Safari",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.apple.Safari",
+                    "code_signing_identifier": "com.apple.Safari",
+                    "code_signing_team_identifier": ""
+                }
+            },
+            "supported_store_identifiers": [
+                5
+            ]
+        },
+        {
+            "long_name": "Apple Safari Technology Preview",
+            "short_name": "Safari Technology Preview",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.apple.SafariTechnologyPreview",
+                    "code_signing_identifier": "com.apple.SafariTechnologyPreview",
+                    "code_signing_team_identifier": ""
+                }
+            },
+            "supported_store_identifiers": [
+                5
+            ]
+        },
+        {
+            "long_name": "Orion Browser by Kagi",
+            "short_name": "Orion",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.kagi.kagimacOS",
+                    "code_signing_identifier": "com.kagi.kagimacOS",
+                    "code_signing_team_identifier": "TFVG979488",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Orion/Defaults/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                3
+            ]
+        },
+        {
+            "long_name": "Orion Browser by Kagi Release Candidate",
+            "short_name": "Orion RC",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.kagi.kagimacOS.RC",
+                    "code_signing_identifier": "com.kagi.kagimacOS.RC",
+                    "code_signing_team_identifier": "TFVG979488",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Orion RC/Defaults/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                3
+            ]
+        },
+        {
+            "long_name": "ungoogled-chromium",
+            "short_name": "ungoogled-chromium",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.chromium.Chromium",
+                    "code_signing_identifier": "io.ungoogled-software.ungoogled-chromium",
+                    "code_signing_team_identifier": "B9A88FL5XJ",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Chromium/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                2,
+                4
+            ]
+        },
+        {
+            "long_name": "Zen Browser",
+            "short_name": "Zen",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "app.zen-browser.zen",
+                    "code_signing_identifier": "app.zen-browser.zen",
+                    "code_signing_team_identifier": "9V5K9TP787"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
+            "long_name": "Wavebox",
+            "short_name": "Wavebox",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.bookry.wavebox",
+                    "code_signing_identifier": "com.bookry.wavebox",
+                    "code_signing_team_identifier": "4259LE8SU5",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/WaveboxApp/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Quark",
+            "short_name": "Quark",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.quark.desktop",
+                    "code_signing_identifier": "com.quark.desktop",
+                    "code_signing_team_identifier": "6TFXDT6MK5",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Quark/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Naver Whale",
+            "short_name": "Whale",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.naver.Whale",
+                    "code_signing_identifier": "com.naver.Whale",
+                    "code_signing_team_identifier": "K9UP278937",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Naver/Whale/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "DuckDuckGo",
+            "short_name": "DuckDuckGo",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.duckduckgo.macos.browser",
+                    "code_signing_identifier": "com.duckduckgo.macos.browser",
+                    "code_signing_team_identifier": "HKE973VLUW"
+                }
+            },
+            "supported_store_identifiers": []
+        },
+        {
+            "long_name": "Tencent QQ Browser",
+            "short_name": "QQ Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.tencent.qqbrowserappmac",
+                    "code_signing_identifier": "com.tencent.qqbrowserappmac",
+                    "code_signing_team_identifier": "88L2Q4487U"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island",
+            "short_name": "Island",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island",
+                    "code_signing_identifier": "io.island.Island",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Island/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island Beta",
+            "short_name": "Island Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island.beta",
+                    "code_signing_identifier": "io.island.Island.beta",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/IslandBeta/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island Canary",
+            "short_name": "Island Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island.canary",
+                    "code_signing_identifier": "io.island.Island.canary",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/IslandCanary/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Island Dev",
+            "short_name": "Island Dev",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.island.Island.dev",
+                    "code_signing_identifier": "io.island.Island.dev",
+                    "code_signing_team_identifier": "38ZC4T8AWY",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/IslandDev/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Yandex Browser",
+            "short_name": "Yandex Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_team_identifier": "477EAT77S3",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Yandex/YandexBrowser/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                4
+            ]
+        },
+        {
+            "long_name": "Yandex Browser Beta",
+            "short_name": "Yandex Browser Beta",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_team_identifier": "477EAT77S3",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Yandex/YandexBrowser/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                4
+            ]
+        },
+        {
+            "long_name": "Yandex Browser Dev",
+            "short_name": "Yandex Browser Dev",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_team_identifier": "477EAT77S3",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Yandex/YandexBrowser Dev/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                4
+            ]
+        },
+        {
+            "long_name": "Yandex Browser Canary",
+            "short_name": "Yandex Browser Canary",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_identifier": "ru.yandex.desktop.yandex-browser",
+                    "code_signing_team_identifier": "477EAT77S3",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Yandex/YandexBrowser SxS/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1,
+                4
+            ]
+        },
+        {
+            "long_name": "Comet",
+            "short_name": "Comet",
+            "supported_platforms": [
+                "Mac"
+            ],
+             "platform_specific_information": {
+                 "Mac": {
+                     "bundle_identifier": "ai.perplexity.comet",
+                     "code_signing_identifier": "ai.perplexity.comet",
+                     "code_signing_team_identifier": "7S8W4W365S",
+                     "extensions_install_path_relative_to_user_library_directory": "Application Support/Comet/Default/Extensions"
+                 }
+             },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Comet Canary",
+            "short_name": "Comet Canary",
+            "supported_platforms": [
+                "Mac"
+            ],
+             "platform_specific_information": {
+                 "Mac": {
+                     "bundle_identifier": "ai.perplexity.comet-canary",
+                     "code_signing_identifier": "ai.perplexity.comet-canary",
+                     "code_signing_team_identifier": "7S8W4W365S",
+                     "extensions_install_path_relative_to_user_library_directory": "Application Support/Comet Canary/Default/Extensions"
+                 }
+             },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Comet Dev",
+            "short_name": "Comet Dev",
+            "supported_platforms": [
+                "Mac"
+            ],
+             "platform_specific_information": {
+                 "Mac": {
+                     "bundle_identifier": "ai.perplexity.comet-dev",
+                     "code_signing_identifier": "ai.perplexity.comet-dev",
+                     "code_signing_team_identifier": "7S8W4W365S",
+                     "extensions_install_path_relative_to_user_library_directory": "Application Support/Comet Dev/Default/Extensions"
+                 }
+             },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "CocCoc Browser",
+            "short_name": "CocCoc",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.coccoc.Coccoc",
+                    "code_signing_identifier": "com.coccoc.Coccoc",
+                    "code_signing_team_identifier": "477H9TWJ76",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/CocCoc/Browser/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        }
+    ]
+}

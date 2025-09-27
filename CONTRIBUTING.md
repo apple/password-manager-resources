@@ -51,15 +51,23 @@ Each entry in [`quirks/shared-credentials.json`](quirks/shared-credentials.json)
 
 When contributing or amending a set of websites sharing a credential backend, you should state why you believe the relevant domains do or do not share a credential backend, with evidence to support your claim. This may involve WHOIS information or content served from the domains themselves.
 
-[`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) contains a lower fidelity version of the data in [`quirks/shared-credentials.json`](quirks/shared-credentials.json) and [`quirks/shared-credentials-historical.json`](quirks/shared-credentials-historical.json). It must be regenerated using [`tools/convert-shared-credential-to-legacy-format.rb`](tools/convert-shared-credential-to-legacy-format.rb) whenever those files are changed. Please do not edit [`quirks/websites-with-shared-credential-backends.json`](quirks/websites-with-shared-credential-backends.json) manually.
-
 ### Contributing a Change Password URL
 
 Use the website in question until you find the standalone page for updating the user's password, or a high-level "Account Information" or "Security" page. The closer the URL takes the user to be able to change their password, the better. Before adding a URL, ensure that it works properly both when the user is logged in and when they are not. URLs added to [`quirks/change-password-URLs.json`](quirks/change-password-URLs.json) should have a scheme of https unless the website does not allow changing the password on an https page.
 
+### Contributing to Apple Application IDs to Domains that Share Credentials
+
+On macOS, for app bundle `Example.app`, you can find the App ID by dumping its entitlements with `codesign -d --entitlements - --xml path/to/Example.app`. Its App ID is the value in the XML for key `com.apple.application-identifier`. For macOS apps in particular, if there is no App ID present, the effective App ID is the app's Bundle Identifier (`CFBundleIdentifier` in the app's `Info.plist`).
+
+When contributing or amending a set of websites for an App ID, you should state why you believe the domains do share a credential backend with the app, with evidence to support your claim.
+
 ### Contributing to Websites Where 2FA Code is Appended to Password
 
 When contributing or amending a set of websites that require that the user append a generated code to their password when signing in, you should state why you believe the relevant domains require such. This may involve citing a URL to the relevant support page for the website.
+
+### Contributing to Websites That Ask for Credentials for Other Services When Embedded as Third-party
+
+When contributing or amending the list of websites that when embedded as a third party, are known to ask for credentials for other services, you should provide evidence that the given website or websites behaves this way. This may involve a screenshot or steps to navigate a website to observe a subframe behaving this way.
 
 ### Contributing a New Kind of Quirk or Other Resource
 
