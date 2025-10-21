@@ -971,6 +971,23 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "ChatGPT Atlas",
+            "short_name": "ChatGPT Atlas",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.openai.atlas",
+                    "code_signing_identifier": "com.openai.atlas",
+                    "code_signing_team_identifier": "2DC432GLL2"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
