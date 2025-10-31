@@ -982,7 +982,9 @@
                 "Mac": {
                     "bundle_identifier": "com.openai.atlas",
                     "code_signing_identifier": "com.openai.atlas",
-                    "code_signing_team_identifier": "2DC432GLL2"
+                    "code_signing_team_identifier": "2DC432GLL2",
+                    "extension_native_messaging_process_bundle_identifier": "com.openai.atlas.web",
+                    "extension_native_messaging_process_code_signing_identifier": "com.openai.atlas.web"
                 }
             },
             "supported_store_identifiers": [
