@@ -335,6 +335,24 @@
             ]
         },
         {
+            "long_name": "BrowserOS",
+            "short_name": "BrowserOS",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.browseros.BrowserOS",
+                    "code_signing_identifier": "com.browseros.BrowserOS",
+                    "code_signing_team_identifier": "8YMKWU47S5",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/BrowserOS/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
             "long_name": "Vivaldi",
             "short_name": "Vivaldi",
             "supported_platforms": [
