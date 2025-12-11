@@ -1008,6 +1008,97 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Norton Neo",
+            "short_name": "Neo",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "ai.browser.Neo",
+                    "code_signing_identifier": "ai.browser.Neo",
+                    "code_signing_team_identifier": "9PTGMPNXZ2"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Norton Private Browser",
+            "short_name": "Norton Private Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.norton.browser",
+                    "code_signing_identifier": "com.norton.browser",
+                    "code_signing_team_identifier": "9PTGMPNXZ2"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Avast Secure Browser",
+            "short_name": "Avast Secure Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.avast.browser",
+                    "code_signing_identifier": "com.avast.browser",
+                    "code_signing_team_identifier": "6H4HRTU5E3"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Avira Secure Browser",
+            "short_name": "Avira Secure Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.avira.browser",
+                    "code_signing_identifier": "com.avira.browser",
+                    "code_signing_team_identifier": "8DP7YP837J"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "AVG Secure Browser",
+            "short_name": "AVG Secure Browser",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.avg.browser",
+                    "code_signing_identifier": "com.avg.browser",
+                    "code_signing_team_identifier": "XSJ59WMJBM"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
