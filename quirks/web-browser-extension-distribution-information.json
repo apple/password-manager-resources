@@ -1014,8 +1014,7 @@
             "short_name": "Neo",
             "supported_platforms": [
                 "Mac",
-                "Windows",
-                "Linux"
+                "Windows"
             ],
             "platform_specific_information": {
                 "Mac": {
