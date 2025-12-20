@@ -1098,6 +1098,24 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Waterfox",
+            "short_name": "Waterfox",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "net.waterfox.waterfox",
+                    "code_signing_identifier": "net.waterfox.waterfox",
+                    "code_signing_team_identifier": "PZWYM7N4GF"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
         }
     ]
 }
