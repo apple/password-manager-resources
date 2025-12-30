@@ -1,0 +1,15 @@
+{
+  "name": "password-manager-resources",
+  "version": "1.0.0",
+  "description": "Resources for password manager quirks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ajv-cli": "^5.0.0"
+  }
+}
