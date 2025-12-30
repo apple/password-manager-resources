@@ -113,23 +113,30 @@ function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
     console.assert(bitSet instanceof Array);
     console.assert(namedCharacterClass.name !== Identifier.UNICODE);
     console.assert(namedCharacterClass.name !== Identifier.ASCII_PRINTABLE);
-    if (namedCharacterClass.name === Identifier.UPPER) {
+
+    switch (namedCharacterClass.name) {
+    case Identifier.UPPER:
         bitSet.fill(true, _bitSetIndexForCharacter("A"), _bitSetIndexForCharacter("Z") + 1);
-    }
-    else if (namedCharacterClass.name === Identifier.LOWER) {
+        break;
+    case Identifier.LOWER:
         bitSet.fill(true, _bitSetIndexForCharacter("a"), _bitSetIndexForCharacter("z") + 1);
-    }
-    else if (namedCharacterClass.name === Identifier.DIGIT) {
+        break;
+    case Identifier.DIGIT:
         bitSet.fill(true, _bitSetIndexForCharacter("0"), _bitSetIndexForCharacter("9") + 1);
-    }
-    else if (namedCharacterClass.name === Identifier.SPECIAL) {
-        bitSet.fill(true, _bitSetIndexForCharacter(" "), _bitSetIndexForCharacter("/") + 1);
-        bitSet.fill(true, _bitSetIndexForCharacter(":"), _bitSetIndexForCharacter("@") + 1);
-        bitSet.fill(true, _bitSetIndexForCharacter("["), _bitSetIndexForCharacter("`") + 1);
-        bitSet.fill(true, _bitSetIndexForCharacter("{"), _bitSetIndexForCharacter("~") + 1);
-    }
-    else {
+        break;
+    case Identifier.SPECIAL:
+        // Define special characters more precisely, excluding space and control characters.
+        // This includes printable ASCII characters that are not letters or digits.
+        // Define special characters more precisely, excluding space and control characters.
+        // This includes printable ASCII characters that are not letters or digits.
+        let specialChars = "!@#$%^&*()_+-=[]{}|;':",./<>?~";
+        for (let char of specialChars) {
+            bitSet[_bitSetIndexForCharacter(char)] = true;
+        }
+        break;
+    default:
         console.assert(false, SHOULD_NOT_BE_REACHED, namedCharacterClass);
+        break;
     }
 }
 
@@ -147,6 +154,7 @@ function _canonicalizedPropertyValues(propertyValues, keepCustomCharacterClassFo
     for (let propertyValue of propertyValues) {
         if (propertyValue instanceof NamedCharacterClass) {
             if (propertyValue.name === Identifier.UNICODE) {
+                console.error("Using 'unicode' in password rules is overly permissive and should be avoided.");
                 return [new NamedCharacterClass(Identifier.UNICODE)];
             }
 
@@ -325,10 +333,9 @@ function _parseCustomCharacterClass(input, position)
         }
 
         if (c === "-" && (position - initialPosition) > 0) {
-            // FIXME: Should this be an error?
-            console.warn("Ignoring '-'; a '-' may only appear as the first character in a character class");
-            ++position;
-            continue;
+            // Changed from console.warn to console.error for stricter parsing.
+            console.error("Misplaced '-': a '-' may only appear as the first character in a character class");
+            return [null, position]; // Return error to stop parsing malformed input.
         }
 
         result.push(c);
@@ -505,13 +512,15 @@ function _parsePasswordRulesInternal(input)
     var position = _indexOfNonWhitespaceCharacter(input);
     while (position < length) {
         if (!_isIdentifierCharacter(input[position])) {
-            console.warn("Failed to find start of property: " + input.substr(position));
-            return parsedProperties;
+            console.error("Failed to find start of property: " + input.substr(position));
+            return null;
         }
 
         var [parsedProperty, position] = _parsePasswordRule(input, position)
         if (parsedProperty && parsedProperty.value) {
             parsedProperties.push(parsedProperty);
+        } else {
+            return null; // Return null if a property cannot be parsed successfully
         }
 
         position = _indexOfNonWhitespaceCharacter(input, position);
