@@ -1171,6 +1171,25 @@
            "supported_store_identifiers": [
                1
            ]
+        }, 
+        {
+            "long_name": "Shift Browser",
+            "short_name": "Shift",
+            "supported_platforms": [
+                "Mac",
+                "Windows"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.shift.browser",
+                    "code_signing_identifier": "com.shift.browser",
+                    "code_signing_team_identifier": "TYR24A9JU5",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Shift/Browser/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
