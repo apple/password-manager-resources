@@ -27,6 +27,14 @@ const RuleName = {
     MAX_LENGTH: "maxlength",
 };
 
+const HTMLEntity = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#x27;"
+};
+
 const CHARACTER_CLASS_START_SENTINEL = "[";
 const CHARACTER_CLASS_END_SENTINEL = "]";
 const PROPERTY_VALUE_SEPARATOR = ",";
@@ -66,7 +74,7 @@ class CustomCharacterClass {
     }
     get characters() { return this._characters; }
     toString() { return `[${this._characters.join("")}]`; }
-    toHTMLString() { return `[${this._characters.join("").replace(/"/g, "&quot;")}]`; }
+    toHTMLString() { return `[${this._characters.join("").replace(/[&<>"']/g, (m) => HTMLEntity[m])}]`; }
 };
 
 // MARK: Lexer functions
