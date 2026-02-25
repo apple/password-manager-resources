@@ -1190,6 +1190,26 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Flow Browser",
+            "short_name": "Flow",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "dev.iamevan.flow",
+                    "code_signing_identifier": "dev.iamevan.flow",
+                    "code_signing_team_identifier": "LP64XSF5PS",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Flow/Profiles/main/Extensions/crx"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
