@@ -37,6 +37,15 @@ An implementation of a parser for the Password Rules language that's written in 
 
 A [third-party parser implementation](https://github.com/1Password/password-rules-parser) that's written in Rust is also available.
 
+### Domain Lookup Tool
+
+A command-line tool to aggregate all quirks associated with a specific domain can be found in [`tools/lookup-domain.js`](tools/lookup-domain.js). It searches across all data files in the repository and identifies password rules, shared credentials, and other behaviors for a single site, including parent domain matching.
+
+To use the tool, run:
+```
+node tools/lookup-domain.js example.com
+```
+
 ### Shared Credentials
 
 The files [`quirks/shared-credentials.json`](quirks/shared-credentials.json) and [`quirks/shared-credentials-historical.json`](quirks/shared-credentials-historical.json) express relationships between groups of websites that share credentials. The `-historical` file describes such relationships that were valid in the past but either are not valid today or we don't have a high degree of confidence are valid today.
