@@ -1210,6 +1210,21 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "ipass",
+            "short_name": "ipass",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "io.github.kezhenxu94.ipass",
+                    "code_signing_identifier": "io.github.kezhenxu94.ipass",
+                    "code_signing_team_identifier": "58JAK95Y3A"
+                }
+            },
+            "supported_store_identifiers": []
         }
     ]
 }
