@@ -1212,6 +1212,25 @@
             ]
         },
         {
+            "long_name": "Glide Browser",
+            "short_name": "Glide",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "app.glide-browser.glide",
+                    "code_signing_identifier": "app.glide-browser.glide",
+                    "code_signing_team_identifier": "M3M9SSHSKB"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
             "long_name": "Polypane",
             "short_name": "Polypane",
             "supported_platforms": [
