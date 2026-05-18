@@ -6,6 +6,23 @@ permissions:
 on: [push, pull_request]
 
 jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Check for trailing whitespace
+      run: |
+        if git grep -InP '[ \t]+$'; then
+          echo "Error: trailing whitespace found on the lines above"
+          exit 1
+        fi
+    - name: Check for tab characters
+      run: |
+        if git grep -InP '\t'; then
+          echo "Error: tab characters found on the lines above"
+          exit 1
+        fi
+
   all-json-valid:
     runs-on: ubuntu-latest
     steps:
