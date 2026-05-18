@@ -333,8 +333,7 @@ function _parseCustomCharacterClass(input, position)
         }
 
         if (c === "-" && (position - initialPosition) > 0) {
-            // FIXME: Should this be an error?
-            console.warn("Ignoring '-'; a '-' may only appear as the first character in a character class");
+            console.error("Ignoring '-'; a '-' may only appear as the first character in a character class");
             ++position;
             continue;
         }
@@ -349,6 +348,12 @@ function _parseCustomCharacterClass(input, position)
     if (position < length && input[position] !== CHARACTER_CLASS_END_SENTINEL || position == length && input[position - 1] == CHARACTER_CLASS_END_SENTINEL) {
         // Fix up result; we over consumed.
         result.pop();
+        if (position < length) {
+            let nextCharacter = input[position];
+            if (!_isASCIIWhitespace(nextCharacter) && nextCharacter !== PROPERTY_VALUE_SEPARATOR && nextCharacter !== PROPERTY_SEPARATOR) {
+                console.error(`A ']' inside a character class must be the last character of the class; if a literal ']' is intended, write ']]' at the end. Found unexpected '${nextCharacter}' after closing ']'.`);
+            }
+        }
         return [result, position];
     }
 
@@ -513,7 +518,7 @@ function _parsePasswordRulesInternal(input)
     var position = _indexOfNonWhitespaceCharacter(input);
     while (position < length) {
         if (!_isIdentifierCharacter(input[position])) {
-            console.warn("Failed to find start of property: " + input.substr(position));
+            console.error("Failed to find start of property: " + input.substr(position));
             return parsedProperties;
         }
 
