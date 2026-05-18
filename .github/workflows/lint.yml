@@ -30,6 +30,9 @@ jobs:
     - uses: actions/checkout@v6
     - name: Lint Sort Order
       run: cat quirks/password-rules.json | grep "^    \"" | sort -c
+    - uses: actions/setup-node@v6
+    - name: Lint Rule Syntax
+      run: node .github/workflows/lint-scripts/password-rules-parse.js
 
   websites-shared-credentials:
     runs-on: ubuntu-latest
