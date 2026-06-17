@@ -9,7 +9,9 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      with:
+        persist-credentials: false
     - name: Check for trailing whitespace
       run: |
         if git grep -InP '[ \t]+$'; then
@@ -23,40 +25,35 @@ jobs:
           exit 1
         fi
 
-  all-json-valid:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
-    - name: Lint Valid Json
-      run: |
-        find quirks/ -name '*.json' -print0 -maxdepth 1 | while IFS= read -r -d '' filename; do
-          echo "Validating $(basename "$filename")"
-          python -mjson.tool "$filename" > /dev/null
-        done
-
   change-password-urls:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      with:
+        persist-credentials: false
     - name: Lint Sort Order
       run: cat quirks/change-password-URLs.json | sed '1,1d' | sed '$d' | sort -c
 
   password-rules:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      with:
+        persist-credentials: false
     - name: Lint Sort Order
       run: cat quirks/password-rules.json | grep "^    \"" | sort -c
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
     - name: Lint Rule Syntax
       run: node .github/workflows/lint-scripts/password-rules-parse.js
 
   websites-shared-credentials:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      with:
+        persist-credentials: false
     - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@89f90524b88a01fe6e0b732220432cc6142926af # v1.313.0
       with:
         ruby-version: 3.3
     - name: Lint Sort Order
@@ -67,8 +64,10 @@ jobs:
   validate-schemas:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
     - name: Install ajv-cli
       run: npm install -g ajv-cli
     - name: Validate JSONs against their schemas
