@@ -82,7 +82,7 @@ class PatternRegexpToPasswordRulesConverter {
         }
 
         // Check if the main pattern is just . with quantifiers (allow everything)
-        const dotMatch = remaining.match(/^\.[\*\+]?(?:\{(\d+),(\d+)\})?$/);
+        const dotMatch = remaining.match(/^\.[\*\+]?(?:\{(\d+),(\d*)\})?$/);
 
         if (dotMatch) {
             const required = this.#parseLookaheads(lookaheads);
@@ -95,7 +95,7 @@ class PatternRegexpToPasswordRulesConverter {
         // Extract and consume the main character class with optional quantifier
         // This defines ALLOWED characters and optionally LENGTH constraints
         // Handle escaped ] in character class
-        const charClassMatch = remaining.match(/^\[((?:[^\]\\]|\\.)*)\](?:\{(\d+),(\d+)\})?$/);
+        const charClassMatch = remaining.match(/^\[((?:[^\]\\]|\\.)*)\](?:\{(\d+),(\d*)\})?$/);
 
         if (!charClassMatch) {
             console.warn("PatternRegexpToPasswordRulesConverter: Unable to parse regexp pattern - main character class not found or has unexpected format");
@@ -369,18 +369,28 @@ class PatternRegexpToPasswordRulesConverter {
 
     /**
      * Extract min/max length from match
+     * Supports both closed quantifiers like {8,20} and open-ended ones like {8,}
      * @private
      */
     static #extractLength(match, minGroup, maxGroup) {
-        if (match[minGroup] && match[maxGroup]) {
-            const min = parseInt(match[minGroup], 10);
-            const max = parseInt(match[maxGroup], 10);
-            if (!isNaN(min) && !isNaN(max)) {
-                return { min: min, max: max };
+        let min = null;
+        let max = null;
+
+        if (match[minGroup]) {
+            const parsed = parseInt(match[minGroup], 10);
+            if (!isNaN(parsed)) {
+                min = parsed;
             }
         }
 
-        return { min: null, max: null };
+        if (match[maxGroup]) {
+            const parsed = parseInt(match[maxGroup], 10);
+            if (!isNaN(parsed)) {
+                max = parsed;
+            }
+        }
+
+        return { min: min, max: max };
     }
 
     /**
