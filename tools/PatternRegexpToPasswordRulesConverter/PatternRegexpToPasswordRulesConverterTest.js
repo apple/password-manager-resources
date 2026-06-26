@@ -20,6 +20,7 @@ class PatternRegexpToPasswordRulesConverterTest {
         this.testSimplePatterns();
         this.testBasicConversion();
         this.testOptionalLength();
+        this.testOpenEndedQuantifier();
         this.testHyphenHandling();
         this.testSpecialCharacterHandling();
         this.testCharacterClassNormalization();
@@ -126,6 +127,39 @@ class PatternRegexpToPasswordRulesConverterTest {
                 name: "Pattern with lookaheads but no length",
                 regexp: "^(?=.*[A-Z])[A-Z!@#]$",
                 expected: "required: upper; allowed: [!@#];"
+            }
+        ];
+
+        testCases.forEach(({ name, regexp, expected }) => {
+            const result = PatternRegexpToPasswordRulesConverter.convert(regexp);
+            const passed = result === expected;
+
+            console.log(`Test: ${name}`);
+            console.log(`Expected: ${expected}`);
+            console.log(`Got:      ${result}`);
+            console.log(`Status:   ${passed ? '✅ PASS' : '❌ FAIL'}\n`);
+            this.recordResult(passed);
+        });
+    }
+
+    testOpenEndedQuantifier() {
+        console.log("=== Open-Ended Quantifier Tests ===\n");
+
+        const testCases = [
+            {
+                name: "Open-ended quantifier on character class",
+                regexp: "^(?=.*[0-9])[a-zA-Z0-9]{8,}$",
+                expected: "required: digit; allowed: lower, upper; minlength: 8;"
+            },
+            {
+                name: "Open-ended quantifier with multiple lookaheads and special chars",
+                regexp: "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}",
+                expected: "required: lower; required: upper; required: digit; required: [@$!%*?&]; minlength: 8;"
+            },
+            {
+                name: "Open-ended quantifier on dot pattern",
+                regexp: "^(?=.*[0-9])(?=.*[a-z]).{8,}$",
+                expected: "required: digit; required: lower; minlength: 8;"
             }
         ];
 
