@@ -256,6 +256,9 @@ class PatternRegexpToPasswordRulesConverter {
             // Remove stray single letters/digits left from range edges
             remaining = remaining.replace(/[a-zA-Z0-9]/g, "");
 
+            // Unescape regexp escape sequences after expanding shorthand classes.
+            remaining = remaining.replace(/\\(.)/g, "$1");
+
             if (types.length > 0 && remaining.length === 0) {
                 // Pure range-based, possibly combined (e.g., 'upper, lower')
                 required.push(types.join(", "));
