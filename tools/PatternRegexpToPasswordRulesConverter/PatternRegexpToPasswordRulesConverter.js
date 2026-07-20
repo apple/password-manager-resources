@@ -104,6 +104,12 @@ class PatternRegexpToPasswordRulesConverter {
             return null;
         }
 
+        if (this.#containsUnsupportedAlphanumericRange(charClassMatch[1])) {
+            console.warn("PatternRegexpToPasswordRulesConverter: Main character class contains an unsupported alphanumeric range");
+            console.warn("Pattern:", regexp);
+            return null;
+        }
+
         // Parse the validated components
         const required = this.#parseLookaheads(lookaheads);
         const allowed = this.#parseCharacterClassFromMatch(charClassMatch, required);
@@ -183,8 +189,39 @@ class PatternRegexpToPasswordRulesConverter {
                     return false;
                 }
             }
+
+            if (this.#containsUnsupportedAlphanumericRange(lookahead)) {
+                return false;
+            }
         }
         return true;
+    }
+
+    /**
+     * Check for alphanumeric ranges the converter cannot represent exactly
+     * @private
+     */
+    static #containsUnsupportedAlphanumericRange(charClass) {
+        const supportedRanges = new Set(["a-z", "A-Z", "0-9"]);
+        const isAlphanumeric = (character) => /[a-zA-Z0-9]/.test(character);
+
+        for (let index = 0; index < charClass.length; ++index) {
+            if (charClass[index] === "\\" && index + 1 < charClass.length) {
+                ++index;
+                continue;
+            }
+
+            const range = charClass.substring(index, index + 3);
+            if (range.length === 3 && range[1] === "-" && isAlphanumeric(range[0]) && isAlphanumeric(range[2])) {
+                if (!supportedRanges.has(range)) {
+                    return true;
+                }
+
+                index += 2;
+            }
+        }
+
+        return false;
     }
 
     /**

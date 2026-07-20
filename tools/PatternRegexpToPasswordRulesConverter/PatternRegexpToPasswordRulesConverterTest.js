@@ -198,6 +198,11 @@ class PatternRegexpToPasswordRulesConverterTest {
                 name: "Hyphen at beginning (should stay at front)",
                 regexp: "^(?=.*[0-9])[a-zA-Z0-9-!@#$]{8,20}$",
                 expected: "required: digit; allowed: lower, upper, [-!@#$]; minlength: 8; maxlength: 20;"
+            },
+            {
+                name: "Full ranges beside a literal hyphen",
+                regexp: "^[a-zxA-Z-y]{8,}$",
+                expected: "allowed: lower, upper, [-]; minlength: 8;"
             }
         ];
 
@@ -470,6 +475,16 @@ class PatternRegexpToPasswordRulesConverterTest {
             {
                 name: "Regex with quantifier on lookahead",
                 regexp: "^(?=.*[0-9]){2}[a-z0-9]{8,20}$",
+                shouldBeNull: true
+            },
+            {
+                name: "Partial range in lookahead",
+                regexp: "^(?=.*[a-y])[a-zA-Z0-9]{8,}$",
+                shouldBeNull: true
+            },
+            {
+                name: "Partial range in main character class",
+                regexp: "^[a-z2-9]{8,}$",
                 shouldBeNull: true
             }
         ];
