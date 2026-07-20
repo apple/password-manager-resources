@@ -12,6 +12,10 @@ fi
 # Finds all JSON files in the quirks directory and validates them against the corresponding schema.
 find quirks -name '*.json' -print0 -maxdepth 1 | while IFS= read -r -d '' filename; do
     schema="quirks/schemas/$(basename "$filename" .json)-schema.json"
+    if [ ! -f "$schema" ]; then
+        echo "No schema found for $filename. Expected $schema." >&2
+        exit 1
+    fi
     echo "Validating $filename against $schema"
     ajv -s "$schema" -d "$filename" --spec=draft2020
 done
