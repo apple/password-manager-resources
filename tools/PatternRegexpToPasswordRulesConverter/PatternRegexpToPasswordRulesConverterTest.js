@@ -244,6 +244,17 @@ class PatternRegexpToPasswordRulesConverterTest {
             console.log(`Status:   ${passed ? '✅ PASS' : '❌ FAIL'}\n`);
             this.recordResult(passed);
         });
+
+        const escapedRegexp = "^(?=.*[\\!\\@])[a-zA-Z0-9\\!\\@]{8,}$";
+        const escapedExpected = "required: [!@]; allowed: lower, upper, digit; minlength: 8;";
+        const escapedResult = PatternRegexpToPasswordRulesConverter.convert(escapedRegexp);
+        const escapedPassed = escapedResult === escapedExpected;
+
+        console.log("Test: Escaped special chars in lookahead");
+        console.log(`Expected: ${escapedExpected}`);
+        console.log(`Got:      ${escapedResult}`);
+        console.log(`Status:   ${escapedPassed ? '✅ PASS' : '❌ FAIL'}\n`);
+        this.recordResult(escapedPassed);
     }
 
     testCharacterClassNormalization() {
