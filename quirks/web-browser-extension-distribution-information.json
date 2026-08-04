@@ -1332,7 +1332,8 @@
                 "Mac": {
                     "bundle_identifier": "studio.lustral.browser",
                     "code_signing_identifier": "studio.lustral.browser",
-                    "code_signing_team_identifier": "HC9H2R7Z77"
+                    "code_signing_team_identifier": "HC9H2R7Z77",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Radian/User Data/Default/Extensions"
                 }
             },
             "supported_store_identifiers": [
