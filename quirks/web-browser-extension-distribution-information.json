@@ -1321,6 +1321,23 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Radian",
+            "short_name": "Radian",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "studio.lustral.browser",
+                    "code_signing_identifier": "studio.lustral.browser",
+                    "code_signing_team_identifier": "HC9H2R7Z77"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
