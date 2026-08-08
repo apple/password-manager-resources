@@ -497,6 +497,36 @@ class PatternRegexpToPasswordRulesConverterTest {
                 name: "Partial range in main character class",
                 regexp: "^[a-z2-9]{8,}$",
                 shouldBeNull: true
+            },
+            {
+                name: "Negated class in lookahead",
+                regexp: "^(?=.*[0-9])(?=.*[^a-zA-Z0-9])[a-zA-Z0-9!@#$]{8,64}$",
+                shouldBeNull: true
+            },
+            {
+                name: "Negated class in main character class",
+                regexp: "^[^a-z]{8,}$",
+                shouldBeNull: true
+            },
+            {
+                name: "Literal caret is not negation",
+                regexp: "^[a-zA-Z0-9!@#$%^&*]{8,}$",
+                shouldBeNull: false
+            },
+            {
+                name: "Whitespace escape in main character class",
+                regexp: "^[a-zA-Z0-9\\s]{8,20}$",
+                shouldBeNull: true
+            },
+            {
+                name: "Digit shorthand in main character class",
+                regexp: "^[a-z\\d]{8,}$",
+                shouldBeNull: false
+            },
+            {
+                name: "Enumerated alphanumeric class in lookahead",
+                regexp: "^(?=.*[0123456789])[a-zA-Z0-9]{8,20}$",
+                shouldBeNull: true
             }
         ];
 
