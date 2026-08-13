@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DabelstechSignInTriggerPolicy",
+  "description": "Policy definition for the Authentication Orchestrator to resolve sign-in actions, passkey integration, device bindings, and fallback routes.",
+  "version": "2.4.0",
+  "definitions": {
+    "SignInResultCode": {
+      "type": "string",
+      "enum": [
+        "AUTHENTICATE_WITH_PASSKEY",
+        "CREATE_NEW_PASSKEY",
+        "REBIND_PASSKEY",
+        "AUTHENTICATE_WITH_PASSWORD",
+        "ROUTE_TO_ENTERPRISE_IDP",
+        "PASSWORD_POLICY_FAILURE"
+      ]
+    },
+    "AuthenticatorAttachment": {
+      "type": "string",
+      "enum": ["platform", "cross-platform", "password_manager_extension", "hardware_key"]
+    },
+    "DeviceSecurityPosture": {
+      "type": "object",
+      "required": ["isScreenLockEnabled", "isDeviceEnrolledInMdm", "isHardwareKeyStorageAvailable", "trustScore"],
+      "properties": {
+        "isScreenLockEnabled": { "type": "boolean" },
+        "isDeviceEnrolledInMdm": { "type": "boolean" },
+        "isHardwareKeyStorageAvailable": { "type": "boolean" },
+        "trustScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "UserAuthenticationState": {
+      "type": "object",
+      "required": [
+        "userId",
+        "isEnterpriseFederated",
+        "registeredPasskeys",
+        "hasValidPassword",
+        "passwordMeetsCurrentPolicy"
+      ],
+      "properties": {
+        "userId": { "type": "string", "format": "uuid" },
+        "isEnterpriseFederated": { "type": "boolean" },
+        "federatedIdpUrl": { "type": "string", "format": "uri" },
+        "hasValidPassword": { "type": "boolean" },
+        "passwordMeetsCurrentPolicy": { "type": "boolean" },
+        "registeredPasskeys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["credentialId", "boundDeviceId", "attestationType", "lastUsedTimestamp"],
+            "properties": {
+              "credentialId": { "type": "string" },
+              "boundDeviceId": { "type": "string" },
+              "attestationType": { "type": "string", "enum": ["none", "direct", "indirect", "enterprise"] },
+              "lastUsedTimestamp": { "type": "string", "format": "date-time" },
+              "isSyncedPasskey": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "OrchestrationContext": {
+      "type": "object",
+      "required": [
+        "tenantId",
+        "currentDeviceId",
+        "authenticatorAttachment",
+        "passwordManagerContext",
+        "userState",
+        "devicePosture"
+      ],
+      "properties": {
+        "tenantId": { "type": "string" },
+        "currentDeviceId": { "type": "string" },
+        "authenticatorAttachment": { "$ref": "#/definitions/AuthenticatorAttachment" },
+        "passwordManagerContext": {
+          "type": "object",
+          "required": ["isPasswordManagerPresent", "supportsPasskeyInjection", "vaultCredentialMatched"],
+          "properties": {
+            "isPasswordManagerPresent": { "type": "boolean" },
+            "supportsPasskeyInjection": { "type": "boolean" },
+            "vaultCredentialMatched": { "type": "boolean" },
+            "managerVendor": { "type": "string" }
+          }
+        },
+        "userState": { "$ref": "#/definitions/UserAuthenticationState" },
+        "devicePosture": { "$ref": "#/definitions/DeviceSecurityPosture" }
+      }
+    }
+  },
+  "type": "object",
+  "required": ["orchestratorConfig", "evaluator"],
+  "properties": {
+    "orchestratorConfig": {
+      "type": "object",
+      "properties": {
+        "systemName": { "type": "string", "const": "Dabelstech Identity Orchestrator" },
+        "enforceHardwareBinding": { "type": "boolean", "default": true },
+        "allowPasswordFallback": { "type": "boolean", "default": true }
+      }
+    },
+    "evaluator": {
+      "description": "Declarative evaluation chain executed in priority order from top to bottom.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ruleId", "condition", "action"],
+        "properties": {
+          "ruleId": { "type": "string" },
+          "description": { "type": "string" },
+          "condition": { "type": "string" },
+          "action": { "$ref": "#/definitions/SignInResultCode" }
+        }
+      }
+    }
+  },
+  "orchestratorConfig": {
+    "systemName": "Dabelstech Identity Orchestrator",
+    "enforceHardwareBinding": true,
+    "allowPasswordFallback": true
+  },
+  "evaluator": [
+    {
+      "ruleId": "RULE_001_ENTERPRISE_FEDERATION",
+      "description": "Route enterprise-managed domains to their designated IdP before evaluating local credentials.",
+      "condition": "context.userState.isEnterpriseFederated == true",
+      "action": "ROUTE_TO_ENTERPRISE_IDP"
+    },
+    {
+      "ruleId": "RULE_002_VALID_DEVICE_BOUND_PASSKEY",
+      "description": "Authenticate via passkey if a registered credential exists for the active device and security posture meets thresholds.",
+      "condition": "context.userState.registeredPasskeys.any(p, p.boundDeviceId == context.currentDeviceId) && context.devicePosture.trustScore >= 50",
+      "action": "AUTHENTICATE_WITH_PASSKEY"
+    },
+    {
+      "ruleId": "RULE_003_PASSWORD_MANAGER_PASSKEY_REBIND",
+      "description": "If a password manager injects a synced passkey but the physical device hardware binding signature is missing or mismatched, rebind the device passkey.",
+      "condition": "context.passwordManagerContext.isPasswordManagerPresent == true && context.passwordManagerContext.supportsPasskeyInjection == true && context.userState.registeredPasskeys.any(p, p.isSyncedPasskey == true) && !context.userState.registeredPasskeys.any(p, p.boundDeviceId == context.currentDeviceId)",
+      "action": "REBIND_PASSKEY"
+    },
+    {
+      "ruleId": "RULE_004_NEW_PASSKEY_CREATION_PROMPT",
+      "description": "Prompt passkey creation when no matching passkeys exist on the device/vault and the hardware security posture supports local enrollment.",
+      "condition": "context.userState.registeredPasskeys.length == 0 && context.devicePosture.isHardwareKeyStorageAvailable == true && context.devicePosture.isScreenLockEnabled == true",
+      "action": "CREATE_NEW_PASSKEY"
+    },
+    {
+      "ruleId": "RULE_005_PASSWORD_POLICY_VALIDATION",
+      "description": "If falling back to password, ensure the stored credential satisfies the current security policy requirements.",
+      "condition": "context.userState.hasValidPassword == true && context.userState.passwordMeetsCurrentPolicy == false",
+      "action": "PASSWORD_POLICY_FAILURE"
+    },
+    {
+      "ruleId": "RULE_006_PASSWORD_AUTHENTICATION_FALLBACK",
+      "description": "Fallback to standard password authentication if passkeys are unavailable and password meets policy.",
+      "condition": "context.userState.hasValidPassword == true && context.userState.passwordMeetsCurrentPolicy == true",
+      "action": "AUTHENTICATE_WITH_PASSWORD"
+    }
+  ]
+}
