@@ -270,12 +270,18 @@ class PasswordRulesParserTest {
             { input: "allowed: ;", expected: { name: "allowed", value: null } },
             { input: "max-consecutive:", expected: { name: "max-consecutive", value: null } },
             { input: "max-consecutive: ;", expected: { name: "max-consecutive", value: null } },
+            { input: "max-repeating:", expected: { name: "max-repeating", value: null } },
+            { input: "max-repeating: ;", expected: { name: "max-repeating", value: null } },
+            { input: "max-sequential:", expected: { name: "max-sequential", value: null } },
+            { input: "max-sequential: ;", expected: { name: "max-sequential", value: null } },
             { input: "required: upper", expected: { name: "required", value: ["upper"] } },
             { input: "required: upper, lower", expected: { name: "required", value: ["upper", "lower"] } },
             { input: "required: upper, [*], lower", expected: { name: "required", value: ["upper", "[*]", "lower"] } },
             { input: "allowed: upper", expected: { name: "allowed", value: ["upper"] } },
             { input: "allowed: upper, [*], lower", expected: { name: "allowed", value: ["upper", "[*]", "lower"] } },
             { input: "max-consecutive:2", expected: { name: "max-consecutive", value: 2 } },
+            { input: "max-repeating:2", expected: { name: "max-repeating", value: 2 } },
+            { input: "max-sequential:2", expected: { name: "max-sequential", value: 2 } },
             { input: "minlength: 12;", expected: { name: "minlength", value: 12 } },
             { input: "maxlength: 73", expected: { name: "maxlength", value: 73 } },
             // unrecognized name / missing colon produce no rule
@@ -316,6 +322,14 @@ class PasswordRulesParserTest {
             {
                 input: "allowed: upper; allowed: lower",
                 expected: [{ name: "allowed", value: ["upper"] }, { name: "allowed", value: ["lower"] }]
+            },
+            {
+                input: "max-consecutive: 2; max-repeating: 3; max-sequential: 4",
+                expected: [
+                    { name: "max-consecutive", value: 2 },
+                    { name: "max-repeating", value: 3 },
+                    { name: "max-sequential", value: 4 }
+                ]
             },
             { input: "minlength: 12", expected: [{ name: "minlength", value: 12 }] },
             { input: "minlength:        12", expected: [{ name: "minlength", value: 12 }] },
@@ -414,6 +428,45 @@ class PasswordRulesParserTest {
                 name: "three max-consecutive keep the minimum",
                 input: "max-consecutive: 3; max-consecutive: 1; max-consecutive: 5",
                 expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "max-consecutive", value: 1 }]
+            },
+            {
+                name: "single max-sequential",
+                input: "max-sequential:5",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "max-sequential", value: 5 }]
+            },
+            {
+                name: "three max-sequential keep the minimum",
+                input: "max-sequential: 3; max-sequential: 1; max-sequential: 5",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "max-sequential", value: 1 }]
+            },
+            {
+                name: "single max-repeating",
+                input: "max-repeating:5",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "max-repeating", value: 5 }]
+            },
+            {
+                name: "three max-repeating keep the minimum",
+                input: "max-repeating: 5; max-repeating: 3; max-repeating: 1",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "max-repeating", value: 1 }]
+            },
+            {
+                name: "max-consecutive and max-sequential coexist",
+                input: "max-consecutive: 2; max-sequential: 4",
+                expected: [
+                    { name: "allowed", value: ["ascii-printable"] },
+                    { name: "max-consecutive", value: 2 },
+                    { name: "max-sequential", value: 4 }
+                ]
+            },
+            {
+                name: "all three run-length rules coexist independently",
+                input: "max-consecutive: 1; max-repeating: 3; max-sequential: 2",
+                expected: [
+                    { name: "allowed", value: ["ascii-printable"] },
+                    { name: "max-consecutive", value: 1 },
+                    { name: "max-repeating", value: 3 },
+                    { name: "max-sequential", value: 2 }
+                ]
             },
             {
                 name: "required ascii-printable plus deduped max-consecutive",
