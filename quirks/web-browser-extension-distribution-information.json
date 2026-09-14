@@ -663,6 +663,23 @@
             ]
         },
         {
+            "long_name": "ODIN Browser",
+            "short_name": "ODIN",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "systems.acon.odin.browser",
+                    "code_signing_identifier": "systems.acon.odin.browser",
+                    "code_signing_team_identifier": "P37H8YFS4S"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
             "long_name": "Wavebox",
             "short_name": "Wavebox",
             "supported_platforms": [
