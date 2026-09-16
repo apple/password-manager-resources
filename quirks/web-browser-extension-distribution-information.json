@@ -245,6 +245,23 @@
             ]
         },
         {
+            "long_name": "LibreWolf",
+            "short_name": "LibreWolf",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "net.librewolf.librewolf",
+                    "code_signing_identifier": "net.librewolf.librewolf",
+                    "code_signing_team_identifier": "2S5C46ZFKS"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
+        },
+        {
             "long_name": "Arc",
             "short_name": "Arc",
             "supported_platforms": [
