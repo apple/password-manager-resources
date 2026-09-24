@@ -22,6 +22,8 @@ const Identifier = {
 const RuleName = {
     ALLOWED: "allowed",
     MAX_CONSECUTIVE: "max-consecutive",
+    MAX_REPEATING: "max-repeating",
+    MAX_SEQUENTIAL: "max-sequential",
     REQUIRED: "required",
     MIN_LENGTH: "minlength",
     MAX_LENGTH: "maxlength",
@@ -455,8 +457,10 @@ function _parsePasswordRule(input, position)
             }
             return [new Rule(property.name, property.value), position];
         }
-        case RuleName.MAX_CONSECUTIVE: {
-            var [propertyValue, position] = _parseMaxConsecutivePropertyValue(input, position);
+        case RuleName.MAX_CONSECUTIVE:
+        case RuleName.MAX_REPEATING:
+        case RuleName.MAX_SEQUENTIAL: {
+            var [propertyValue, position] = _parseInteger(input, position);
             if (propertyValue) {
                 property.value = propertyValue;
             }
@@ -475,11 +479,6 @@ function _parsePasswordRule(input, position)
 }
 
 function _parseMinLengthMaxLengthPropertyValue(input, position)
-{
-    return _parseInteger(input, position);
-}
-
-function _parseMaxConsecutivePropertyValue(input, position)
 {
     return _parseInteger(input, position);
 }
@@ -559,6 +558,8 @@ function parsePasswordRules(input, formatRulesForMinifiedVersion)
     let newPasswordRules = [];
     let newAllowedValues = [];
     let minimumMaximumConsecutiveCharacters = null;
+    let minimumMaxRepeating = null;
+    let minimumMaxSequential = null;
     let maximumMinLength = 0;
     let minimumMaxLength = null;
 
@@ -566,6 +567,14 @@ function parsePasswordRules(input, formatRulesForMinifiedVersion)
         switch (rule.name) {
             case RuleName.MAX_CONSECUTIVE:
                 minimumMaximumConsecutiveCharacters = minimumMaximumConsecutiveCharacters ? Math.min(rule.value, minimumMaximumConsecutiveCharacters) : rule.value;
+                break;
+
+            case RuleName.MAX_REPEATING:
+                minimumMaxRepeating = minimumMaxRepeating ? Math.min(rule.value, minimumMaxRepeating) : rule.value;
+                break;
+
+            case RuleName.MAX_SEQUENTIAL:
+                minimumMaxSequential = minimumMaxSequential ? Math.min(rule.value, minimumMaxSequential) : rule.value;
                 break;
 
             case RuleName.MIN_LENGTH:
@@ -600,6 +609,14 @@ function parsePasswordRules(input, formatRulesForMinifiedVersion)
 
     if (minimumMaximumConsecutiveCharacters !== null) {
         newPasswordRules.push(new Rule(RuleName.MAX_CONSECUTIVE, minimumMaximumConsecutiveCharacters));
+    }
+
+    if (minimumMaxRepeating !== null) {
+        newPasswordRules.push(new Rule(RuleName.MAX_REPEATING, minimumMaxRepeating));
+    }
+
+    if (minimumMaxSequential !== null) {
+        newPasswordRules.push(new Rule(RuleName.MAX_SEQUENTIAL, minimumMaxSequential));
     }
 
     if (maximumMinLength > 0) {
