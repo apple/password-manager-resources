@@ -105,7 +105,7 @@ Project maintenance involves, but is not limited to, adding clarity to incoming 
 
 Ideally, you'd provide somewhere between five and eight examples. The purpose of this note is to remind the Apple maintainers of who you are; ideally, before sending this message, we already know you from your great contributions!
 
-Project maintainers are expected to always follow the project's [Code of Conduct](CODE_OF_CONDUCT.md), and help to model it for others.
+Project maintainers are expected to always follow the project's [Code of Conduct](https://github.com/apple/.github/blob/main/CODE_OF_CONDUCT.md), and help to model it for others.
 
 ## Project Governance
 
