@@ -4,7 +4,7 @@ By submitting a pull request to this project, you agree to release your contribu
 
 ## How to Contribute
 
-Before contributing, please review the [Code of Conduct](CODE_OF_CONDUCT.md).
+Before contributing, please review the [Code of Conduct](https://github.com/apple/.github/blob/main/CODE_OF_CONDUCT.md).
 
 Contributing is easy! You can contribute either by raising compatibility issues with a website, researching and documenting what the right data for a quirk might be, and/or submitting a pull request to add a quirk. You can raise an issue at the repository's [issues page](https://github.com/apple/password-manager-resources/issues). If you've done some investigation into a service's behavior, you can document it on an existing issue for that problem. If you'd like to submit a pull request, there are some additional special considerations for each type of quirk, detailed below.
 
