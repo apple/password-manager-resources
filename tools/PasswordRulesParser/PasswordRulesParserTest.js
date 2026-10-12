@@ -528,6 +528,54 @@ class PasswordRulesParserTest {
                     { name: "minlength", value: 12 },
                     { name: "maxlength", value: 73 }
                 ]
+            },
+            {
+                // A '-' must be the first member of a custom class; canonicalization
+                // hoists it there so the emitted rule still parses on the next pass.
+                name: "leading dash is kept when canonicalized",
+                input: "allowed: [-!];",
+                expected: [{ name: "allowed", value: ["[-!]"] }]
+            },
+            {
+                name: "leading dash is kept alongside other specials",
+                input: "required: upper; allowed: [-!@#];",
+                expected: [
+                    { name: "required", value: ["upper"] },
+                    { name: "allowed", value: ["upper", "[-!#@]"] }
+                ]
+            },
+            {
+                // A ']' must be the last member; canonicalization hoists it there.
+                name: "close bracket is moved to the end when canonicalized",
+                input: "allowed: [^\\]];",
+                expected: [{ name: "allowed", value: ["[\\^]]"] }]
+            },
+            {
+                // Round-tripping must be lossless: feeding the output back in has to
+                // produce the same rules.
+                name: "output is stable when parsed again",
+                input: "required: lower, upper, digit; allowed: [-!#$&+/_?];",
+                expected: [
+                    { name: "required", value: ["upper", "lower", "digit"] },
+                    { name: "allowed", value: ["upper", "lower", "digit", "[-!#$&+/?_]"] }
+                ]
+            },
+            {
+                // Values past Number.MAX_SAFE_INTEGER are rejected instead of being
+                // silently emitted as a different (wrong) number.
+                name: "integer beyond MAX_SAFE_INTEGER is rejected",
+                input: "minlength: 99999999999999999999;",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }]
+            },
+            {
+                name: "maxlength just past MAX_SAFE_INTEGER is rejected",
+                input: "maxlength: 9007199254740993;",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }]
+            },
+            {
+                name: "maxlength at MAX_SAFE_INTEGER is kept",
+                input: "maxlength: 9007199254740991;",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "maxlength", value: 9007199254740991 }]
             }
         ];
 
