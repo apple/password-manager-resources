@@ -185,14 +185,58 @@ class PatternRegexpToPasswordRulesConverterTest {
                 expected: "required: digit; allowed: lower, upper, [-!@#$]; minlength: 8; maxlength: 20;"
             },
             {
-                name: "Hyphen in middle (should move to front)",
+                // "!-?" is a valid range from '!' to '?' (31 characters), not three
+                // literals. Converting it member-by-member would silently shrink the
+                // alphabet, so the pattern is rejected instead.
+                name: "Range between two special characters is rejected",
                 regexp: "^(?=.*[0-9])[a-zA-Z0-9!-?]{8,20}$",
-                expected: "required: digit; allowed: lower, upper, [-!?]; minlength: 8; maxlength: 20;"
+                expected: null
             },
             {
                 name: "Original example with hyphen at end",
                 regexp: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$&+/_?-]{12,128}$",
                 expected: "required: digit; required: lower; required: upper; allowed: [-!@#$&+/_?]; minlength: 12; maxlength: 128;"
+            },
+            {
+                // "[!-~]" spans all 94 printable characters. Password Rules cannot
+                // express that, and converting it member-by-member would emit only the
+                // two endpoints plus the literal dash, silently shrinking a 94-character
+                // alphabet to 3.
+                name: "Full printable range is rejected",
+                regexp: "^[!-~]{8,}$",
+                expected: null
+            },
+            {
+                name: "Full printable range including space is rejected",
+                regexp: "^[ -~]{8,20}$",
+                expected: null
+            },
+            {
+                name: "Partial special range is rejected",
+                regexp: "^[!-/]{8,}$",
+                expected: null
+            },
+            {
+                name: "Special range inside a mixed class is rejected",
+                regexp: "^[a-z!-~]{6,}$",
+                expected: null
+            },
+            {
+                name: "Special range in a lookahead is rejected",
+                regexp: "^(?=.*[!-~])[a-z]{8,}$",
+                expected: null
+            },
+            {
+                // A dash directly after a completed range is a literal member, not the
+                // operator of a second range, so this still converts.
+                name: "Dash after a completed range stays a literal",
+                regexp: "^[a-z-_]{8,}$",
+                expected: "allowed: lower, [-_]; minlength: 8;"
+            },
+            {
+                name: "Dash after ranges and literals stays a literal",
+                regexp: "^[a-zA-Z0-9-!@#]{8,20}$",
+                expected: "allowed: lower, upper, digit, [-!@#]; minlength: 8; maxlength: 20;"
             },
             {
                 name: "Hyphen at beginning (should stay at front)",
@@ -272,9 +316,12 @@ class PatternRegexpToPasswordRulesConverterTest {
                 expected: "required: digit; allowed: lower, upper, [!@#]]; minlength: 8; maxlength: 20;"
             },
             {
-                name: "Both hyphen and close bracket (escaped)",
+                // "\]-!@#" reads as a range from ']' to '!', which is out of order, so
+                // the regular expression itself is invalid. Turning an invalid pattern
+                // into a plausible-looking rule is worse than rejecting it.
+                name: "Out-of-order range after escaped close bracket is rejected",
                 regexp: "^(?=.*[0-9])[a-zA-Z0-9\\]-!@#]{8,20}$",
-                expected: "required: digit; allowed: lower, upper, [-!@#]]; minlength: 8; maxlength: 20;"
+                expected: null
             },
             {
                 name: "Close bracket (escaped) in lookahead",
@@ -292,9 +339,11 @@ class PatternRegexpToPasswordRulesConverterTest {
                 expected: "required: digit; allowed: lower, upper, [-!@#$]; minlength: 8; maxlength: 20;"
             },
             {
-                name: "Both hyphen and bracket (escaped) in lookahead",
+                // "\]-!@" is an out-of-order range, so the regular expression itself is
+                // invalid and is rejected rather than converted.
+                name: "Out-of-order range in lookahead is rejected",
                 regexp: "^(?=.*[\\]-!@])(?=.*[0-9])[a-zA-Z0-9\\]-!@]{8,20}$",
-                expected: "required: [-!@]]; required: digit; allowed: lower, upper; minlength: 8; maxlength: 20;"
+                expected: null
             },
             {
                 name: "Caret is a literal when it does not lead the character class",
