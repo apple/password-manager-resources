@@ -42,7 +42,7 @@ jobs:
         persist-credentials: false
     - name: Lint Sort Order
       run: cat quirks/password-rules.json | grep "^    \"" | sort -c
-    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
     - name: Lint Rules
       run: node .github/workflows/lint-scripts/password-rules-parse.js
 
@@ -67,7 +67,7 @@ jobs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
     - name: Install ajv-cli
       run: npm install -g ajv-cli
     - name: Validate JSONs against their schemas
