@@ -1393,6 +1393,24 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Koloft",
+            "short_name": "Koloft",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "ai.koloft.app",
+                    "code_signing_identifier": "ai.koloft.app",
+                    "code_signing_team_identifier": "SA3TV3899R",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/koloft/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
