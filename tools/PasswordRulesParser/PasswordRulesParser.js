@@ -501,6 +501,7 @@ function _parseInteger(input, position)
         ++position;
     } while (position < length && input[position] !== PROPERTY_SEPARATOR && _isASCIIDigit(input[position]));
 
+    position = _indexOfNonWhitespaceCharacter(input, position);
     if (position >= length || input[position] === PROPERTY_SEPARATOR) {
         return [result, position];
     }
