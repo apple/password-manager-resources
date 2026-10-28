@@ -150,12 +150,13 @@ function _markBitsForCustomCharacterClass(bitSet, customCharacterClass)
     }
 }
 
-// A custom character class is only valid when '-' is its first member and ']' its
-// last; anywhere else the parser drops the character (or aborts the rule) on the
-// next pass. Canonicalization therefore always hoists them, in both the compact and
-// the expanded output. The former "keepCustomCharacterClassFormatCompliant" flag made
-// the expanded output emit them in code point order, so rules like
-// "allowed: [-!]" round-tripped to "allowed: [!]" — a silent loss of the '-'.
+// A custom character class is only valid when '-' is its first member, when present
+// in the class, and ']' its last, when present in the set. Anywhere else the parser
+// drops the character (or aborts the rule) on the next pass. Canonicalization
+// therefore always hoists them, in both the compact and the expanded output. The
+// former "keepCustomCharacterClassFormatCompliant" flag made the expanded output
+// emit them in code point order, so rules like "allowed: [-!]" round-tripped to
+// "allowed: [!]" — a silent loss of the '-'.
 function _canonicalizedPropertyValues(propertyValues)
 {
     let asciiPrintableBitSet = new Array("~".codePointAt(0) - " ".codePointAt(0) + 1);
@@ -508,7 +509,7 @@ function _parseInteger(input, position)
         // like "minlength: 99999999999999999999" would otherwise be emitted as a
         // completely different (and wrong) number.
         if (result > Number.MAX_SAFE_INTEGER) {
-            console.error("Failed to parse value of type integer; value exceeds the maximum safe integer: " + input.substr(initialPosition));
+            console.error(`Failed to parse value of type integer; value exceeds the maximum safe integer: ${input.substr(initialPosition)}`);
             return [null, initialPosition];
         }
         ++position;

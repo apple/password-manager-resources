@@ -530,8 +530,9 @@ class PasswordRulesParserTest {
                 ]
             },
             {
-                // A '-' must be the first member of a custom class; canonicalization
-                // hoists it there so the emitted rule still parses on the next pass.
+                // If present, a '-' must be the first member of a custom class;
+                // canonicalization hoists it there so the emitted rule still parses on
+                // the next pass.
                 name: "leading dash is kept when canonicalized",
                 input: "allowed: [-!];",
                 expected: [{ name: "allowed", value: ["[-!]"] }]
@@ -545,7 +546,8 @@ class PasswordRulesParserTest {
                 ]
             },
             {
-                // A ']' must be the last member; canonicalization hoists it there.
+                // If present, a ']' must be the last member; canonicalization hoists it
+                // there.
                 name: "close bracket is moved to the end when canonicalized",
                 input: "allowed: [^\\]];",
                 expected: [{ name: "allowed", value: ["[\\^]]"] }]
