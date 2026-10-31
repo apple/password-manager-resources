@@ -1395,8 +1395,6 @@
             ]
         },
         {
-            "long_name": "Fen",
-            "short_name": "Fen",
             "long_name": "Yab",
             "short_name": "Yab",
             "supported_platforms": [
@@ -1404,10 +1402,6 @@
             ],
             "platform_specific_information": {
                 "Mac": {
-                    "bundle_identifier": "run.fen.browser",
-                    "code_signing_identifier": "run.fen.browser",
-                    "code_signing_team_identifier": "HLX6C8GA79",
-                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Chromium/Default/Extensions"
                     "bundle_identifier": "dev.serafim.fast",
                     "code_signing_identifier": "dev.serafim.fast",
                     "code_signing_team_identifier": "25UG4QYN9F"
@@ -1429,6 +1423,24 @@
                     "code_signing_identifier": "app.kumo.browser",
                     "code_signing_team_identifier": "PV65ZWXCWX",
                     "extensions_install_path_relative_to_user_library_directory": "Application Support/Kumo/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
+            "long_name": "Fen",
+            "short_name": "Fen",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "run.fen.browser",
+                    "code_signing_identifier": "run.fen.browser",
+                    "code_signing_team_identifier": "HLX6C8GA79",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Chromium/Default/Extensions"
                 }
             },
             "supported_store_identifiers": [
