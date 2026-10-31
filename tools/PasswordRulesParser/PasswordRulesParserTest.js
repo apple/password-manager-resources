@@ -152,6 +152,9 @@ class PasswordRulesParserTest {
             { input: "1;", offset: 0, expected: 1 },
             { input: "12;", offset: 1, expected: 2 },
             { input: "abc1234;", offset: 3, expected: 1234 },
+            { input: "12 ", offset: 0, expected: 12 },
+            { input: "12 ;", offset: 0, expected: 12 },
+            { input: "1 2", offset: 0, expected: null },
             { input: "9007199254740991", offset: 0, expected: 9007199254740991 }
         ];
 
@@ -333,6 +336,11 @@ class PasswordRulesParserTest {
             },
             { input: "minlength: 12", expected: [{ name: "minlength", value: 12 }] },
             { input: "minlength:        12", expected: [{ name: "minlength", value: 12 }] },
+            { input: "minlength: 12 ", expected: [{ name: "minlength", value: 12 }] },
+            {
+                input: "minlength: 12 ; maxlength: 73 ;",
+                expected: [{ name: "minlength", value: 12 }, { name: "maxlength", value: 73 }]
+            },
             {
                 input: "minlength: 12; maxlength: 73",
                 expected: [{ name: "minlength", value: 12 }, { name: "maxlength", value: 73 }]
