@@ -570,7 +570,7 @@ class PasswordRulesParserTest {
                 expected: [{ name: "allowed", value: ["ascii-printable"] }]
             },
             {
-                name: "maxlength just past MAX_SAFE_INTEGER is rejected",
+                name: "maxlength just past MAX_SAFE_INTEGER is ignored",
                 input: "maxlength: 9007199254740993;",
                 expected: [{ name: "allowed", value: ["ascii-printable"] }]
             },
