@@ -563,9 +563,9 @@ class PasswordRulesParserTest {
                 ]
             },
             {
-                // Values past Number.MAX_SAFE_INTEGER are rejected instead of being
+                // Values past Number.MAX_SAFE_INTEGER are ignored instead of being
                 // silently emitted as a different (wrong) number.
-                name: "integer beyond MAX_SAFE_INTEGER is rejected",
+                name: "integer beyond MAX_SAFE_INTEGER is ignored",
                 input: "minlength: 99999999999999999999;",
                 expected: [{ name: "allowed", value: ["ascii-printable"] }]
             },
@@ -578,6 +578,17 @@ class PasswordRulesParserTest {
                 name: "maxlength at MAX_SAFE_INTEGER is kept",
                 input: "maxlength: 9007199254740991;",
                 expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "maxlength", value: 9007199254740991 }]
+            },
+            {
+                // An ignored value is not fatal: the statements before and after
+                // it still make it into the parsed rules.
+                name: "rules around an ignored integer are carried forward",
+                input: "required: lower; minlength: 99999999999999999999; max-consecutive: 3;",
+                expected: [
+                    { name: "required", value: ["lower"] },
+                    { name: "allowed", value: ["lower"] },
+                    { name: "max-consecutive", value: 3 }
+                ]
             }
         ];
 

@@ -507,10 +507,14 @@ function _parseInteger(input, position)
         result = 10 * result + parseInt(input[position], 10);
         // Guard against silently wrapping past Number.MAX_SAFE_INTEGER: a value
         // like "minlength: 99999999999999999999" would otherwise be emitted as a
-        // completely different (and wrong) number.
+        // completely different (and wrong) number. The value is ignored rather
+        // than rejected: skip the rest of the digits so the parser carries on
+        // with the remaining statements of the rule.
         if (result > Number.MAX_SAFE_INTEGER) {
             console.error(`Failed to parse value of type integer; value exceeds the maximum safe integer: ${input.substr(initialPosition)}`);
-            return [null, initialPosition];
+            while (position < length && _isASCIIDigit(input[position]))
+                ++position;
+            return [null, position];
         }
         ++position;
     } while (position < length && input[position] !== PROPERTY_SEPARATOR && _isASCIIDigit(input[position]));
