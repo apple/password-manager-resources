@@ -536,6 +536,67 @@ class PasswordRulesParserTest {
                     { name: "minlength", value: 12 },
                     { name: "maxlength", value: 73 }
                 ]
+            },
+            {
+                // If present, a '-' must be the first member of a custom class;
+                // canonicalization hoists it there so the emitted rule still parses on
+                // the next pass.
+                name: "leading dash is kept when canonicalized",
+                input: "allowed: [-!];",
+                expected: [{ name: "allowed", value: ["[-!]"] }]
+            },
+            {
+                name: "leading dash is kept alongside other specials",
+                input: "required: upper; allowed: [-!@#];",
+                expected: [
+                    { name: "required", value: ["upper"] },
+                    { name: "allowed", value: ["upper", "[-!#@]"] }
+                ]
+            },
+            {
+                // If present, a ']' must be the last member; canonicalization hoists it
+                // there.
+                name: "close bracket is moved to the end when canonicalized",
+                input: "allowed: [^\\]];",
+                expected: [{ name: "allowed", value: ["[\\^]]"] }]
+            },
+            {
+                // Round-tripping must be lossless: feeding the output back in has to
+                // produce the same rules.
+                name: "output is stable when parsed again",
+                input: "required: lower, upper, digit; allowed: [-!#$&+/_?];",
+                expected: [
+                    { name: "required", value: ["upper", "lower", "digit"] },
+                    { name: "allowed", value: ["upper", "lower", "digit", "[-!#$&+/?_]"] }
+                ]
+            },
+            {
+                // Values past Number.MAX_SAFE_INTEGER are ignored instead of being
+                // silently emitted as a different (wrong) number.
+                name: "integer beyond MAX_SAFE_INTEGER is ignored",
+                input: "minlength: 99999999999999999999;",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }]
+            },
+            {
+                name: "maxlength just past MAX_SAFE_INTEGER is ignored",
+                input: "maxlength: 9007199254740993;",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }]
+            },
+            {
+                name: "maxlength at MAX_SAFE_INTEGER is kept",
+                input: "maxlength: 9007199254740991;",
+                expected: [{ name: "allowed", value: ["ascii-printable"] }, { name: "maxlength", value: 9007199254740991 }]
+            },
+            {
+                // An ignored value is not fatal: the statements before and after
+                // it still make it into the parsed rules.
+                name: "rules around an ignored integer are carried forward",
+                input: "required: lower; minlength: 99999999999999999999; max-consecutive: 3;",
+                expected: [
+                    { name: "required", value: ["lower"] },
+                    { name: "allowed", value: ["lower"] },
+                    { name: "max-consecutive", value: 3 }
+                ]
             }
         ];
 
