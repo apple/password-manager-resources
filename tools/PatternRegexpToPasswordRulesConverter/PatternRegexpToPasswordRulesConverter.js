@@ -104,8 +104,8 @@ class PatternRegexpToPasswordRulesConverter {
             return null;
         }
 
-        if (this.#containsUnsupportedAlphanumericRange(charClassMatch[1])) {
-            console.warn("PatternRegexpToPasswordRulesConverter: Main character class contains an unsupported alphanumeric range");
+        if (this.#containsUnsupportedRange(charClassMatch[1])) {
+            console.warn("PatternRegexpToPasswordRulesConverter: Main character class contains an unsupported range");
             console.warn("Pattern:", regexp);
             return null;
         }
@@ -196,7 +196,7 @@ class PatternRegexpToPasswordRulesConverter {
                 }
             }
 
-            if (this.#containsUnsupportedAlphanumericRange(lookahead)) {
+            if (this.#containsUnsupportedRange(lookahead)) {
                 return false;
             }
 
@@ -212,27 +212,48 @@ class PatternRegexpToPasswordRulesConverter {
     }
 
     /**
-     * Check for alphanumeric ranges the converter cannot represent exactly
+     * Check for ranges the converter cannot represent exactly
+     *
+     * Only a-z, A-Z and 0-9 map onto Password Rules named classes. Any other range
+     * (for example [!-~], which means all 94 printable characters) has no equivalent,
+     * and converting it member-by-member would emit just the two endpoints plus the
+     * literal '-': '[!-~]' would become '[-!~]', silently shrinking a 94-character
+     * alphabet to 3. Such patterns are rejected rather than mis-converted.
      * @private
      */
-    static #containsUnsupportedAlphanumericRange(charClass) {
+    static #containsUnsupportedRange(charClass) {
         const supportedRanges = new Set(["a-z", "A-Z", "0-9"]);
-        const isAlphanumeric = (character) => /[a-zA-Z0-9]/.test(character);
 
-        for (let index = 0; index < charClass.length; ++index) {
+        let index = 0;
+        // A '-' directly after a completed range ("a-z-") is a literal member rather
+        // than the operator of a second range.
+        let previousCharacterCompletedRange = false;
+
+        while (index < charClass.length) {
+            // An escape consumes two characters, so "\-" is a literal dash and never
+            // starts a range.
             if (charClass[index] === "\\" && index + 1 < charClass.length) {
-                ++index;
+                index += 2;
+                previousCharacterCompletedRange = false;
                 continue;
             }
 
-            const range = charClass.substring(index, index + 3);
-            if (range.length === 3 && range[1] === "-" && isAlphanumeric(range[0]) && isAlphanumeric(range[2])) {
+            // A '-' is a range operator only between two members: as the first or last
+            // character of a class it is a literal '-'.
+            if (charClass[index] === "-" && !previousCharacterCompletedRange
+                && index > 0 && index + 1 < charClass.length) {
+                const range = charClass[index - 1] + "-" + charClass[index + 1];
                 if (!supportedRanges.has(range)) {
                     return true;
                 }
 
                 index += 2;
+                previousCharacterCompletedRange = true;
+                continue;
             }
+
+            previousCharacterCompletedRange = false;
+            ++index;
         }
 
         return false;
