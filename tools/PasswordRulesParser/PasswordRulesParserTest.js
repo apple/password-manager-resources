@@ -83,9 +83,12 @@ class PasswordRulesParserTest {
             this.failures++;
         }
 
+        const actualSummary = Array.isArray(actual) ? `array(length=${actual.length})` : typeof actual;
+        const expectedSummary = Array.isArray(expected) ? `array(length=${expected.length})` : typeof expected;
+
         console.log(`Test: ${description}`);
-        console.log(`Expected: ${expectedJSON}`);
-        console.log(`Got:      ${actualJSON}`);
+        console.log(`Expected: [REDACTED] (${expectedSummary})`);
+        console.log(`Got:      [REDACTED] (${actualSummary})`);
         console.log(`Status:   ${passed ? '✅ PASS' : '❌ FAIL'}\n`);
     }
 
