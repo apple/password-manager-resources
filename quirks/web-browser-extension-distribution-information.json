@@ -1430,6 +1430,23 @@
             ]
         },
         {
+            "long_name": "Cobble",
+            "short_name": "Cobble",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.ignacio.cobble",
+                    "code_signing_identifier": "com.ignacio.cobble",
+                    "code_signing_team_identifier": "KNMMQQRY56"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
+        },
+        {
             "long_name": "Sval",
             "short_name": "Sval",
             "supported_platforms": [
