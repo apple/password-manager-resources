@@ -1445,6 +1445,25 @@
             "supported_store_identifiers": [
                 1
             ]
+        },
+        {
+            "long_name": "Sval",
+            "short_name": "Sval",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "app.sval.sval",
+                    "code_signing_identifier": "app.sval.sval",
+                    "code_signing_team_identifier": "WN6TRJ4H8P"
+                }
+            },
+            "supported_store_identifiers": [
+                3
+            ]
         }
     ]
 }
