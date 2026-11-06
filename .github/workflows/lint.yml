@@ -25,14 +25,23 @@ jobs:
           exit 1
         fi
 
-  change-password-urls:
+  json-formatting:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - name: Lint Sort Order
-      run: cat quirks/change-password-URLs.json | sed '1,1d' | sed '$d' | sort -c
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
+      with:
+        ruby-version: 3.3
+    - name: Lint Sort Order and Formatting
+      run: |
+        ruby tools/autoformat-json-files.rb
+        if ! git diff --exit-code quirks/; then
+          echo "Error: run tools/autoformat-json-files.rb to sort and format the quirks files"
+          exit 1
+        fi
 
   password-rules:
     runs-on: ubuntu-latest
@@ -40,8 +49,6 @@ jobs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - name: Lint Sort Order
-      run: cat quirks/password-rules.json | grep "^    \"" | sort -c
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
     - name: Lint Rules
       run: node .github/workflows/lint-scripts/password-rules-parse.js
@@ -56,8 +63,6 @@ jobs:
       uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
       with:
         ruby-version: 3.3
-    - name: Lint Sort Order
-      run: ruby .github/workflows/lint-scripts/websites-shared-credentials-sort-order.rb
     - name: Lint Duplicates
       run: ruby .github/workflows/lint-scripts/websites-shared-credentials-duplicates.rb
 
