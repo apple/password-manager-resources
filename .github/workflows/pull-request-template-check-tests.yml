@@ -1,0 +1,31 @@
+name: Pull Request Template Check Tests
+
+permissions:
+  contents: read
+
+# Only run when the check, its tests, the template, or this workflow changes, so
+# the job doesn't show up on the many pull requests that only touch the quirks
+# files.
+on:
+  push:
+    paths:
+    - '.github/workflows/lint-scripts/pull-request-template-check*.js'
+    - '.github/PULL_REQUEST_TEMPLATE.md'
+    - '.github/workflows/pull-request-template-check-tests.yml'
+  pull_request:
+    paths:
+    - '.github/workflows/lint-scripts/pull-request-template-check*.js'
+    - '.github/PULL_REQUEST_TEMPLATE.md'
+    - '.github/workflows/pull-request-template-check-tests.yml'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+    - name: Run tests
+      run: node --test .github/workflows/lint-scripts/pull-request-template-check-test.js
