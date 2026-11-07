@@ -1,0 +1,38 @@
+name: Pull Request Template
+
+# pull_request_target makes this workflow run for pull requests from forks, and
+# runs it as defined on the base branch.
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+# Only check the latest description when it's edited several times in a row.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  checklist:
+    # Bots like Dependabot don't use the pull request template.
+    if: github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    # This checks out the base branch. Never check out the pull request's head:
+    # it could change the check it's subject to, and its code must not run here.
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        sparse-checkout: .github
+        persist-credentials: false
+    - name: List changed files
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPOSITORY: ${{ github.repository }}
+        PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+      run: gh api --paginate "repos/$REPOSITORY/pulls/$PULL_REQUEST_NUMBER/files" --jq '.[] | {filename, additions, patch} | tojson' > "$RUNNER_TEMP/changed-files.jsonl"
+    - name: Check pull request description
+      run: node .github/workflows/lint-scripts/pull-request-template-check.js .github/PULL_REQUEST_TEMPLATE.md "$GITHUB_EVENT_PATH" "$RUNNER_TEMP/changed-files.jsonl"
