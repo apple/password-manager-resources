@@ -249,7 +249,8 @@ const event = JSON.parse(fs.readFileSync(eventPath, "utf8"));
 // Until February 1, 2027, pull requests opened before this check was added are skipped, so they aren't held to template
 // changes their authors never saw. The time of the event is when the pull request was last updated. Remove this after
 // February 1, 2027.
-const CHECK_PULL_REQUESTS_CREATED_SINCE = "2026-11-09T00:00:00Z";
+// This check was added in #1892, which merged at this time.
+const CHECK_PULL_REQUESTS_CREATED_SINCE = "2026-11-07T21:05:52Z";
 const STOP_SKIPPING_OLDER_PULL_REQUESTS_AT = "2027-02-01T00:00:00Z";
 const { created_at: createdAt, updated_at: updatedAt } = event.pull_request ?? {};
 if (createdAt < CHECK_PULL_REQUESTS_CREATED_SINCE && updatedAt < STOP_SKIPPING_OLDER_PULL_REQUESTS_AT) {
