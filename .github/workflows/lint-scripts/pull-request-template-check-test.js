@@ -203,19 +203,19 @@ describe("pull requests opened before the check was added", () => {
     const emptyDescription = { body: "", changedFiles: alpha };
 
     test("are skipped until February 1, 2027", () => {
-        const result = check({ ...emptyDescription, createdAt: "2026-11-08T23:59:59Z", updatedAt: "2027-01-31T23:59:59Z" });
+        const result = check({ ...emptyDescription, createdAt: "2026-11-07T21:05:51Z", updatedAt: "2027-01-31T23:59:59Z" });
         assert.equal(result.status, 0);
         assert.match(result.stdout, /Skipping this check, because this pull request was opened before the check was added\./);
     });
 
     test("are checked from February 1, 2027", () => {
-        assertFails({ ...emptyDescription, createdAt: "2026-11-08T23:59:59Z", updatedAt: "2027-02-01T00:00:00Z" },
+        assertFails({ ...emptyDescription, createdAt: "2026-11-07T21:05:51Z", updatedAt: "2027-02-01T00:00:00Z" },
             /"Overall Checklist" section is missing/,
             /"for alpha\.json" section is missing/);
     });
 
-    test("doesn't include pull requests opened on or after November 9, 2026", () => {
-        for (const createdAt of ["2026-11-09T00:00:00Z", "2026-12-01T12:00:00Z"]) {
+    test("doesn't include pull requests opened at or after the time the check was added", () => {
+        for (const createdAt of ["2026-11-07T21:05:52Z", "2026-11-07T21:19:36Z", "2026-12-01T12:00:00Z"]) {
             assertFails({ ...emptyDescription, createdAt, updatedAt: createdAt },
                 /"Overall Checklist" section is missing/,
                 /"for alpha\.json" section is missing/);
