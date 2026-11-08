@@ -1,0 +1,28 @@
+name: Pattern Regexp Converter Tests
+
+permissions:
+  contents: read
+
+# Only run when the converter or this workflow changes, so the job doesn't show
+# up on the many pull requests that only touch the quirks files.
+on:
+  push:
+    paths:
+    - 'tools/PatternRegexpToPasswordRulesConverter/**'
+    - '.github/workflows/pattern-regexp-converter-tests.yml'
+  pull_request:
+    paths:
+    - 'tools/PatternRegexpToPasswordRulesConverter/**'
+    - '.github/workflows/pattern-regexp-converter-tests.yml'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+    - name: Run tests
+      run: ./tools/PatternRegexpToPasswordRulesConverter/run-tests.sh
