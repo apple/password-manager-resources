@@ -1,4 +1,4 @@
-<!-- Thanks for contributing! Before you submit your pull request, please make sure to check the following boxes by putting an x in the [ ] (don't: [x ], [ x], do: [x]); you should remove sections for files you aren't changing -->
+<!-- Thanks for contributing! Before you submit your pull request, please make sure to check the following boxes by putting an x in the [ ] (do: `[x]`, don't: `[x ]` or `[ x]`); you should remove sections for files you aren't changing -->
 
 ### Overall Checklist
 - [ ] I agree to the project's [Developer Certificate of Origin](https://github.com/apple/password-manager-resources/blob/main/DEVELOPER_CERTIFICATE_OF_ORIGIN.md)
