@@ -90,6 +90,8 @@ A password manager may wish to not offer to save a new password submitted in suc
 
 Please review [how to contribute](CONTRIBUTING.md) if you would like to submit a pull request.
 
+Pull request descriptions must preserve the [pull request template](.github/PULL_REQUEST_TEMPLATE.md) and have its checkboxes checked off. This applies to pull requests prepared by AI agents and other tools, too. See [Filling Out the Pull Request Template](CONTRIBUTING.md#filling-out-the-pull-request-template) for details.
+
 ## Asking Questions and Discussing Ideas
 
 If you have any questions you'd like to ask publicly, or ideas you'd like to discuss, please [raise a GitHub issue](https://github.com/apple/password-manager-resources/issues) or send a message in the project's [Slack instance](https://pw-manager-resources.slack.com). Anyone participating in the project is welcome to join the Slack instance by [emailing the project's maintainers at Apple](mailto:password-manager-resources-maintainers@apple.com) and asking for an invitation. Please include your GitHub user name when you do this.
