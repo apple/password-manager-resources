@@ -1464,6 +1464,26 @@
             "supported_store_identifiers": [
                 3
             ]
+        },
+        {
+            "long_name": "ilo",
+            "short_name": "ilo",
+            "supported_platforms": [
+                "Mac",
+                "Windows",
+                "Linux"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "app.ilo.browser",
+                    "code_signing_identifier": "app.ilo.browser",
+                    "code_signing_team_identifier": "938WK3V9K9",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/ilo/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
