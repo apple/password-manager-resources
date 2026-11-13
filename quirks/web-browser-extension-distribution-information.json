@@ -765,7 +765,9 @@
                     "code_signing_team_identifier": "HKE973VLUW"
                 }
             },
-            "supported_store_identifiers": []
+            "supported_store_identifiers": [
+
+            ]
         },
         {
             "long_name": "Tencent QQ Browser",
