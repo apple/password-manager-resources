@@ -10,7 +10,7 @@ const path = require("path");
 const assert = require("assert");
 const vm = require("vm");
 
-const parserPath = path.resolve(__dirname, "PasswordRulesParser.js");
+const parserPath = path.resolve(__dirname, "PasswordRulesParser", "PasswordRulesParser.js");
 const parserSource = fs.readFileSync(parserPath, "utf8");
 
 const sandbox = {
