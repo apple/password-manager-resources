@@ -48,6 +48,16 @@ function describeRules(rules)
     return rules.map(describeRule);
 }
 
+// Turns parsed rules back into a rule string with the parser's own toString(), so the
+// output can be parsed again.
+function serializeRules(rules)
+{
+    return rules.map((rule) => {
+        let value = Array.isArray(rule.value) ? rule.value.map(String).join(", ") : rule.value;
+        return `${rule.name}: ${value};`;
+    }).join(" ");
+}
+
 // MARK: Character-class construction helpers (for canonicalization tests)
 
 function charactersInRange(first, last)
@@ -99,6 +109,7 @@ class PasswordRulesParserTest {
         this.testParsingRulesInternal();
         this.testCanonicalizingCharacterClasses();
         this.testParsingPasswordRules();
+        this.testRoundTrippingPasswordRules();
 
         if (this.failures === 0) {
             console.log(`All ${this.total} tests passed.`);
@@ -382,11 +393,19 @@ class PasswordRulesParserTest {
                 input: [custom(UPPERCASE), custom(DIGITS), custom(LOWERCASE), custom(SPECIAL)],
                 expected: ["ascii-printable"]
             },
-            { name: "unicode passes through", input: [named("unicode")], expected: ["unicode"] }
+            { name: "unicode passes through", input: [named("unicode")], expected: ["unicode"] },
+            { name: "custom special including dash collapses to named", input: [custom(SPECIAL)], expected: ["special"] },
+            // A '-' leads the whole custom class, ahead of letters and digits that
+            // don't form a complete named class.
+            { name: "dash leads partial uppercase", input: [custom(["A", "-", "B", "!"])], expected: ["[-AB!]"] },
+            { name: "dash leads partial lowercase", input: [custom(["a", "b", "-"])], expected: ["[-ab]"] },
+            { name: "dash leads partial digits", input: [custom(["0", "-", "!"])], expected: ["[-0!]"] },
+            { name: "dash and close bracket with partial letters", input: [custom(["]", "a", "-"])], expected: ["[-a]]"] },
+            { name: "dash with complete uppercase", input: [named("upper"), custom(["-", "a"])], expected: ["upper", "[-a]"] }
         ];
 
         testCases.forEach(({ name, input, expected }) => {
-            let result = _canonicalizedPropertyValues(input, false);
+            let result = _canonicalizedPropertyValues(input);
             this.check(`canonicalize ${name}`, describeValue(result), expected);
         });
     }
@@ -561,9 +580,7 @@ class PasswordRulesParserTest {
                 expected: [{ name: "allowed", value: ["[\\^]]"] }]
             },
             {
-                // Round-tripping must be lossless: feeding the output back in has to
-                // produce the same rules.
-                name: "output is stable when parsed again",
+                name: "leading dash is kept alongside named classes",
                 input: "required: lower, upper, digit; allowed: [-!#$&+/_?];",
                 expected: [
                     { name: "required", value: ["upper", "lower", "digit"] },
@@ -625,6 +642,34 @@ class PasswordRulesParserTest {
                 describeRules(parsePasswordRules(input)),
                 [{ name: "allowed", value: ["ascii-printable"] }]);
         });
+    }
+
+    // MARK: parsePasswordRules round-tripping
+
+    testRoundTrippingPasswordRules() {
+        console.log("=== Round-Tripping Password Rules Tests ===\n");
+
+        // Feeding the serialized output back in has to produce the same rules, in both
+        // the expanded and the minified output.
+        const inputs = [
+            "allowed: [-!];",
+            "allowed: [-AB!];",
+            "allowed: [-ab];",
+            "allowed: [-0!];",
+            "required: [-A];",
+            "allowed: [-a]];",
+            "required: upper; allowed: [-!@#];",
+            "required: lower, upper, digit; allowed: [-!#$&+/_?];",
+            "required: [-]; allowed: lower, [-_.];"
+        ];
+
+        for (let formatRulesForMinifiedVersion of [false, true]) {
+            inputs.forEach((input) => {
+                let firstSerialization = serializeRules(parsePasswordRules(input, formatRulesForMinifiedVersion));
+                let secondSerialization = serializeRules(parsePasswordRules(firstSerialization, formatRulesForMinifiedVersion));
+                this.check(`round-trip ${formatRulesForMinifiedVersion ? "minified" : "expanded"} ${JSON.stringify(input)}`, secondSerialization, firstSerialization);
+            });
+        }
     }
 }
 

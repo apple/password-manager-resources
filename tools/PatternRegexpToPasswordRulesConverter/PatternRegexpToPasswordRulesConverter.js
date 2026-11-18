@@ -225,34 +225,49 @@ class PatternRegexpToPasswordRulesConverter {
         const supportedRanges = new Set(["a-z", "A-Z", "0-9"]);
 
         let index = 0;
-        // A '-' directly after a completed range ("a-z-") is a literal member rather
-        // than the operator of a second range.
-        let previousCharacterCompletedRange = false;
+        // The kind of the previous member: "atom" (a character, which can start a
+        // range), "classEscape" (\d, \w, or \s, which can't), "range" (a completed
+        // range), or "union" (a class escape, a '-', and the character after it).
+        let previousMember = null;
 
         while (index < charClass.length) {
-            // An escape consumes two characters, so "\-" is a literal dash and never
-            // starts a range.
+            // An escape is a single member, so "\-" is a literal dash.
             if (charClass[index] === "\\" && index + 1 < charClass.length) {
+                previousMember = /[dDwWsS]/.test(charClass[index + 1]) ? "classEscape" : "atom";
                 index += 2;
-                previousCharacterCompletedRange = false;
                 continue;
             }
 
             // A '-' is a range operator only between two members: as the first or last
-            // character of a class it is a literal '-'.
-            if (charClass[index] === "-" && !previousCharacterCompletedRange
-                && index > 0 && index + 1 < charClass.length) {
-                const range = charClass[index - 1] + "-" + charClass[index + 1];
-                if (!supportedRanges.has(range)) {
-                    return true;
+            // character of a class, or right after a completed range, it is a literal '-'.
+            if (charClass[index] === "-" && index > 0 && index + 1 < charClass.length) {
+                if (previousMember === "atom") {
+                    const range = charClass[index - 1] + "-" + charClass[index + 1];
+                    if (!supportedRanges.has(range)) {
+                        return true;
+                    }
+
+                    index += 2;
+                    previousMember = "range";
+                    continue;
                 }
 
-                index += 2;
-                previousCharacterCompletedRange = true;
-                continue;
+                // "\d-x" is the union of \d, '-', and 'x', not a range.
+                if (previousMember === "classEscape") {
+                    index += charClass[index + 1] === "\\" ? 3 : 2;
+                    previousMember = "union";
+                    continue;
+                }
+
+                // A '-' right after that union is literal too ("[\d-A-Z]" means digits,
+                // '-', 'A', and 'Z'), but the class parsing below would still read "A-Z"
+                // as a range, so reject the pattern rather than widen it.
+                if (previousMember === "union") {
+                    return true;
+                }
             }
 
-            previousCharacterCompletedRange = false;
+            previousMember = "atom";
             ++index;
         }
 

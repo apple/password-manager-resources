@@ -72,7 +72,12 @@ class CustomCharacterClass {
     constructor(characters)
     {
         console.assert(characters instanceof Array);
-        this._characters = characters;
+        // A '-' is only valid as the first member of a custom class and a ']' only as
+        // the last; the parser drops them anywhere else.
+        let isDash = (c) => c === "-";
+        let isRightSquareBracket = (c) => c === "]";
+        this._characters = characters.filter(isDash)
+            .concat(characters.filter((c) => !isDash(c) && !isRightSquareBracket(c)), characters.filter(isRightSquareBracket));
     }
     get characters() { return this._characters; }
     toString() { return `[${this._characters.join("")}]`; }
@@ -150,13 +155,6 @@ function _markBitsForCustomCharacterClass(bitSet, customCharacterClass)
     }
 }
 
-// A custom character class is only valid when '-' is its first member, when present
-// in the class, and ']' its last, when present in the set. Anywhere else the parser
-// drops the character (or aborts the rule) on the next pass. Canonicalization
-// therefore always hoists them, in both the compact and the expanded output. The
-// former "keepCustomCharacterClassFormatCompliant" flag made the expanded output
-// emit them in code point order, so rules like "allowed: [-!]" round-tripped to
-// "allowed: [!]" — a silent loss of the '-'.
 function _canonicalizedPropertyValues(propertyValues)
 {
     let asciiPrintableBitSet = new Array("~".codePointAt(0) - " ".codePointAt(0) + 1);
@@ -180,82 +178,29 @@ function _canonicalizedPropertyValues(propertyValues)
 
     let charactersSeen = [];
 
-    function checkRange(start, end) {
+    function checkRanges(ranges) {
         let temp = [];
-        for (let i = _bitSetIndexForCharacter(start); i <= _bitSetIndexForCharacter(end); ++i) {
-            if (asciiPrintableBitSet[i]) {
-                temp.push(_characterAtBitSetIndex(i));
+        let rangeLength = 0;
+        for (let [start, end] of ranges) {
+            for (let i = _bitSetIndexForCharacter(start); i <= _bitSetIndexForCharacter(end); ++i) {
+                if (asciiPrintableBitSet[i]) {
+                    temp.push(_characterAtBitSetIndex(i));
+                }
             }
+            rangeLength += _bitSetIndexForCharacter(end) - _bitSetIndexForCharacter(start) + 1;
         }
 
-        let result = temp.length === (_bitSetIndexForCharacter(end) - _bitSetIndexForCharacter(start) + 1);
+        let result = temp.length === rangeLength;
         if (!result) {
             charactersSeen = charactersSeen.concat(temp);
         }
         return result;
     }
 
-    let hasAllUpper = checkRange("A", "Z");
-    let hasAllLower = checkRange("a", "z");
-    let hasAllDigits = checkRange("0", "9");
-
-    // Check for special characters, accounting for characters that are given special treatment (i.e. '-' and ']')
-    let hasAllSpecial = false;
-    let hasDash = false;
-    let hasRightSquareBracket = false;
-    let temp = [];
-    for (let i = _bitSetIndexForCharacter(" "); i <= _bitSetIndexForCharacter("/"); ++i) {
-        if (!asciiPrintableBitSet[i]) {
-            continue;
-        }
-
-        let character = _characterAtBitSetIndex(i);
-        if (character === "-") {
-            hasDash = true;
-        }
-        else {
-            temp.push(character);
-        }
-    }
-    for (let i = _bitSetIndexForCharacter(":"); i <= _bitSetIndexForCharacter("@"); ++i) {
-        if (asciiPrintableBitSet[i]) {
-            temp.push(_characterAtBitSetIndex(i));
-        }
-    }
-    for (let i = _bitSetIndexForCharacter("["); i <= _bitSetIndexForCharacter("`"); ++i) {
-        if (!asciiPrintableBitSet[i]) {
-            continue;
-        }
-
-        let character = _characterAtBitSetIndex(i);
-        if (character === "]") {
-            hasRightSquareBracket = true;
-        }
-        else {
-            temp.push(character);
-        }
-    }
-    for (let i = _bitSetIndexForCharacter("{"); i <= _bitSetIndexForCharacter("~"); ++i) {
-        if (asciiPrintableBitSet[i]) {
-            temp.push(_characterAtBitSetIndex(i));
-        }
-    }
-
-    if (hasDash) {
-        temp.unshift("-");
-    }
-    if (hasRightSquareBracket) {
-        temp.push("]");
-    }
-
-    let numberOfSpecialCharacters = (_bitSetIndexForCharacter("/") - _bitSetIndexForCharacter(" ") + 1)
-        + (_bitSetIndexForCharacter("@") - _bitSetIndexForCharacter(":") + 1)
-        + (_bitSetIndexForCharacter("`") - _bitSetIndexForCharacter("[") + 1)
-        + (_bitSetIndexForCharacter("~") - _bitSetIndexForCharacter("{") + 1);
-    hasAllSpecial = temp.length === numberOfSpecialCharacters;
-    if (!hasAllSpecial) {
-        charactersSeen = charactersSeen.concat(temp);
-    }
+    let hasAllUpper = checkRanges([["A", "Z"]]);
+    let hasAllLower = checkRanges([["a", "z"]]);
+    let hasAllDigits = checkRanges([["0", "9"]]);
+    let hasAllSpecial = checkRanges([[" ", "/"], [":", "@"], ["[", "`"], ["{", "~"]]);
 
     let result = [];
     if (hasAllUpper && hasAllLower && hasAllDigits && hasAllSpecial) {

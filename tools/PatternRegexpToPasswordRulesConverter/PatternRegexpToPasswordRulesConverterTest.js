@@ -239,6 +239,41 @@ class PatternRegexpToPasswordRulesConverterTest {
                 expected: "allowed: lower, upper, digit, [-!@#]; minlength: 8; maxlength: 20;"
             },
             {
+                // A dash directly after a class escape like \w or \d is a literal
+                // member too: a class escape cannot be the end of a range.
+                name: "Dash after \\w stays a literal",
+                regexp: "^[\\w-.!]{8,}$",
+                expected: "allowed: lower, upper, digit, [-_.!]; minlength: 8;"
+            },
+            {
+                name: "Dash after \\d stays a literal",
+                regexp: "^[a-zA-Z\\d-!@]{8,}$",
+                expected: "allowed: lower, upper, digit, [-!@]; minlength: 8;"
+            },
+            {
+                name: "Dash after \\d stays a literal in a lookahead",
+                regexp: "^(?=.*[\\d-!])[a-z0-9!-]{8,}$",
+                expected: "required: digit, [-!]; allowed: lower, [-!]; minlength: 8;"
+            },
+            {
+                // "[\d-A-Z]" means digits, '-', 'A', and 'Z' (the '-' after the union is
+                // literal), so converting "A-Z" to upper would widen the alphabet.
+                name: "Range-like text after a class escape union is rejected",
+                regexp: "^[\\d-A-Z]{8,}$",
+                expected: null
+            },
+            {
+                name: "Trailing dash after a class escape union stays a literal",
+                regexp: "^[\\w-.-]{8,}$",
+                expected: "allowed: lower, upper, digit, [-_.]; minlength: 8;"
+            },
+            {
+                // An escaped literal can still start a range: "\.-x" spans '.' to 'x'.
+                name: "Range starting at an escaped literal is rejected",
+                regexp: "^[a-z\\.-x]{8,}$",
+                expected: null
+            },
+            {
                 name: "Hyphen at beginning (should stay at front)",
                 regexp: "^(?=.*[0-9])[a-zA-Z0-9-!@#$]{8,20}$",
                 expected: "required: digit; allowed: lower, upper, [-!@#$]; minlength: 8; maxlength: 20;"
