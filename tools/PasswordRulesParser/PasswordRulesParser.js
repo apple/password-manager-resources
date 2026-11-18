@@ -139,7 +139,7 @@ function _markBitsForNamedCharacterClass(bitSet, namedCharacterClass)
         bitSet.fill(true, _bitSetIndexForCharacter("{"), _bitSetIndexForCharacter("~") + 1);
     }
     else {
-        console.assert(false, SHOULD_NOT_BE_REACHED, namedCharacterClass);
+        console.assert(false, SHOULD_NOT_BE_REACHED);
     }
 }
 
