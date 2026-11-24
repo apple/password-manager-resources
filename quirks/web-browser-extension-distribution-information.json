@@ -28,6 +28,21 @@
     ],
     "web_browsers": [
         {
+            "long_name": "Aether",
+            "short_name": "Aether",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "com.alvinyeboah.Aether",
+                    "code_signing_identifier": "com.alvinyeboah.Aether",
+                    "code_signing_team_identifier": "MZM9W85QWW"
+                }
+            },
+            "supported_store_identifiers": []
+        },
+        {
             "long_name": "Google Chrome",
             "short_name": "Chrome",
             "supported_platforms": [
