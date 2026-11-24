@@ -1464,6 +1464,23 @@
             "supported_store_identifiers": [
                 3
             ]
+        },
+        {
+            "long_name": "Arch",
+            "short_name": "Arch",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "xyz.taeyoon.arch",
+                    "code_signing_identifier": "xyz.taeyoon.arch",
+                    "code_signing_team_identifier": "877MTHCKJX"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
