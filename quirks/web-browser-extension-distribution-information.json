@@ -1464,6 +1464,24 @@
             "supported_store_identifiers": [
                 3
             ]
+        },
+        {
+            "long_name": "Ace",
+            "short_name": "Ace",
+            "supported_platforms": [
+                "Mac"
+            ],
+            "platform_specific_information": {
+                "Mac": {
+                    "bundle_identifier": "org.ace.Ace",
+                    "code_signing_identifier": "org.ace.Ace",
+                    "code_signing_team_identifier": "A7UW8WWF8H",
+                    "extensions_install_path_relative_to_user_library_directory": "Application Support/Ace/Default/Extensions"
+                }
+            },
+            "supported_store_identifiers": [
+                1
+            ]
         }
     ]
 }
